@@ -27,6 +27,7 @@ struct ContentView: View {
     @State private var rotation: Double = 0.0
     @State private var nowTextLength: Int = 0
     
+    @State private var showUpdateUsage: Bool = false
     @State private var showSuccessFetchUserInfo: Bool = false
     @State private var showAddUsageAlert: Bool = false
     @State private var showUsageExceededAlert: Bool = false
@@ -167,9 +168,6 @@ struct ContentView: View {
             }
             .onAppear {
                 fetchUserUsageInfo()
-                if lastUsedTime != Date().toString() {
-                    updateUserUsageInfo(true)
-                }
             }
             // MARK: - 토스트
             .toast(isPresenting: $showAlert, offsetY: 10) {
@@ -221,6 +219,13 @@ struct ContentView: View {
                     title: "오늘 남은 사용 횟수는 \(10 - self.usedCounts)번입니다."
                 )
             }
+            .toast(isPresenting: $showUpdateUsage, offsetY: 10) {
+                AlertToast(
+                    displayMode: .hud,
+                    type: .systemImage("plus.circle.fill", .blue),
+                    title: "사용 횟수가 초기화되었습니다."
+                )
+            }
         }
     }
 }
@@ -250,33 +255,46 @@ extension ContentView {
 extension ContentView {
     func fetchUserUsageInfo() {
         guard let userID = Auth.auth().currentUser?.uid else { return }
-        fsManager.fetchUserUsageInfo(userID: userID) { result in
+        fsManager.fetchUserUsage(userID: userID) { result in
             switch result {
             case .success(let data):
                 usedCounts = data["usedCounts"] as? Int ?? 10
                 lastUsedTime = data["lastUsedTime"] as? String ?? Date().toString()
-                showSuccessFetchUserInfo = true
+                if lastUsedTime != Date().toString() {
+                    resetUserUsage()
+                } else {
+                    showSuccessFetchUserInfo = true
+                }
             case .failure(let error):
                 print("Error fetching user info: \(error.localizedDescription)")
             }
         }
     }
     
-    func updateUserUsageInfo(_ needNewCounts: Bool = false) {
+    func updateUserUsageInfo() {
         guard let userID = Auth.auth().currentUser?.uid else { return }
-        var updatedCounts = usedCounts
-        if needNewCounts {
-            updatedCounts = 0
-        }
+        let updatedCounts = usedCounts + 1
         let updatedTime = Date().toString()
-        fsManager.updateUserUsageInfo(userID: userID,
+        fsManager.updateUserUsage(userID: userID,
                                       usedCounts: updatedCounts, lastUsedTime: updatedTime) { error in
             if let error = error {
                 print("Error updating user info: \(error.localizedDescription)")
             } else {
                 usedCounts = updatedCounts
                 lastUsedTime = updatedTime
-                showAddUsageAlert = true
+            }
+        }
+    }
+    
+    func resetUserUsage() {
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        fsManager.resetUserUsage(userID: userID) { error in
+            if let error = error {
+                print("Error resetting user info: \(error.localizedDescription)")
+            } else {
+                showUpdateUsage = true
+                usedCounts = 0
+                lastUsedTime = Date().toString()
             }
         }
     }

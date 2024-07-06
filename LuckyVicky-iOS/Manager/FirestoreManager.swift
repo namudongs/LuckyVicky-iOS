@@ -40,7 +40,7 @@ class FirestoreManager: ObservableObject {
         }
     }
     
-    func fetchUserUsageInfo(userID: String, completion: @escaping (Result<[String: Any], Error>) -> Void) {
+    func fetchUserUsage(userID: String, completion: @escaping (Result<[String: Any], Error>) -> Void) {
         let userRef = db.collection("users").document(userID)
         userRef.getDocument { document, error in
             if let document = document, document.exists {
@@ -55,11 +55,27 @@ class FirestoreManager: ObservableObject {
         }
     }
     
-    func updateUserUsageInfo(userID: String, usedCounts: Int, lastUsedTime: String, completion: @escaping (Error?) -> Void) {
+    func updateUserUsage(userID: String, usedCounts: Int, lastUsedTime: String, completion: @escaping (Error?) -> Void) {
         let userRef = db.collection("users").document(userID)
         userRef.updateData([
             "usedCounts": usedCounts,
             "lastUsedTime": lastUsedTime
+        ]) { error in
+            if let error = error {
+                print("Error updating user info: \(error.localizedDescription)")
+                completion(error)
+            } else {
+                print("User info successfully updated")
+                completion(nil)
+            }
+        }
+    }
+    
+    func resetUserUsage(userID: String, completion: @escaping (Error?) -> Void) {
+        let userRef = db.collection("users").document(userID)
+        userRef.updateData([
+            "usedCounts": 0,
+            "lastUsedTime": Date().toString()
         ]) { error in
             if let error = error {
                 print("Error updating user info: \(error.localizedDescription)")

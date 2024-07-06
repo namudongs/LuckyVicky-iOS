@@ -110,8 +110,8 @@
 		177182242C3964C700D0D22D /* App */ = {
 			isa = PBXGroup;
 			children = (
-				177182362C39BE1600D0D22D /* GoogleService-Info.plist */,
 				177182042C39273800D0D22D /* LuckyVicky_iOSApp.swift */,
+				177182362C39BE1600D0D22D /* GoogleService-Info.plist */,
 				1771822A2C396D9E00D0D22D /* Secret.xcconfig */,
 				177182142C39279800D0D22D /* Assets.xcassets */,
 				1771820A2C39273900D0D22D /* Preview Content */,

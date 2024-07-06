@@ -69,7 +69,7 @@ extension AuthView {
                     
                     fsManager.checkUserExists(userID: user.uid) { exists in
                         if exists {
-                            fsManager.fetchUserUsageInfo(userID: user.uid) { result in
+                            fsManager.fetchUserUsage(userID: user.uid) { result in
                                 switch result {
                                 case .success(let data):
                                     print("User data: \(data)")

@@ -20,13 +20,13 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 @main
 struct LuckyVicky_iOSApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @StateObject private var coordinator = NavigationManager<Destination>()
+    @StateObject private var navigationManager = NavigationManager<Destination>()
     @StateObject private var fsManager = FirestoreManager()
     @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
     
     var body: some Scene {
         WindowGroup {
-            NavigationStack(path: $coordinator.paths) {
+            NavigationStack(path: $navigationManager.paths) {
                 if isLoggedIn {
                     ContentView(fsManager: fsManager)
                 } else {
