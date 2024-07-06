@@ -1,0 +1,576 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		17140F602C51025600A6767B /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 17140F5F2C51025600A6767B /* .swiftlint.yml */; };
+		177182052C39273800D0D22D /* LuckyVicky_iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182042C39273800D0D22D /* LuckyVicky_iOSApp.swift */; };
+		1771820C2C39273900D0D22D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1771820B2C39273900D0D22D /* Preview Assets.xcassets */; };
+		177182132C39278800D0D22D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182122C39278700D0D22D /* ContentView.swift */; };
+		177182152C39279800D0D22D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 177182142C39279800D0D22D /* Assets.xcassets */; };
+		177182172C3927E300D0D22D /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182162C3927E300D0D22D /* Color+.swift */; };
+		177182202C39480800D0D22D /* TextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1771821F2C39480800D0D22D /* TextField+.swift */; };
+		1771822D2C396DC000D0D22D /* GPTManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1771822C2C396DC000D0D22D /* GPTManager.swift */; };
+		177182332C39A6C700D0D22D /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 177182322C39A6C700D0D22D /* AlertToast */; };
+		177182372C39BE1600D0D22D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 177182362C39BE1600D0D22D /* GoogleService-Info.plist */; };
+		1771823A2C39BE5500D0D22D /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 177182392C39BE5500D0D22D /* FirebaseAnalytics */; };
+		1771823C2C39BE5500D0D22D /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 1771823B2C39BE5500D0D22D /* FirebaseAuth */; };
+		1771823E2C39BE5500D0D22D /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 1771823D2C39BE5500D0D22D /* FirebaseFirestore */; };
+		177182412C39C1A900D0D22D /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182402C39C1A900D0D22D /* AuthView.swift */; };
+		177182452C39C52C00D0D22D /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182442C39C52C00D0D22D /* FirestoreManager.swift */; };
+		177182472C39C76800D0D22D /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182462C39C76800D0D22D /* Date+.swift */; };
+		17CCD1762C52A30A000F4798 /* ChatGPTSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 17CCD1752C52A30A000F4798 /* ChatGPTSwift */; };
+		17CCD1952C53D08A000F4798 /* NanumSquareNeoTTF-bRg.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 17CCD1922C53D08A000F4798 /* NanumSquareNeoTTF-bRg.ttf */; };
+		17CCD1962C53D08A000F4798 /* NanumSquareNeoTTF-dEb.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 17CCD1932C53D08A000F4798 /* NanumSquareNeoTTF-dEb.ttf */; };
+		17CCD1972C53D08A000F4798 /* NanumSquareNeoTTF-cBd.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 17CCD1942C53D08A000F4798 /* NanumSquareNeoTTF-cBd.ttf */; };
+		17CCD1992C53D17D000F4798 /* FontModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CCD1982C53D17D000F4798 /* FontModifier.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		17140F5F2C51025600A6767B /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		177182012C39273800D0D22D /* LuckyVicky-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LuckyVicky-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		177182042C39273800D0D22D /* LuckyVicky_iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LuckyVicky_iOSApp.swift; sourceTree = "<group>"; };
+		1771820B2C39273900D0D22D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		177182122C39278700D0D22D /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		177182142C39279800D0D22D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		177182162C3927E300D0D22D /* Color+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
+		1771821F2C39480800D0D22D /* TextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextField+.swift"; sourceTree = "<group>"; };
+		1771822A2C396D9E00D0D22D /* Secret.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secret.xcconfig; sourceTree = "<group>"; };
+		1771822C2C396DC000D0D22D /* GPTManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTManager.swift; sourceTree = "<group>"; };
+		177182302C3971BF00D0D22D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		177182362C39BE1600D0D22D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1771823F2C39C06C00D0D22D /* LuckyVicky-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "LuckyVicky-iOS.entitlements"; sourceTree = "<group>"; };
+		177182402C39C1A900D0D22D /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
+		177182442C39C52C00D0D22D /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
+		177182462C39C76800D0D22D /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
+		17CCD1922C53D08A000F4798 /* NanumSquareNeoTTF-bRg.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NanumSquareNeoTTF-bRg.ttf"; sourceTree = "<group>"; };
+		17CCD1932C53D08A000F4798 /* NanumSquareNeoTTF-dEb.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NanumSquareNeoTTF-dEb.ttf"; sourceTree = "<group>"; };
+		17CCD1942C53D08A000F4798 /* NanumSquareNeoTTF-cBd.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NanumSquareNeoTTF-cBd.ttf"; sourceTree = "<group>"; };
+		17CCD1982C53D17D000F4798 /* FontModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontModifier.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		177181FE2C39273800D0D22D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				177182332C39A6C700D0D22D /* AlertToast in Frameworks */,
+				1771823A2C39BE5500D0D22D /* FirebaseAnalytics in Frameworks */,
+				1771823E2C39BE5500D0D22D /* FirebaseFirestore in Frameworks */,
+				17CCD1762C52A30A000F4798 /* ChatGPTSwift in Frameworks */,
+				1771823C2C39BE5500D0D22D /* FirebaseAuth in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		177181F82C39273800D0D22D = {
+			isa = PBXGroup;
+			children = (
+				177182032C39273800D0D22D /* LuckyVicky-iOS */,
+				177182022C39273800D0D22D /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		177182022C39273800D0D22D /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				177182012C39273800D0D22D /* LuckyVicky-iOS.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		177182032C39273800D0D22D /* LuckyVicky-iOS */ = {
+			isa = PBXGroup;
+			children = (
+				1771822B2C396DB200D0D22D /* Manager */,
+				177182242C3964C700D0D22D /* App */,
+				177182232C39641200D0D22D /* View */,
+				177182252C3964D100D0D22D /* Helper */,
+				17CCD18D2C53CBD0000F4798 /* Resources */,
+			);
+			path = "LuckyVicky-iOS";
+			sourceTree = "<group>";
+		};
+		1771820A2C39273900D0D22D /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				1771820B2C39273900D0D22D /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		177182232C39641200D0D22D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				177182122C39278700D0D22D /* ContentView.swift */,
+				177182402C39C1A900D0D22D /* AuthView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		177182242C3964C700D0D22D /* App */ = {
+			isa = PBXGroup;
+			children = (
+				177182042C39273800D0D22D /* LuckyVicky_iOSApp.swift */,
+				17140F5F2C51025600A6767B /* .swiftlint.yml */,
+				1771820A2C39273900D0D22D /* Preview Content */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		177182252C3964D100D0D22D /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				177182162C3927E300D0D22D /* Color+.swift */,
+				1771821F2C39480800D0D22D /* TextField+.swift */,
+				177182462C39C76800D0D22D /* Date+.swift */,
+				17CCD1982C53D17D000F4798 /* FontModifier.swift */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		1771822B2C396DB200D0D22D /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				1771822C2C396DC000D0D22D /* GPTManager.swift */,
+				177182442C39C52C00D0D22D /* FirestoreManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		17CCD18D2C53CBD0000F4798 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				17CCD18E2C53CEA3000F4798 /* Fonts */,
+				1771823F2C39C06C00D0D22D /* LuckyVicky-iOS.entitlements */,
+				177182302C3971BF00D0D22D /* Info.plist */,
+				177182362C39BE1600D0D22D /* GoogleService-Info.plist */,
+				1771822A2C396D9E00D0D22D /* Secret.xcconfig */,
+				177182142C39279800D0D22D /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		17CCD18E2C53CEA3000F4798 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				17CCD1942C53D08A000F4798 /* NanumSquareNeoTTF-cBd.ttf */,
+				17CCD1932C53D08A000F4798 /* NanumSquareNeoTTF-dEb.ttf */,
+				17CCD1922C53D08A000F4798 /* NanumSquareNeoTTF-bRg.ttf */,
+			);
+			path = Fonts;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		177182002C39273800D0D22D /* LuckyVicky-iOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1771820F2C39273900D0D22D /* Build configuration list for PBXNativeTarget "LuckyVicky-iOS" */;
+			buildPhases = (
+				177181FD2C39273800D0D22D /* Sources */,
+				177181FE2C39273800D0D22D /* Frameworks */,
+				177181FF2C39273800D0D22D /* Resources */,
+				17140F612C51027300A6767B /* Swiftlint Script */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "LuckyVicky-iOS";
+			packageProductDependencies = (
+				177182322C39A6C700D0D22D /* AlertToast */,
+				177182392C39BE5500D0D22D /* FirebaseAnalytics */,
+				1771823B2C39BE5500D0D22D /* FirebaseAuth */,
+				1771823D2C39BE5500D0D22D /* FirebaseFirestore */,
+				17CCD1752C52A30A000F4798 /* ChatGPTSwift */,
+			);
+			productName = "LuckyVicky-iOS";
+			productReference = 177182012C39273800D0D22D /* LuckyVicky-iOS.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		177181F92C39273800D0D22D /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1540;
+				LastUpgradeCheck = 1540;
+				TargetAttributes = {
+					177182002C39273800D0D22D = {
+						CreatedOnToolsVersion = 15.4;
+					};
+				};
+			};
+			buildConfigurationList = 177181FC2C39273800D0D22D /* Build configuration list for PBXProject "LuckyVicky-iOS" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = ko;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				ko,
+			);
+			mainGroup = 177181F82C39273800D0D22D;
+			packageReferences = (
+				177182312C39A6C700D0D22D /* XCRemoteSwiftPackageReference "AlertToast" */,
+				177182382C39BE5500D0D22D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				17CCD1742C52A30A000F4798 /* XCRemoteSwiftPackageReference "ChatGPTSwift" */,
+			);
+			productRefGroup = 177182022C39273800D0D22D /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				177182002C39273800D0D22D /* LuckyVicky-iOS */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		177181FF2C39273800D0D22D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				17CCD1962C53D08A000F4798 /* NanumSquareNeoTTF-dEb.ttf in Resources */,
+				17140F602C51025600A6767B /* .swiftlint.yml in Resources */,
+				177182152C39279800D0D22D /* Assets.xcassets in Resources */,
+				17CCD1972C53D08A000F4798 /* NanumSquareNeoTTF-cBd.ttf in Resources */,
+				1771820C2C39273900D0D22D /* Preview Assets.xcassets in Resources */,
+				177182372C39BE1600D0D22D /* GoogleService-Info.plist in Resources */,
+				17CCD1952C53D08A000F4798 /* NanumSquareNeoTTF-bRg.ttf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		17140F612C51027300A6767B /* Swiftlint Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Swiftlint Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nexport PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint >/dev/null; then\n  swiftlint lint --config \"$SRCROOT/LuckyVicky-iOS/App/.swiftlint.yml\"\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		177181FD2C39273800D0D22D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				177182472C39C76800D0D22D /* Date+.swift in Sources */,
+				177182132C39278800D0D22D /* ContentView.swift in Sources */,
+				17CCD1992C53D17D000F4798 /* FontModifier.swift in Sources */,
+				177182202C39480800D0D22D /* TextField+.swift in Sources */,
+				177182412C39C1A900D0D22D /* AuthView.swift in Sources */,
+				177182172C3927E300D0D22D /* Color+.swift in Sources */,
+				1771822D2C396DC000D0D22D /* GPTManager.swift in Sources */,
+				177182052C39273800D0D22D /* LuckyVicky_iOSApp.swift in Sources */,
+				177182452C39C52C00D0D22D /* FirestoreManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1771820D2C39273900D0D22D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1771822A2C396D9E00D0D22D /* Secret.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		1771820E2C39273900D0D22D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1771822A2C396D9E00D0D22D /* Secret.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		177182102C39273900D0D22D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1771822A2C396D9E00D0D22D /* Secret.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "LuckyVicky-iOS/Resources/LuckyVicky-iOS.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"LuckyVicky-iOS/App/Preview Content\"";
+				DEVELOPMENT_TEAM = 47PZ53ZAF2;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "LuckyVicky-iOS/Resources/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "럭키비키";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.2;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.namudi.LuckyVicky-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		177182112C39273900D0D22D /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1771822A2C396D9E00D0D22D /* Secret.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "LuckyVicky-iOS/Resources/LuckyVicky-iOS.entitlements";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"LuckyVicky-iOS/App/Preview Content\"";
+				DEVELOPMENT_TEAM = 47PZ53ZAF2;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "LuckyVicky-iOS/Resources/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "럭키비키";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.2;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.namudi.LuckyVicky-iOS";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		177181FC2C39273800D0D22D /* Build configuration list for PBXProject "LuckyVicky-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1771820D2C39273900D0D22D /* Debug */,
+				1771820E2C39273900D0D22D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1771820F2C39273900D0D22D /* Build configuration list for PBXNativeTarget "LuckyVicky-iOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				177182102C39273900D0D22D /* Debug */,
+				177182112C39273900D0D22D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		177182312C39A6C700D0D22D /* XCRemoteSwiftPackageReference "AlertToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/elai950/AlertToast.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.9;
+			};
+		};
+		177182382C39BE5500D0D22D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.28.1;
+			};
+		};
+		17CCD1742C52A30A000F4798 /* XCRemoteSwiftPackageReference "ChatGPTSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/namudongs/ChatGPTSwift.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		177182322C39A6C700D0D22D /* AlertToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 177182312C39A6C700D0D22D /* XCRemoteSwiftPackageReference "AlertToast" */;
+			productName = AlertToast;
+		};
+		177182392C39BE5500D0D22D /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 177182382C39BE5500D0D22D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		1771823B2C39BE5500D0D22D /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 177182382C39BE5500D0D22D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		1771823D2C39BE5500D0D22D /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 177182382C39BE5500D0D22D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		17CCD1752C52A30A000F4798 /* ChatGPTSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 17CCD1742C52A30A000F4798 /* XCRemoteSwiftPackageReference "ChatGPTSwift" */;
+			productName = ChatGPTSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 177181F92C39273800D0D22D /* Project object */;
+}
