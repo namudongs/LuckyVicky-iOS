@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import NavigationTransitions
+import AlertToast
 
 struct ContentView: View {
     // MARK: - 프로퍼티
@@ -16,6 +16,10 @@ struct ContentView: View {
     @State private var isTranslate: Bool = false
     @State private var originalText: String = ""
     @State private var rotation: Double = 0.0
+    @State private var nowTextLength: Int = 0
+    @State private var showAlert: Bool = false
+    @State private var showEmptyAlert: Bool = false
+    @State private var showCopiedAlert: Bool = false
     
     // MARK: - 뷰
     var body: some View {
@@ -27,7 +31,8 @@ struct ContentView: View {
                     .overlay {
                         VStack {
                             TextField("오늘 안좋은 일이 있었나요?",
-                                      text: $originalText.max(60), axis: .vertical)
+                                      text: $originalText.max(45, showAlert: $showAlert),
+                                      axis: .vertical)
                             .frame(height: 200)
                             .foregroundColor(.black.opacity(0.7))
                             .focused($isFocused)
@@ -36,10 +41,6 @@ struct ContentView: View {
                             .submitLabel(.return)
                             .padding(70)
                             .disabled(isTranslate)
-                            
-                            // TODO: - 현재 글자 수 보여주기
-                            // TODO: - 글자 수 넘어가면 경고 띄우기
-                            // TODO: - 글자 수 부족하거나 글이 없으면 입력하지 못하게 하기
                         }
                     }
                 Rectangle()
@@ -50,11 +51,27 @@ struct ContentView: View {
                             Spacer()
                             if isTranslate {
                                 ScrollView {
-                                    // TODO: 공유하기와 복사하기 기능 구현
-                                    Text(manager.response)
-                                        .foregroundColor(.white)
-                                        .font(.system(size: 24, weight: .bold))
-                                        .padding(.horizontal, 50)
+                                    VStack {
+                                        // TODO: 공유하기와 복사하기 기능 구현
+                                        // Text(manager.response)
+                                        Text("우와앙! 자연 샤워 받았네! 🌧️ 오히려 상쾌하지 않앙? 옷은 빨리 마를 거얌. 이거 완전 럭키비키잔앙🍀")
+                                            .foregroundColor(.white)
+                                            .font(.system(size: 24, weight: .bold))
+                                            .padding(.horizontal, 50)
+                                        if !isGenerating {
+                                            HStack(spacing: 15) {
+                                                Spacer()
+                                                Image(systemName: "clipboard")
+                                                    .foregroundColor(.white)
+                                                    .onTapGesture {
+                                                        showCopiedAlert = true
+                                                    }
+                                                Image(systemName: "square.and.arrow.up")
+                                                    .foregroundColor(.white)
+                                            }
+                                            .padding(.trailing, 50)
+                                        }
+                                    }
                                 }
                                 .frame(maxHeight: geo.size.height / 2)
                                 Spacer()
@@ -73,8 +90,8 @@ struct ContentView: View {
                                     .font(.system(size: 16, weight: .semibold))
                             }
                             .onTapGesture {
-                                UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                                 if isTranslate {
+                                    UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                                     withAnimation {
                                         originalText = ""
                                         manager.response = ""
@@ -83,16 +100,22 @@ struct ContentView: View {
                                         rotation = 0
                                     }
                                 } else {
-                                    withAnimation {
-                                        isTranslate = true
-                                    }
-                                    startTranslate()
-                                    manager.sendMessage(from: originalText) { result in
-                                        switch result {
-                                        case .success:
-                                            completeTranslate()
-                                        case .failure(let error):
-                                            print("오류 발생: \(error.localizedDescription)")
+                                    if originalText.isEmpty {
+                                        UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+                                        showEmptyAlert = true
+                                    } else {
+                                        UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+                                        withAnimation {
+                                            isTranslate = true
+                                        }
+                                        startTranslate()
+                                        manager.sendMessage(from: originalText) { result in
+                                            switch result {
+                                            case .success:
+                                                completeTranslate()
+                                            case .failure(let error):
+                                                print("오류 발생: \(error.localizedDescription)")
+                                            }
                                         }
                                     }
                                 }
@@ -106,6 +129,29 @@ struct ContentView: View {
             .background(Color.background)
             .onTapGesture {
                 isFocused = false
+            }
+            // MARK: - 토스트
+            .toast(isPresenting: $showAlert, offsetY: 10) {
+                AlertToast(
+                    displayMode: .hud,
+                    type: .systemImage("exclamationmark.circle.fill", Color.red),
+                    title: "글자 수 제한을 초과했습니다."
+                )
+                
+            }
+            .toast(isPresenting: $showEmptyAlert, offsetY: 10) {
+                AlertToast(
+                    displayMode: .hud,
+                    type: .systemImage("exclamationmark.triangle.fill", Color.yellow),
+                    title: "텍스트를 입력해주세요."
+                )
+            }
+            .toast(isPresenting: $showCopiedAlert, offsetY: 10) {
+                AlertToast(
+                    displayMode: .hud,
+                    type: .systemImage("checkmark.circle.fill", Color.green),
+                    title: "클립보드에 복사했습니다."
+                )
             }
         }
     }

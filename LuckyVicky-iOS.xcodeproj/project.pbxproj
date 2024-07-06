@@ -15,6 +15,7 @@
 		177182202C39480800D0D22D /* TextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1771821F2C39480800D0D22D /* TextField+.swift */; };
 		177182292C396D6500D0D22D /* ChatGPTSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 177182282C396D6500D0D22D /* ChatGPTSwift */; };
 		1771822D2C396DC000D0D22D /* GPTManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1771822C2C396DC000D0D22D /* GPTManager.swift */; };
+		177182332C39A6C700D0D22D /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = 177182322C39A6C700D0D22D /* AlertToast */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				177182292C396D6500D0D22D /* ChatGPTSwift in Frameworks */,
+				177182332C39A6C700D0D22D /* AlertToast in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,6 +134,7 @@
 			name = "LuckyVicky-iOS";
 			packageProductDependencies = (
 				177182282C396D6500D0D22D /* ChatGPTSwift */,
+				177182322C39A6C700D0D22D /* AlertToast */,
 			);
 			productName = "LuckyVicky-iOS";
 			productReference = 177182012C39273800D0D22D /* LuckyVicky-iOS.app */;
@@ -163,6 +166,7 @@
 			mainGroup = 177181F82C39273800D0D22D;
 			packageReferences = (
 				177182272C396D6500D0D22D /* XCRemoteSwiftPackageReference "ChatGPTSwift" */,
+				177182312C39A6C700D0D22D /* XCRemoteSwiftPackageReference "AlertToast" */,
 			);
 			productRefGroup = 177182022C39273800D0D22D /* Products */;
 			projectDirPath = "";
@@ -428,6 +432,14 @@
 				minimumVersion = 2.3.1;
 			};
 		};
+		177182312C39A6C700D0D22D /* XCRemoteSwiftPackageReference "AlertToast" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/elai950/AlertToast.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.9;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -435,6 +447,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 177182272C396D6500D0D22D /* XCRemoteSwiftPackageReference "ChatGPTSwift" */;
 			productName = ChatGPTSwift;
+		};
+		177182322C39A6C700D0D22D /* AlertToast */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 177182312C39A6C700D0D22D /* XCRemoteSwiftPackageReference "AlertToast" */;
+			productName = AlertToast;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
