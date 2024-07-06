@@ -8,17 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		177182052C39273800D0D22D /* LuckyVicky_iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182042C39273800D0D22D /* LuckyVicky_iOSApp.swift */; };
-		177182072C39273800D0D22D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182062C39273800D0D22D /* ContentView.swift */; };
-		177182092C39273900D0D22D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 177182082C39273900D0D22D /* Assets.xcassets */; };
 		1771820C2C39273900D0D22D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1771820B2C39273900D0D22D /* Preview Assets.xcassets */; };
+		177182132C39278800D0D22D /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182122C39278700D0D22D /* HomeView.swift */; };
+		177182152C39279800D0D22D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 177182142C39279800D0D22D /* Assets.xcassets */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		177182012C39273800D0D22D /* LuckyVicky-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LuckyVicky-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		177182042C39273800D0D22D /* LuckyVicky_iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LuckyVicky_iOSApp.swift; sourceTree = "<group>"; };
-		177182062C39273800D0D22D /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		177182082C39273900D0D22D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1771820B2C39273900D0D22D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		177182122C39278700D0D22D /* HomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		177182142C39279800D0D22D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,8 +52,8 @@
 			isa = PBXGroup;
 			children = (
 				177182042C39273800D0D22D /* LuckyVicky_iOSApp.swift */,
-				177182062C39273800D0D22D /* ContentView.swift */,
-				177182082C39273900D0D22D /* Assets.xcassets */,
+				177182122C39278700D0D22D /* HomeView.swift */,
+				177182142C39279800D0D22D /* Assets.xcassets */,
 				1771820A2C39273900D0D22D /* Preview Content */,
 			);
 			path = "LuckyVicky-iOS";
@@ -125,8 +125,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				177182152C39279800D0D22D /* Assets.xcassets in Resources */,
 				1771820C2C39273900D0D22D /* Preview Assets.xcassets in Resources */,
-				177182092C39273900D0D22D /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,7 +137,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				177182072C39273800D0D22D /* ContentView.swift in Sources */,
+				177182132C39278800D0D22D /* HomeView.swift in Sources */,
 				177182052C39273800D0D22D /* LuckyVicky_iOSApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
