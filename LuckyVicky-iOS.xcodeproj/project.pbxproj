@@ -12,6 +12,7 @@
 		177182132C39278800D0D22D /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182122C39278700D0D22D /* HomeView.swift */; };
 		177182152C39279800D0D22D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 177182142C39279800D0D22D /* Assets.xcassets */; };
 		177182172C3927E300D0D22D /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182162C3927E300D0D22D /* Color+.swift */; };
+		177182192C39280200D0D22D /* TransView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182182C39280200D0D22D /* TransView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +22,7 @@
 		177182122C39278700D0D22D /* HomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		177182142C39279800D0D22D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		177182162C3927E300D0D22D /* Color+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
+		177182182C39280200D0D22D /* TransView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +57,7 @@
 			children = (
 				177182042C39273800D0D22D /* LuckyVicky_iOSApp.swift */,
 				177182122C39278700D0D22D /* HomeView.swift */,
+				177182182C39280200D0D22D /* TransView.swift */,
 				177182162C3927E300D0D22D /* Color+.swift */,
 				177182142C39279800D0D22D /* Assets.xcassets */,
 				1771820A2C39273900D0D22D /* Preview Content */,
@@ -141,6 +144,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				177182132C39278800D0D22D /* HomeView.swift in Sources */,
+				177182192C39280200D0D22D /* TransView.swift in Sources */,
 				177182172C3927E300D0D22D /* Color+.swift in Sources */,
 				177182052C39273800D0D22D /* LuckyVicky_iOSApp.swift in Sources */,
 			);
