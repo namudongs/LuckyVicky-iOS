@@ -12,10 +12,7 @@
 		177182132C39278800D0D22D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182122C39278700D0D22D /* ContentView.swift */; };
 		177182152C39279800D0D22D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 177182142C39279800D0D22D /* Assets.xcassets */; };
 		177182172C3927E300D0D22D /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182162C3927E300D0D22D /* Color+.swift */; };
-		1771821C2C39291300D0D22D /* NavigationTransitions in Frameworks */ = {isa = PBXBuildFile; productRef = 1771821B2C39291300D0D22D /* NavigationTransitions */; };
-		1771821E2C392A3D00D0D22D /* NavigationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1771821D2C392A3D00D0D22D /* NavigationCoordinator.swift */; };
 		177182202C39480800D0D22D /* TextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1771821F2C39480800D0D22D /* TextField+.swift */; };
-		177182222C395CF000D0D22D /* LotatingImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182212C395CF000D0D22D /* LotatingImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,9 +22,7 @@
 		177182122C39278700D0D22D /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		177182142C39279800D0D22D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		177182162C3927E300D0D22D /* Color+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
-		1771821D2C392A3D00D0D22D /* NavigationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationCoordinator.swift; sourceTree = "<group>"; };
 		1771821F2C39480800D0D22D /* TextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextField+.swift"; sourceTree = "<group>"; };
-		177182212C395CF000D0D22D /* LotatingImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LotatingImage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,7 +30,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1771821C2C39291300D0D22D /* NavigationTransitions in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,14 +55,9 @@
 		177182032C39273800D0D22D /* LuckyVicky-iOS */ = {
 			isa = PBXGroup;
 			children = (
-				1771821D2C392A3D00D0D22D /* NavigationCoordinator.swift */,
-				177182042C39273800D0D22D /* LuckyVicky_iOSApp.swift */,
-				177182122C39278700D0D22D /* ContentView.swift */,
-				177182212C395CF000D0D22D /* LotatingImage.swift */,
-				177182162C3927E300D0D22D /* Color+.swift */,
-				1771821F2C39480800D0D22D /* TextField+.swift */,
-				177182142C39279800D0D22D /* Assets.xcassets */,
-				1771820A2C39273900D0D22D /* Preview Content */,
+				177182242C3964C700D0D22D /* App */,
+				177182232C39641200D0D22D /* View */,
+				177182252C3964D100D0D22D /* Helper */,
 			);
 			path = "LuckyVicky-iOS";
 			sourceTree = "<group>";
@@ -79,6 +68,33 @@
 				1771820B2C39273900D0D22D /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		177182232C39641200D0D22D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				177182122C39278700D0D22D /* ContentView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		177182242C3964C700D0D22D /* App */ = {
+			isa = PBXGroup;
+			children = (
+				177182042C39273800D0D22D /* LuckyVicky_iOSApp.swift */,
+				177182142C39279800D0D22D /* Assets.xcassets */,
+				1771820A2C39273900D0D22D /* Preview Content */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		177182252C3964D100D0D22D /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				177182162C3927E300D0D22D /* Color+.swift */,
+				1771821F2C39480800D0D22D /* TextField+.swift */,
+			);
+			path = Helper;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -98,7 +114,6 @@
 			);
 			name = "LuckyVicky-iOS";
 			packageProductDependencies = (
-				1771821B2C39291300D0D22D /* NavigationTransitions */,
 			);
 			productName = "LuckyVicky-iOS";
 			productReference = 177182012C39273800D0D22D /* LuckyVicky-iOS.app */;
@@ -129,7 +144,6 @@
 			);
 			mainGroup = 177181F82C39273800D0D22D;
 			packageReferences = (
-				1771821A2C39291300D0D22D /* XCRemoteSwiftPackageReference "swiftui-navigation-transitions" */,
 			);
 			productRefGroup = 177182022C39273800D0D22D /* Products */;
 			projectDirPath = "";
@@ -160,8 +174,6 @@
 				177182132C39278800D0D22D /* ContentView.swift in Sources */,
 				177182202C39480800D0D22D /* TextField+.swift in Sources */,
 				177182172C3927E300D0D22D /* Color+.swift in Sources */,
-				177182222C395CF000D0D22D /* LotatingImage.swift in Sources */,
-				1771821E2C392A3D00D0D22D /* NavigationCoordinator.swift in Sources */,
 				177182052C39273800D0D22D /* LuckyVicky_iOSApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -295,10 +307,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"LuckyVicky-iOS/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"LuckyVicky-iOS/App/Preview Content\"";
 				DEVELOPMENT_TEAM = 47PZ53ZAF2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "럭키비키";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -330,10 +343,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"LuckyVicky-iOS/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"LuckyVicky-iOS/App/Preview Content\"";
 				DEVELOPMENT_TEAM = 47PZ53ZAF2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "럭키비키";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -380,25 +394,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		1771821A2C39291300D0D22D /* XCRemoteSwiftPackageReference "swiftui-navigation-transitions" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/davdroman/swiftui-navigation-transitions";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.13.3;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		1771821B2C39291300D0D22D /* NavigationTransitions */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 1771821A2C39291300D0D22D /* XCRemoteSwiftPackageReference "swiftui-navigation-transitions" */;
-			productName = NavigationTransitions;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 177181F92C39273800D0D22D /* Project object */;
 }

@@ -9,19 +9,20 @@ import SwiftUI
 import NavigationTransitions
 
 struct ContentView: View {
+    // MARK: - 프로퍼티
     @FocusState private var isFocused: Bool
-    @State private var generateComplete: Bool = false
-    @State private var isTrans: Bool = false
+    @State private var isGenerating: Bool = false
+    @State private var isTranslate: Bool = false
     @State private var originalText: String = ""
-    @State private var rotationTimer: Timer?
     @State private var rotation: Double = 0.0
     
+    // MARK: - 뷰
     var body: some View {
         GeometryReader { geo in
             VStack(spacing: 0) {
                 Rectangle()
                     .fill(Color.clear)
-                    .frame(maxHeight: isTrans ? geo.size.height / 4 : .infinity)
+                    .frame(maxHeight: isTranslate ? geo.size.height / 4 : .infinity)
                     .overlay {
                         VStack {
                             TextField("오늘 있었던 일을 입력해보세요",
@@ -33,18 +34,18 @@ struct ContentView: View {
                             .multilineTextAlignment(.center)
                             .submitLabel(.return)
                             .padding(70)
-                            .disabled(isTrans)
+                            .disabled(isTranslate)
                         }
                     }
                 Rectangle()
                     .fill(Color.accentColor)
-                    .frame(maxHeight: isTrans ? .infinity : geo.size.height / 4)
+                    .frame(maxHeight: isTranslate ? .infinity : geo.size.height / 4)
                     .overlay {
                         VStack(spacing: 8) {
-                            if isTrans {
+                            if isTranslate {
                                 Spacer()
                                 ScrollView {
-                                    // 복사하기 기능 구현
+                                    // TODO: 복사하기 기능 구현
                                     Text("오늘 택시를 한참 기다렸는데 어떤 사람이 내 택시를 빼앗아서 탔어! 완전 황당했지! 흔들리잔앙!! 그 사람이 안 탔으면, 내가 타고 가다가 교통체증에 걸려서 더 늦었을 거라고 생각했어. 그리고 내 뒤에 온 택시가 훨씬 더 빨랐지! 덕분에 빨리 도착했어 🤭🤭 완전 럭키비키잔앙🍀오늘 택시를 한참 기다렸는데 어떤 사람이 내 택시를 빼앗아서 탔어! 완전 황당했지! 흔들리잔앙!! 그 사람이 안 탔으면, 내가 타고 가다가 교통체증에 걸려서 더 늦었을 거라고 생각했어. 그리고 내 뒤에 온 택시가 훨씬 더 빨랐지! 덕분에 빨리 도착했어 🤭🤭 완전 럭키비키잔앙🍀")
                                         .foregroundColor(.white)
                                         .font(.system(size: 24, weight: .bold))
@@ -60,24 +61,24 @@ struct ContentView: View {
                                     .scaledToFit()
                                     .blendMode(.screen)
                                     .frame(width: 50)
-//                                    .rotationEffect(isTrans ? .degrees(405) : .zero)
                                     .rotationEffect(.degrees(rotation))
+                                    
                                 
-                                Text(isTrans ? "돌아가기" : "원영적 사고로 변환하기")
+                                Text(isTranslate ? "돌아가기" : "원영적 사고로 변환하기")
                                     .foregroundColor(.white)
                                     .font(.system(size: 14, weight: .semibold))
                             }
                             .onTapGesture {
                                 UIImpactFeedbackGenerator(style: .soft).impactOccurred()
-                                if isTrans {
+                                if isTranslate {
                                     withAnimation {
-                                        isTrans = false
-                                        rotation = 360.0
+                                        isTranslate = false
+                                        rotation = 0
                                     }
+                                    
                                 } else {
-                                    // TODO: - 럭키비키로 변환하는 코드
                                     withAnimation {
-                                        isTrans = true
+                                        isTranslate = true
                                     }
                                     startTranslate()
                                     DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -85,6 +86,7 @@ struct ContentView: View {
                                     }
                                 }
                             }
+                            .disabled(isGenerating)
                             Spacer()
                         }
                     }
@@ -96,26 +98,24 @@ struct ContentView: View {
             }
         }
     }
-    
+}
+
+// MARK: - 함수
+extension ContentView {
+    // TODO: - 럭키비키로 변환하는 로직
     private func startTranslate() {
         print("start Translate")
-        rotationTimer?.invalidate()
-        rotationTimer = Timer.scheduledTimer(withTimeInterval: 0.01, repeats: true) { _ in
-            withAnimation(.linear(duration: 0.01)) {
-                rotation += 2.7 // 0.01초마다 3.6도씩 회전 (1초에 360도)
-                if rotation >= 360 {
-                    rotation = 0
-                }
-            }
+        isGenerating = true
+        withAnimation(.linear(duration: 1).repeatForever(autoreverses: false)) {
+            rotation = 360
         }
     }
     
     private func completeTranslate() {
         print("complete Translate")
         UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-        rotationTimer?.invalidate()
-        rotationTimer = nil
-        withAnimation(.linear(duration: 0.1)) {
+        isGenerating = false
+        withAnimation {
             rotation = 45
         }
     }
