@@ -17,6 +17,7 @@ import AlertToast
 
 struct ContentView: View {
     // MARK: - 프로퍼티
+    @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
     @StateObject var manager = GPTManager()
     @FocusState private var isFocused: Bool
     @State private var isGenerating: Bool = false
