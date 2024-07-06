@@ -2,7 +2,11 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>API_KEY</key>
-	<string>$(API_KEY)</string>
+	<key>API_KEY_GEMINI</key>
+	<string>$(API_KEY_GEMINI)</string>
+	<key>API_KEY_GPT</key>
+	<string>$(API_KEY_GPT)</string>
+	<key>Display name</key>
+	<string>럭키비키</string>
 </dict>
 </plist>

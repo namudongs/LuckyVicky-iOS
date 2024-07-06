@@ -8,6 +8,13 @@
 import SwiftUI
 import AlertToast
 
+// TODO: - FirebaseAuth 연결하고 로그인 기능 구현하기
+// TODO: - User가 API 호출한 횟수 저장하고 10번 제한 걸기
+// TODO: - Gemini API 연결하기
+// TODO: - User가 10번 제한에 걸리면 광고 보고 해제할 수 있게 하기
+// TODO: - 원영적 사고 설명 및 개발자 소개, 사용한 API 등의 저작권 표기 뷰 만들기
+// TODO: - 후원 기능 구현하기
+
 struct ContentView: View {
     // MARK: - 프로퍼티
     @StateObject var manager = GPTManager()
@@ -20,6 +27,7 @@ struct ContentView: View {
     @State private var showAlert: Bool = false
     @State private var showEmptyAlert: Bool = false
     @State private var showCopiedAlert: Bool = false
+    @State private var showSharedAlert: Bool = false
     
     // MARK: - 뷰
     var body: some View {
@@ -30,7 +38,7 @@ struct ContentView: View {
                     .frame(maxHeight: isTranslate ? geo.size.height / 4 : .infinity)
                     .overlay {
                         VStack {
-                            TextField("오늘 안좋은 일이 있었나요?",
+                            TextField("안좋은 일이 있었나요?",
                                       text: $originalText.max(45, showAlert: $showAlert),
                                       axis: .vertical)
                             .frame(height: 200)
@@ -52,9 +60,7 @@ struct ContentView: View {
                             if isTranslate {
                                 ScrollView {
                                     VStack {
-                                        // TODO: 공유하기와 복사하기 기능 구현
-                                        // Text(manager.response)
-                                        Text("우와앙! 자연 샤워 받았네! 🌧️ 오히려 상쾌하지 않앙? 옷은 빨리 마를 거얌. 이거 완전 럭키비키잔앙🍀")
+                                        Text(manager.response)
                                             .foregroundColor(.white)
                                             .font(.system(size: 24, weight: .bold))
                                             .padding(.horizontal, 50)
@@ -64,11 +70,20 @@ struct ContentView: View {
                                                 Image(systemName: "clipboard")
                                                     .foregroundColor(.white)
                                                     .onTapGesture {
+                                                        UIPasteboard.general.string = manager.response
+                                                        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                                         showCopiedAlert = true
                                                     }
-                                                Image(systemName: "square.and.arrow.up")
-                                                    .foregroundColor(.white)
+                                                ShareLink(item: manager.response) {
+                                                    Image(systemName: "square.and.arrow.up")
+                                                        .foregroundColor(.white)
+                                                }
+                                                .simultaneousGesture(TapGesture().onEnded() {
+                                                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                                                    showSharedAlert = true
+                                                })
                                             }
+                                            .padding(.top, 10)
                                             .padding(.trailing, 50)
                                         }
                                     }
@@ -76,7 +91,6 @@ struct ContentView: View {
                                 .frame(maxHeight: geo.size.height / 2)
                                 Spacer()
                             }
-//                            Spacer()
                             VStack {
                                 Image(.luckyvicky)
                                     .resizable()
@@ -153,13 +167,19 @@ struct ContentView: View {
                     title: "클립보드에 복사했습니다."
                 )
             }
+            .toast(isPresenting: $showSharedAlert, offsetY: 10) {
+                AlertToast(
+                    displayMode: .hud,
+                    type: .systemImage("checkmark.circle.fill", Color.green),
+                    title: "공유에 성공했습니다."
+                )
+            }
         }
     }
 }
 
 // MARK: - 함수
 extension ContentView {
-    // TODO: - 럭키비키로 변환하는 로직
     private func startTranslate() {
         print("start Translate")
         isGenerating = true

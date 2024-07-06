@@ -26,7 +26,7 @@
 		177182142C39279800D0D22D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		177182162C3927E300D0D22D /* Color+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
 		1771821F2C39480800D0D22D /* TextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextField+.swift"; sourceTree = "<group>"; };
-		1771822A2C396D9E00D0D22D /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		1771822A2C396D9E00D0D22D /* Secret.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secret.xcconfig; sourceTree = "<group>"; };
 		1771822C2C396DC000D0D22D /* GPTManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTManager.swift; sourceTree = "<group>"; };
 		177182302C3971BF00D0D22D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -92,7 +92,7 @@
 			isa = PBXGroup;
 			children = (
 				177182042C39273800D0D22D /* LuckyVicky_iOSApp.swift */,
-				1771822A2C396D9E00D0D22D /* Config.xcconfig */,
+				1771822A2C396D9E00D0D22D /* Secret.xcconfig */,
 				177182142C39279800D0D22D /* Assets.xcassets */,
 				1771820A2C39273900D0D22D /* Preview Content */,
 			);
@@ -207,7 +207,7 @@
 /* Begin XCBuildConfiguration section */
 		1771820D2C39273900D0D22D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1771822A2C396D9E00D0D22D /* Config.xcconfig */;
+			baseConfigurationReference = 1771822A2C396D9E00D0D22D /* Secret.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -271,7 +271,7 @@
 		};
 		1771820E2C39273900D0D22D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1771822A2C396D9E00D0D22D /* Config.xcconfig */;
+			baseConfigurationReference = 1771822A2C396D9E00D0D22D /* Secret.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -328,7 +328,7 @@
 		};
 		177182102C39273900D0D22D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1771822A2C396D9E00D0D22D /* Config.xcconfig */;
+			baseConfigurationReference = 1771822A2C396D9E00D0D22D /* Secret.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -365,7 +365,7 @@
 		};
 		177182112C39273900D0D22D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1771822A2C396D9E00D0D22D /* Config.xcconfig */;
+			baseConfigurationReference = 1771822A2C396D9E00D0D22D /* Secret.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
