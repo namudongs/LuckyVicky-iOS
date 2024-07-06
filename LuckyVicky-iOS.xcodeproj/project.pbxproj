@@ -9,20 +9,23 @@
 /* Begin PBXBuildFile section */
 		177182052C39273800D0D22D /* LuckyVicky_iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182042C39273800D0D22D /* LuckyVicky_iOSApp.swift */; };
 		1771820C2C39273900D0D22D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1771820B2C39273900D0D22D /* Preview Assets.xcassets */; };
-		177182132C39278800D0D22D /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182122C39278700D0D22D /* HomeView.swift */; };
+		177182132C39278800D0D22D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182122C39278700D0D22D /* ContentView.swift */; };
 		177182152C39279800D0D22D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 177182142C39279800D0D22D /* Assets.xcassets */; };
 		177182172C3927E300D0D22D /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182162C3927E300D0D22D /* Color+.swift */; };
 		177182192C39280200D0D22D /* TransView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182182C39280200D0D22D /* TransView.swift */; };
+		1771821C2C39291300D0D22D /* NavigationTransitions in Frameworks */ = {isa = PBXBuildFile; productRef = 1771821B2C39291300D0D22D /* NavigationTransitions */; };
+		1771821E2C392A3D00D0D22D /* NavigationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1771821D2C392A3D00D0D22D /* NavigationCoordinator.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		177182012C39273800D0D22D /* LuckyVicky-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LuckyVicky-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		177182042C39273800D0D22D /* LuckyVicky_iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LuckyVicky_iOSApp.swift; sourceTree = "<group>"; };
 		1771820B2C39273900D0D22D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		177182122C39278700D0D22D /* HomeView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		177182122C39278700D0D22D /* ContentView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		177182142C39279800D0D22D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		177182162C3927E300D0D22D /* Color+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
 		177182182C39280200D0D22D /* TransView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransView.swift; sourceTree = "<group>"; };
+		1771821D2C392A3D00D0D22D /* NavigationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationCoordinator.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -30,6 +33,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1771821C2C39291300D0D22D /* NavigationTransitions in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,8 +59,9 @@
 		177182032C39273800D0D22D /* LuckyVicky-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				1771821D2C392A3D00D0D22D /* NavigationCoordinator.swift */,
 				177182042C39273800D0D22D /* LuckyVicky_iOSApp.swift */,
-				177182122C39278700D0D22D /* HomeView.swift */,
+				177182122C39278700D0D22D /* ContentView.swift */,
 				177182182C39280200D0D22D /* TransView.swift */,
 				177182162C3927E300D0D22D /* Color+.swift */,
 				177182142C39279800D0D22D /* Assets.xcassets */,
@@ -89,6 +94,9 @@
 			dependencies = (
 			);
 			name = "LuckyVicky-iOS";
+			packageProductDependencies = (
+				1771821B2C39291300D0D22D /* NavigationTransitions */,
+			);
 			productName = "LuckyVicky-iOS";
 			productReference = 177182012C39273800D0D22D /* LuckyVicky-iOS.app */;
 			productType = "com.apple.product-type.application";
@@ -117,6 +125,9 @@
 				Base,
 			);
 			mainGroup = 177181F82C39273800D0D22D;
+			packageReferences = (
+				1771821A2C39291300D0D22D /* XCRemoteSwiftPackageReference "swiftui-navigation-transitions" */,
+			);
 			productRefGroup = 177182022C39273800D0D22D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -143,9 +154,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				177182132C39278800D0D22D /* HomeView.swift in Sources */,
+				177182132C39278800D0D22D /* ContentView.swift in Sources */,
 				177182192C39280200D0D22D /* TransView.swift in Sources */,
 				177182172C3927E300D0D22D /* Color+.swift in Sources */,
+				1771821E2C392A3D00D0D22D /* NavigationCoordinator.swift in Sources */,
 				177182052C39273800D0D22D /* LuckyVicky_iOSApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -352,6 +364,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1771821A2C39291300D0D22D /* XCRemoteSwiftPackageReference "swiftui-navigation-transitions" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/davdroman/swiftui-navigation-transitions";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.13.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		1771821B2C39291300D0D22D /* NavigationTransitions */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1771821A2C39291300D0D22D /* XCRemoteSwiftPackageReference "swiftui-navigation-transitions" */;
+			productName = NavigationTransitions;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 177181F92C39273800D0D22D /* Project object */;
 }

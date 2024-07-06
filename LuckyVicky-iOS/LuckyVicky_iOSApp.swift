@@ -9,9 +9,14 @@ import SwiftUI
 
 @main
 struct LuckyVicky_iOSApp: App {
+    @StateObject private var coordinator = NavigationCoordinator()
+    
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            NavigationStack(path: $coordinator.path) {
+                ContentView()
+                    .environmentObject(coordinator)
+            }
         }
     }
 }
