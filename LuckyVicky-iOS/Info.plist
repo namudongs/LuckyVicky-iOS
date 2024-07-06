@@ -6,7 +6,5 @@
 	<string>$(API_KEY_GEMINI)</string>
 	<key>API_KEY_GPT</key>
 	<string>$(API_KEY_GPT)</string>
-	<key>Display name</key>
-	<string>럭키비키</string>
 </dict>
 </plist>

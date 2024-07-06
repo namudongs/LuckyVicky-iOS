@@ -7,9 +7,10 @@
 
 import SwiftUI
 import AlertToast
+import FirebaseAuth
 
-// TODO: - FirebaseAuth 연결하고 로그인 기능 구현하기
-// TODO: - User가 API 호출한 횟수 저장하고 10번 제한 걸기
+// TODO: - FirebaseAuth 연결하고 로그인 기능 구현하기 - 완료
+// TODO: - User가 API 호출한 횟수 저장하고 10번 제한 걸기 - 완료
 // TODO: - Gemini API 연결하기
 // TODO: - User가 10번 제한에 걸리면 광고 보고 해제할 수 있게 하기
 // TODO: - 원영적 사고 설명 및 개발자 소개, 사용한 API 등의 저작권 표기 뷰 만들기
@@ -17,18 +18,25 @@ import AlertToast
 
 struct ContentView: View {
     // MARK: - 프로퍼티
-    @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
-    @StateObject var manager = GPTManager()
+    @StateObject var fsManager: FirestoreManager
+    @StateObject var gptManager = GPTManager()
     @FocusState private var isFocused: Bool
     @State private var isGenerating: Bool = false
     @State private var isTranslate: Bool = false
     @State private var originalText: String = ""
     @State private var rotation: Double = 0.0
     @State private var nowTextLength: Int = 0
+    
+    @State private var showSuccessFetchUserInfo: Bool = false
+    @State private var showAddUsageAlert: Bool = false
+    @State private var showUsageExceededAlert: Bool = false
     @State private var showAlert: Bool = false
     @State private var showEmptyAlert: Bool = false
     @State private var showCopiedAlert: Bool = false
     @State private var showSharedAlert: Bool = false
+    
+    @State private var usedCounts: Int = 10
+    @State private var lastUsedTime: String = Date().toString()
     
     // MARK: - 뷰
     var body: some View {
@@ -52,6 +60,12 @@ struct ContentView: View {
                             .disabled(isTranslate)
                         }
                     }
+                if !isTranslate {
+                    Text("\(usedCounts)/10")
+                        .font(.system(size: 10, weight: .semibold))
+                        .foregroundColor(.black.opacity(0.3))
+                        .padding(.bottom)
+                }
                 Rectangle()
                     .fill(Color.accentColor)
                     .frame(maxHeight: isTranslate ? .infinity : geo.size.height / 4)
@@ -61,7 +75,7 @@ struct ContentView: View {
                             if isTranslate {
                                 ScrollView {
                                     VStack {
-                                        Text(manager.response)
+                                        Text(gptManager.response)
                                             .foregroundColor(.white)
                                             .font(.system(size: 24, weight: .bold))
                                             .padding(.horizontal, 50)
@@ -71,11 +85,11 @@ struct ContentView: View {
                                                 Image(systemName: "clipboard")
                                                     .foregroundColor(.white)
                                                     .onTapGesture {
-                                                        UIPasteboard.general.string = manager.response
+                                                        UIPasteboard.general.string = gptManager.response
                                                         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                                         showCopiedAlert = true
                                                     }
-                                                ShareLink(item: manager.response) {
+                                                ShareLink(item: gptManager.response) {
                                                     Image(systemName: "square.and.arrow.up")
                                                         .foregroundColor(.white)
                                                 }
@@ -104,32 +118,38 @@ struct ContentView: View {
                                     .foregroundColor(.white)
                                     .font(.system(size: 16, weight: .semibold))
                             }
+                            // MARK: - 원영적 사고로 변환하기 버튼 로직
                             .onTapGesture {
                                 if isTranslate {
                                     UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                                     withAnimation {
                                         originalText = ""
-                                        manager.response = ""
+                                        gptManager.response = ""
                                         isGenerating = false
                                         isTranslate = false
                                         rotation = 0
                                     }
                                 } else {
-                                    if originalText.isEmpty {
+                                    if self.lastUsedTime == Date().toString() && self.usedCounts >= 10 {
                                         UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-                                        showEmptyAlert = true
+                                        showUsageExceededAlert = true
                                     } else {
-                                        UIImpactFeedbackGenerator(style: .soft).impactOccurred()
-                                        withAnimation {
-                                            isTranslate = true
-                                        }
-                                        startTranslate()
-                                        manager.sendMessage(from: originalText) { result in
-                                            switch result {
-                                            case .success:
-                                                completeTranslate()
-                                            case .failure(let error):
-                                                print("오류 발생: \(error.localizedDescription)")
+                                        if originalText.isEmpty {
+                                            UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+                                            showEmptyAlert = true
+                                        } else {
+                                            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+                                            withAnimation {
+                                                isTranslate = true
+                                            }
+                                            startTranslate()
+                                            gptManager.sendMessage(from: originalText) { result in
+                                                switch result {
+                                                case .success:
+                                                    completeTranslate()
+                                                case .failure(let error):
+                                                    print("오류 발생: \(error.localizedDescription)")
+                                                }
                                             }
                                         }
                                     }
@@ -145,6 +165,12 @@ struct ContentView: View {
             .onTapGesture {
                 isFocused = false
             }
+            .onAppear {
+                fetchUserUsageInfo()
+                if lastUsedTime != Date().toString() {
+                    updateUserUsageInfo(true)
+                }
+            }
             // MARK: - 토스트
             .toast(isPresenting: $showAlert, offsetY: 10) {
                 AlertToast(
@@ -152,7 +178,6 @@ struct ContentView: View {
                     type: .systemImage("exclamationmark.circle.fill", Color.red),
                     title: "글자 수 제한을 초과했습니다."
                 )
-                
             }
             .toast(isPresenting: $showEmptyAlert, offsetY: 10) {
                 AlertToast(
@@ -175,11 +200,32 @@ struct ContentView: View {
                     title: "공유에 성공했습니다."
                 )
             }
+            .toast(isPresenting: $showSuccessFetchUserInfo, offsetY: 10) {
+                AlertToast(
+                    displayMode: .hud,
+                    type: .systemImage("checkmark.circle.fill", Color.green),
+                    title: "로그인에 성공했습니다."
+                )
+            }
+            .toast(isPresenting: $showUsageExceededAlert, offsetY: 10) {
+                AlertToast(
+                    displayMode: .hud,
+                    type: .systemImage("exclamationmark.circle.fill", Color.red),
+                    title: "하루 사용 횟수가 초과되었습니다."
+                )
+            }
+            .toast(isPresenting: $showAddUsageAlert, offsetY: 10) {
+                AlertToast(
+                    displayMode: .hud,
+                    type: .systemImage("arrow.counterclockwise.circle.fill", .accentColor),
+                    title: "오늘 남은 사용 횟수는 \(10 - self.usedCounts)번입니다."
+                )
+            }
         }
     }
 }
 
-// MARK: - 함수
+// MARK: - 변환
 extension ContentView {
     private func startTranslate() {
         print("start Translate")
@@ -193,12 +239,49 @@ extension ContentView {
         print("complete Translate")
         UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
         isGenerating = false
+        updateUserUsageInfo()
         withAnimation {
             rotation = 45
         }
     }
 }
 
+// MARK: - 유저 정보
+extension ContentView {
+    func fetchUserUsageInfo() {
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        fsManager.fetchUserUsageInfo(userID: userID) { result in
+            switch result {
+            case .success(let data):
+                usedCounts = data["usedCounts"] as? Int ?? 10
+                lastUsedTime = data["lastUsedTime"] as? String ?? Date().toString()
+                showSuccessFetchUserInfo = true
+            case .failure(let error):
+                print("Error fetching user info: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func updateUserUsageInfo(_ needNewCounts: Bool = false) {
+        guard let userID = Auth.auth().currentUser?.uid else { return }
+        var updatedCounts = usedCounts
+        if needNewCounts {
+            updatedCounts = 0
+        }
+        let updatedTime = Date().toString()
+        fsManager.updateUserUsageInfo(userID: userID,
+                                      usedCounts: updatedCounts, lastUsedTime: updatedTime) { error in
+            if let error = error {
+                print("Error updating user info: \(error.localizedDescription)")
+            } else {
+                usedCounts = updatedCounts
+                lastUsedTime = updatedTime
+                showAddUsageAlert = true
+            }
+        }
+    }
+}
+
 #Preview {
-    ContentView()
+    ContentView(fsManager: FirestoreManager())
 }

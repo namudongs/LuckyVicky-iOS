@@ -22,6 +22,8 @@
 		1771823E2C39BE5500D0D22D /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 1771823D2C39BE5500D0D22D /* FirebaseFirestore */; };
 		177182412C39C1A900D0D22D /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182402C39C1A900D0D22D /* AuthView.swift */; };
 		177182432C39C28900D0D22D /* NavigationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182422C39C28900D0D22D /* NavigationManager.swift */; };
+		177182452C39C52C00D0D22D /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182442C39C52C00D0D22D /* FirestoreManager.swift */; };
+		177182472C39C76800D0D22D /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182462C39C76800D0D22D /* Date+.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +41,8 @@
 		1771823F2C39C06C00D0D22D /* LuckyVicky-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "LuckyVicky-iOS.entitlements"; sourceTree = "<group>"; };
 		177182402C39C1A900D0D22D /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		177182422C39C28900D0D22D /* NavigationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationManager.swift; sourceTree = "<group>"; };
+		177182442C39C52C00D0D22D /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
+		177182462C39C76800D0D22D /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -120,6 +124,7 @@
 			children = (
 				177182162C3927E300D0D22D /* Color+.swift */,
 				1771821F2C39480800D0D22D /* TextField+.swift */,
+				177182462C39C76800D0D22D /* Date+.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -129,6 +134,7 @@
 			children = (
 				1771822C2C396DC000D0D22D /* GPTManager.swift */,
 				177182422C39C28900D0D22D /* NavigationManager.swift */,
+				177182442C39C52C00D0D22D /* FirestoreManager.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -216,6 +222,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				177182472C39C76800D0D22D /* Date+.swift in Sources */,
 				177182132C39278800D0D22D /* ContentView.swift in Sources */,
 				177182202C39480800D0D22D /* TextField+.swift in Sources */,
 				177182432C39C28900D0D22D /* NavigationManager.swift in Sources */,
@@ -223,6 +230,7 @@
 				177182172C3927E300D0D22D /* Color+.swift in Sources */,
 				1771822D2C396DC000D0D22D /* GPTManager.swift in Sources */,
 				177182052C39273800D0D22D /* LuckyVicky_iOSApp.swift in Sources */,
+				177182452C39C52C00D0D22D /* FirestoreManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -364,6 +372,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "LuckyVicky-iOS/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "럭키비키";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -402,6 +411,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "LuckyVicky-iOS/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "럭키비키";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
