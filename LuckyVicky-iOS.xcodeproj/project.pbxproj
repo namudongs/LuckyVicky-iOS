@@ -13,6 +13,8 @@
 		177182152C39279800D0D22D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 177182142C39279800D0D22D /* Assets.xcassets */; };
 		177182172C3927E300D0D22D /* Color+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182162C3927E300D0D22D /* Color+.swift */; };
 		177182202C39480800D0D22D /* TextField+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1771821F2C39480800D0D22D /* TextField+.swift */; };
+		177182292C396D6500D0D22D /* ChatGPTSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 177182282C396D6500D0D22D /* ChatGPTSwift */; };
+		1771822D2C396DC000D0D22D /* GPTManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1771822C2C396DC000D0D22D /* GPTManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -23,6 +25,9 @@
 		177182142C39279800D0D22D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		177182162C3927E300D0D22D /* Color+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Color+.swift"; sourceTree = "<group>"; };
 		1771821F2C39480800D0D22D /* TextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextField+.swift"; sourceTree = "<group>"; };
+		1771822A2C396D9E00D0D22D /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		1771822C2C396DC000D0D22D /* GPTManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTManager.swift; sourceTree = "<group>"; };
+		177182302C3971BF00D0D22D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -30,6 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				177182292C396D6500D0D22D /* ChatGPTSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,6 +61,8 @@
 		177182032C39273800D0D22D /* LuckyVicky-iOS */ = {
 			isa = PBXGroup;
 			children = (
+				177182302C3971BF00D0D22D /* Info.plist */,
+				1771822B2C396DB200D0D22D /* Manager */,
 				177182242C3964C700D0D22D /* App */,
 				177182232C39641200D0D22D /* View */,
 				177182252C3964D100D0D22D /* Helper */,
@@ -82,6 +90,7 @@
 			isa = PBXGroup;
 			children = (
 				177182042C39273800D0D22D /* LuckyVicky_iOSApp.swift */,
+				1771822A2C396D9E00D0D22D /* Config.xcconfig */,
 				177182142C39279800D0D22D /* Assets.xcassets */,
 				1771820A2C39273900D0D22D /* Preview Content */,
 			);
@@ -95,6 +104,14 @@
 				1771821F2C39480800D0D22D /* TextField+.swift */,
 			);
 			path = Helper;
+			sourceTree = "<group>";
+		};
+		1771822B2C396DB200D0D22D /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				1771822C2C396DC000D0D22D /* GPTManager.swift */,
+			);
+			path = Manager;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -114,6 +131,7 @@
 			);
 			name = "LuckyVicky-iOS";
 			packageProductDependencies = (
+				177182282C396D6500D0D22D /* ChatGPTSwift */,
 			);
 			productName = "LuckyVicky-iOS";
 			productReference = 177182012C39273800D0D22D /* LuckyVicky-iOS.app */;
@@ -144,6 +162,7 @@
 			);
 			mainGroup = 177181F82C39273800D0D22D;
 			packageReferences = (
+				177182272C396D6500D0D22D /* XCRemoteSwiftPackageReference "ChatGPTSwift" */,
 			);
 			productRefGroup = 177182022C39273800D0D22D /* Products */;
 			projectDirPath = "";
@@ -174,6 +193,7 @@
 				177182132C39278800D0D22D /* ContentView.swift in Sources */,
 				177182202C39480800D0D22D /* TextField+.swift in Sources */,
 				177182172C3927E300D0D22D /* Color+.swift in Sources */,
+				1771822D2C396DC000D0D22D /* GPTManager.swift in Sources */,
 				177182052C39273800D0D22D /* LuckyVicky_iOSApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -183,6 +203,7 @@
 /* Begin XCBuildConfiguration section */
 		1771820D2C39273900D0D22D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1771822A2C396D9E00D0D22D /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -233,7 +254,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -246,6 +267,7 @@
 		};
 		1771820E2C39273900D0D22D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1771822A2C396D9E00D0D22D /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -290,7 +312,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -302,6 +324,7 @@
 		};
 		177182102C39273900D0D22D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1771822A2C396D9E00D0D22D /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -311,7 +334,7 @@
 				DEVELOPMENT_TEAM = 47PZ53ZAF2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "럭키비키";
+				INFOPLIST_FILE = "LuckyVicky-iOS/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -338,6 +361,7 @@
 		};
 		177182112C39273900D0D22D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1771822A2C396D9E00D0D22D /* Config.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -347,7 +371,7 @@
 				DEVELOPMENT_TEAM = 47PZ53ZAF2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "럭키비키";
+				INFOPLIST_FILE = "LuckyVicky-iOS/Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -394,6 +418,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		177182272C396D6500D0D22D /* XCRemoteSwiftPackageReference "ChatGPTSwift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/alfianlosari/ChatGPTSwift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.3.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		177182282C396D6500D0D22D /* ChatGPTSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 177182272C396D6500D0D22D /* XCRemoteSwiftPackageReference "ChatGPTSwift" */;
+			productName = ChatGPTSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 177181F92C39273800D0D22D /* Project object */;
 }

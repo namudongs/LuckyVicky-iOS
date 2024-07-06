@@ -10,6 +10,7 @@ import NavigationTransitions
 
 struct ContentView: View {
     // MARK: - 프로퍼티
+    @StateObject var manager = GPTManager()
     @FocusState private var isFocused: Bool
     @State private var isGenerating: Bool = false
     @State private var isTranslate: Bool = false
@@ -46,7 +47,7 @@ struct ContentView: View {
                                 Spacer()
                                 ScrollView {
                                     // TODO: 복사하기 기능 구현
-                                    Text("오늘 택시를 한참 기다렸는데 어떤 사람이 내 택시를 빼앗아서 탔어! 완전 황당했지! 흔들리잔앙!! 그 사람이 안 탔으면, 내가 타고 가다가 교통체증에 걸려서 더 늦었을 거라고 생각했어. 그리고 내 뒤에 온 택시가 훨씬 더 빨랐지! 덕분에 빨리 도착했어 🤭🤭 완전 럭키비키잔앙🍀오늘 택시를 한참 기다렸는데 어떤 사람이 내 택시를 빼앗아서 탔어! 완전 황당했지! 흔들리잔앙!! 그 사람이 안 탔으면, 내가 타고 가다가 교통체증에 걸려서 더 늦었을 거라고 생각했어. 그리고 내 뒤에 온 택시가 훨씬 더 빨랐지! 덕분에 빨리 도착했어 🤭🤭 완전 럭키비키잔앙🍀")
+                                    Text(manager.response)
                                         .foregroundColor(.white)
                                         .font(.system(size: 24, weight: .bold))
                                         .padding(50)
@@ -62,7 +63,6 @@ struct ContentView: View {
                                     .blendMode(.screen)
                                     .frame(width: 50)
                                     .rotationEffect(.degrees(rotation))
-                                    
                                 
                                 Text(isTranslate ? "돌아가기" : "원영적 사고로 변환하기")
                                     .foregroundColor(.white)
@@ -72,17 +72,24 @@ struct ContentView: View {
                                 UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                                 if isTranslate {
                                     withAnimation {
+                                        originalText = ""
+                                        manager.response = ""
+                                        isGenerating = false
                                         isTranslate = false
                                         rotation = 0
                                     }
-                                    
                                 } else {
                                     withAnimation {
                                         isTranslate = true
                                     }
                                     startTranslate()
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                        completeTranslate()
+                                    manager.sendMessage(from: originalText) { result in
+                                        switch result {
+                                        case .success:
+                                            completeTranslate()
+                                        case .failure(let error):
+                                            print("오류 발생: \(error.localizedDescription)")
+                                        }
                                     }
                                 }
                             }
