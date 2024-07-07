@@ -14,7 +14,7 @@ GoogleService-Info.plist
 ### Firebase Patch ###
 .runtimeconfig.json
 .firebase/
-.functions/
+functions/
 
 ### macOS ###
 # General

@@ -80,6 +80,7 @@ struct ContentView: View {
                                 .padding(.trailing, 10)
                         }
                         .onTapGesture {
+                            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                             showRemoveAccountCheckAlert = true
                         }
                         .alert("계정 삭제", isPresented: $showRemoveAccountCheckAlert) {
