@@ -9,6 +9,7 @@ import SwiftUI
 import AlertToast
 import AuthenticationServices
 import FirebaseAuth
+import CryptoKit
 
 struct AuthView: View {
     @StateObject var fsManager: FirestoreManager
@@ -18,6 +19,7 @@ struct AuthView: View {
     @State private var currentText: String = "\n"
     @State private var textIndex: Int = 0
     @State private var wordIndex: Int = 0
+    @State private var currentNonce: String?
     
     let texts = [
         "버스를 놓쳐버렸다고? 우왕! 그럼 걸어 다니면 운동도 되고 기분도 좋아져! 🚶‍♀️ 다음 차를 기다리면서 음악 듣거나 책 읽는 건 어때? 시간이 금방 가잖아! 이거 완전 럭키비키잔앙🍀",
@@ -57,12 +59,18 @@ struct AuthView: View {
                 SignInWithAppleButton(
                     .signIn,
                     onRequest: { request in
+                        let nonce = randomNonceString()
+                        currentNonce = nonce
                         request.requestedScopes = [.fullName, .email]
+                        request.nonce = sha256(nonce)
                     },
                     onCompletion: { result in
                         switch result {
                         case .success(let authResults):
-                            handleAuthorization(authResults)
+                            guard let appleIDCredential = authResults.credential as? ASAuthorizationAppleIDCredential else { return }
+                            authenticate(credential: appleIDCredential) { title, message in
+                                // Handle failure
+                            }
                         case .failure(let error):
                             print("Authorization failed: \(error.localizedDescription)")
                         }
@@ -111,95 +119,119 @@ struct AuthView: View {
 }
 
 extension AuthView {
-    func handleAuthorization(_ authResults: ASAuthorization) {
-        switch authResults.credential {
-        case let appleIDCredential as ASAuthorizationAppleIDCredential:
-            guard let appleIDToken = appleIDCredential.identityToken else {
-                print("Unable to fetch identity token")
-                return
-            }
-            guard let idTokenString = String(data: appleIDToken, encoding: .utf8) else {
-                print("Unable to serialize token string from data: \(appleIDToken.debugDescription)")
-                return
-            }
-            
-            let credential = OAuthProvider.credential(withProviderID: "apple.com",
-                                                      idToken: idTokenString,
-                                                      rawNonce: nil)
-            showLoadingAlert = true
-            
-            Auth.auth().signIn(with: credential) { (authResult, error) in
-                if let error = error {
-                    print("Firebase sign in failed: \(error.localizedDescription)")
-                    return
-                }
-                print("User is signed in to Firebase with Apple")
-                
-                if let user = authResult?.user {
-                    let name = appleIDCredential.fullName?.givenName ?? "Unknown"
-                    let email = user.email ?? "Unknown"
-                    
-                    fsManager.checkUserExists(userID: user.uid) { exists in
-                        if exists {
-                            fsManager.fetchUserUsage(userID: user.uid) { result in
-                                switch result {
-                                case .success(let data):
-                                    print("User data: \(data)")
-                                case .failure(let error):
-                                    print("Error fetching user info: \(error.localizedDescription)")
-                                }
-                            }
-                        } else {
-                            fsManager.saveUserInfo(userID: user.uid, name: name, email: email)
-                        }
-                    }
-                }
-                
-                isLoggedIn = true
-            }
-            
-        default:
-            break
+    func authenticate(credential: ASAuthorizationAppleIDCredential, failHandler: @escaping (String, String) -> Void) {
+        guard let token = credential.identityToken else {
+            print("Error with Firebase - Apple Login: GETTING TOKEN")
+            failHandler("토큰 획득 실패!", "다시 시도해주세요")
+            return
         }
-    }
-    
-    
-    func deleteUserAccount(completion: @escaping (Error?) -> Void) {
-        guard let user = Auth.auth().currentUser else {
-            print("No user is currently signed in")
-            completion(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "No user is currently signed in"]))
+        guard let tokenString = String(data: token, encoding: .utf8) else {
+            print("Error with Firebase - Apple Login: In Token Parsing to String")
+            failHandler("토큰 파싱 실패!", "다시 시도해주세요")
+            return
+        }
+        guard let nonce = currentNonce else {
+            print("Invalid state: A login callback was received, but no login request was sent.")
+            failHandler("Nonce 오류", "다시 시도해주세요")
             return
         }
         
-        let userID = user.uid
-        
-        fsManager.deleteUserInfo(userID: userID) { error in
-            if let error = error {
-                completion(error)
+        // authorization Code to Unregister! => get user authorizationCode when login.
+        if let authorizationCode = credential.authorizationCode,
+           let codeString = String(data: authorizationCode, encoding: .utf8) {
+            let urlString = "https://us-central1-luckyvicky-ios.cloudfunctions.net/getRefreshToken?code=\(codeString)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "https://apple.com"
+            guard let url = URL(string: urlString) else {
+                print("Invalid URL")
+                failHandler("URL 오류", "다시 시도해주세요")
                 return
             }
             
-            user.delete { error in
+            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
                 if let error = error {
-                    print("Error deleting user account: \(error.localizedDescription)")
-                    completion(error)
+                    print("Network request failed: \(error.localizedDescription)")
+                    failHandler("네트워크 오류", "다시 시도해주세요")
+                    return
+                }
+                
+                guard let data = data else {
+                    print("No data received")
+                    failHandler("데이터 없음", "다시 시도해주세요")
+                    return
+                }
+                
+                let refreshToken = String(data: data, encoding: .utf8) ?? ""
+                print("Refresh Token: \(refreshToken)")
+                UserDefaults.standard.set(refreshToken, forKey: "refreshToken")
+                UserDefaults.standard.synchronize()
+            }
+            task.resume()
+        }
+
+        let firebaseCredential = OAuthProvider.credential(
+            withProviderID: "apple.com", idToken: tokenString, rawNonce: nonce)
+        Auth.auth().signIn(with: firebaseCredential) { (result, err) in
+            if let err = err {
+                print("Error signing in with Apple: \(err.localizedDescription)")
+                failHandler("로그인 실패", err.localizedDescription)
+                return
+            }
+            // Handle successful login
+            fsManager.checkUserExists(userID: result!.user.uid) { exists in
+                if exists {
+                    fsManager.fetchUserUsage(userID: result!.user.uid) { result in
+                        switch result {
+                        case .success(let data):
+                            print("User data: \(data)")
+                            isLoggedIn = true
+                        case .failure(let error):
+                            print("Error fetching user info: \(error.localizedDescription)")
+                        }
+                    }
                 } else {
-                    print("User account successfully deleted")
-                    completion(nil)
+                    fsManager.saveUserInfo(userID: result?.user.uid ?? "", name: result?.user.displayName ?? "", email: result?.user.email ?? "")
+                    isLoggedIn = true
                 }
             }
         }
     }
+}
+
+func randomNonceString(length: Int = 32) -> String {
+    precondition(length > 0)
+    let charset: Array<Character> =
+    Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
+    var result = ""
+    var remainingLength = length
     
-    /*
-     fsManager.deleteUserAccount { error in
-        if let error = error {
-            print("Error: \(error.localizedDescription)")
-        } else {
-            isLoggedIn = false
+    while remainingLength > 0 {
+        let randoms: [UInt8] = (0..<16).map { _ in
+            var random: UInt8 = 0
+            let errorCode = SecRandomCopyBytes(kSecRandomDefault, 1, &random)
+            if errorCode != errSecSuccess {
+                fatalError("Unable to generate nonce. SecRandomCopyBytes failed with OSStatus \(errorCode)")
+            }
+            return random
         }
-     }
-    */
+        
+        randoms.forEach { random in
+            if remainingLength == 0 {
+                return
+            }
+            
+            if random < charset.count {
+                result.append(charset[Int(random)])
+                remainingLength -= 1
+            }
+        }
+    }
+    
+    return result
+}
+
+func sha256(_ input: String) -> String {
+    let inputData = Data(input.utf8)
+    let hashed = SHA256.hash(data: inputData)
+    return hashed.compactMap { String(format: "%02x", $0) }.joined()
 }
 
 #Preview {

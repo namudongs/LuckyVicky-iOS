@@ -18,6 +18,7 @@ import FirebaseAuth
 
 struct ContentView: View {
     // MARK: - 프로퍼티
+    @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
     @StateObject var fsManager: FirestoreManager
     @StateObject var gptManager = GPTManager()
     @FocusState private var isFocused: Bool
@@ -27,6 +28,8 @@ struct ContentView: View {
     @State private var rotation: Double = 0.0
     @State private var nowTextLength: Int = 0
     
+    @State private var showRemoveAccountSuccessAlert: Bool = false
+    @State private var showRemoveAccountCheckAlert: Bool = false
     @State private var showUpdateUsage: Bool = false
     @State private var showSuccessFetchUserInfo: Bool = false
     @State private var showAddUsageAlert: Bool = false
@@ -62,10 +65,34 @@ struct ContentView: View {
                         }
                     }
                 if !isTranslate {
-                    Text("\(usedCounts)/10")
-                        .font(.system(size: 10, weight: .semibold))
-                        .foregroundColor(.black.opacity(0.3))
-                        .padding(.bottom)
+                    HStack {
+                        Spacer()
+                        Text("\(usedCounts)/10")
+                            .font(.system(size: 10, weight: .semibold))
+                            .foregroundColor(.black.opacity(0.3))
+                        Spacer()
+                    }
+                    .overlay {
+                        HStack {
+                            Spacer()
+                            Image(systemName: "person.slash")
+                                .foregroundColor(.black.opacity(0.5))
+                                .padding(.trailing, 10)
+                        }
+                        .onTapGesture {
+                            showRemoveAccountCheckAlert = true
+                        }
+                        .alert("계정 삭제", isPresented: $showRemoveAccountCheckAlert) {
+                            Button("삭제", role: .destructive) {
+                                removeAccount()
+                                showRemoveAccountSuccessAlert = true
+                            }
+                            Button("취소", role: .cancel) {}
+                        } message: {
+                            Text("정말로 계정을 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.")
+                        }
+                    }
+                    .padding(.bottom)
                 }
                 Rectangle()
                     .fill(Color.accentColor)
@@ -226,6 +253,13 @@ struct ContentView: View {
                     title: "사용 횟수가 초기화되었습니다."
                 )
             }
+            .toast(isPresenting: $showRemoveAccountSuccessAlert, offsetY: 10) {
+                AlertToast(
+                    displayMode: .hud,
+                    type: .systemImage("checkmark.circle.fill", .green),
+                    title: "계정이 성공적으로 삭제되었습니다."
+                )
+            }
         }
     }
 }
@@ -296,6 +330,48 @@ extension ContentView {
                 usedCounts = 0
                 lastUsedTime = Date().toString()
             }
+        }
+    }
+}
+
+// MARK: - 회원 탈퇴
+extension ContentView {
+    func removeAccount() {
+        guard let user = Auth.auth().currentUser else {
+            print("No user is currently signed in")
+            return
+        }
+        
+        let userID = user.uid
+        fsManager.deleteUserInfo(userID: userID) { error in
+            if let error = error {
+                print("Error removing Firestore user data: \(error.localizedDescription)")
+                return
+            }
+            
+            user.delete { error in
+                if let error = error {
+                    print("Error deleting user account: \(error.localizedDescription)")
+                    return
+                }
+                
+                do {
+                    try Auth.auth().signOut()
+                    print("User signed out and account deleted successfully")
+                    isLoggedIn = false
+                } catch let signOutError as NSError {
+                    print("Error signing out: %@", signOutError)
+                }
+            }
+        }
+        
+        // Refresh Token 삭제
+        if let token = UserDefaults.standard.string(forKey: "refreshToken") {
+            let url = URL(string: "https://us-central1-luckyvicky-ios.cloudfunctions.net/revokeToken?refresh_token=\(token)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "https://apple.com")!
+            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+                guard data != nil else { return }
+            }
+            task.resume()
         }
     }
 }
