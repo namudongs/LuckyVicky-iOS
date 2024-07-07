@@ -176,6 +176,20 @@ extension AuthView {
                 return
             }
             // Handle successful login
+            fsManager.checkAndRestoreUserData(email: result?.user.email ?? "",
+                                              newUid: result?.user.uid ?? "") { exist in
+                if exist {
+                    print("Existing user data restored")
+                    isLoggedIn = true
+                } else {
+                    fsManager.saveUserInfo(userID: result?.user.uid ?? "",
+                                           name: result?.user.displayName ?? "Unknown",
+                                           email: result?.user.email ?? "")
+                    isLoggedIn = true
+                }
+            }
+            
+            /* Deprecated Code
             fsManager.checkUserExists(userID: result!.user.uid) { exists in
                 if exists {
                     fsManager.fetchUserUsage(userID: result!.user.uid) { result in
@@ -192,10 +206,12 @@ extension AuthView {
                     isLoggedIn = true
                 }
             }
+            */
         }
     }
 }
 
+// MARK: - Nonce
 func randomNonceString(length: Int = 32) -> String {
     precondition(length > 0)
     let charset: Array<Character> =

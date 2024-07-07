@@ -11,6 +11,8 @@ import FirebaseAuth
 
 // TODO: - FirebaseAuth 연결하고 로그인 기능 구현하기 - 완료
 // TODO: - User가 API 호출한 횟수 저장하고 10번 제한 걸기 - 완료
+// TODO: - User Data 하루 뒤에 삭제해서 재가입시에 사용횟수 초기화되지 않게 하기 - 완료
+// TODO: - 나의 이메일 가리기 옵션 선택 시 필수적으로 이메일 수집할 수 있도록 하기
 // TODO: - Gemini API 연결하기
 // TODO: - User가 10번 제한에 걸리면 광고 보고 해제할 수 있게 하기
 // TODO: - 원영적 사고 설명 및 개발자 소개, 사용한 API 등의 저작권 표기 뷰 만들기
@@ -90,7 +92,7 @@ struct ContentView: View {
                             }
                             Button("취소", role: .cancel) {}
                         } message: {
-                            Text("정말로 계정을 삭제하시겠습니까?\n이 작업은 되돌릴 수 없습니다.")
+                            Text("정말로 계정을 삭제하시겠습니까?\n계정을 삭제해도 사용 횟수는 초기화되지 않습니다.")
                         }
                     }
                     .padding(.bottom)
@@ -302,6 +304,7 @@ extension ContentView {
                 }
             case .failure(let error):
                 print("Error fetching user info: \(error.localizedDescription)")
+                isLoggedIn = false
             }
         }
     }
@@ -314,6 +317,7 @@ extension ContentView {
                                       usedCounts: updatedCounts, lastUsedTime: updatedTime) { error in
             if let error = error {
                 print("Error updating user info: \(error.localizedDescription)")
+                isLoggedIn = false
             } else {
                 usedCounts = updatedCounts
                 lastUsedTime = updatedTime
@@ -326,6 +330,7 @@ extension ContentView {
         fsManager.resetUserUsage(userID: userID) { error in
             if let error = error {
                 print("Error resetting user info: \(error.localizedDescription)")
+                isLoggedIn = false
             } else {
                 showUpdateUsage = true
                 usedCounts = 0
@@ -340,13 +345,14 @@ extension ContentView {
     func removeAccount() {
         guard let user = Auth.auth().currentUser else {
             print("No user is currently signed in")
+            isLoggedIn = false
             return
         }
         
         let userID = user.uid
-        fsManager.deleteUserInfo(userID: userID) { error in
+        fsManager.requestAccountDeletion(userID: userID) { error in
             if let error = error {
-                print("Error removing Firestore user data: \(error.localizedDescription)")
+                print("Error request deleting Firestore user data: \(error.localizedDescription)")
                 return
             }
             
@@ -355,11 +361,11 @@ extension ContentView {
                     print("Error deleting user account: \(error.localizedDescription)")
                     return
                 }
-                
+                isLoggedIn = false
                 do {
                     try Auth.auth().signOut()
                     print("User signed out and account deleted successfully")
-                    isLoggedIn = false
+                    
                 } catch let signOutError as NSError {
                     print("Error signing out: %@", signOutError)
                 }
