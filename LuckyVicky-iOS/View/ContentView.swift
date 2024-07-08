@@ -10,14 +10,13 @@ import AlertToast
 import FirebaseAuth
 
 // TODO: - FirebaseAuth 연결하고 로그인 기능 구현하기 - 완료
-// TODO: - User가 API 호출한 횟수 저장하고 10번 제한 걸기 - 완료
+// TODO: - User가 API 호출한 횟수 저장하고 20번 제한 걸기 - 완료
 // TODO: - User Data 하루 뒤에 삭제해서 재가입시에 사용횟수 초기화되지 않게 하기 - 완료
 // TODO: - ChatGPT 모델 튜닝하고 앱에 적용하기
 // TODO: - 나의 이메일 가리기 옵션 선택 시 필수적으로 이메일 수집할 수 있도록 하기
 // TODO: - Gemini API 연결하기
-// TODO: - User가 10번 제한에 걸리면 광고 보고 해제할 수 있게 하기
+// TODO: - User가 20번 제한에 걸리면 광고 보고 해제할 수 있게 하기 & 후원 기능 구현하기
 // TODO: - 원영적 사고 설명 및 개발자 소개, 사용한 API 등의 저작권 표기 뷰 만들기
-// TODO: - 후원 기능 구현하기
 
 struct ContentView: View {
     // MARK: - 프로퍼티
@@ -54,7 +53,7 @@ struct ContentView: View {
                     .frame(maxHeight: isTranslate ? geo.size.height / 4 : .infinity)
                     .overlay {
                         VStack {
-                            TextField("안좋은 일이 있었나요?",
+                            TextField("럭키비키하게 바꿔봐🍀",
                                       text: $originalText.max(45, showAlert: $showAlert),
                                       axis: .vertical)
                             .frame(height: 200)
@@ -70,11 +69,12 @@ struct ContentView: View {
                 if !isTranslate {
                     HStack {
                         Spacer()
-                        Text("\(usedCounts)/10")
+                        Text("오늘 사용 가능한 횟수 \(usedCounts)/20")
                             .font(.system(size: 10, weight: .semibold))
                             .foregroundColor(.black.opacity(0.3))
                         Spacer()
                     }
+                    /*
                     .overlay {
                         HStack {
                             Spacer()
@@ -96,6 +96,7 @@ struct ContentView: View {
                             Text("정말로 계정을 삭제하시겠습니까?\n계정을 삭제해도 사용 횟수는 초기화되지 않습니다.")
                         }
                     }
+                     */
                     .padding(.bottom)
                 }
                 Rectangle()
@@ -162,7 +163,7 @@ struct ContentView: View {
                                         rotation = 0
                                     }
                                 } else {
-                                    if self.lastUsedTime == Date().toString() && self.usedCounts >= 10 {
+                                    if self.lastUsedTime == Date().toString() && self.usedCounts >= 20 {
                                         UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                                         showUsageExceededAlert = true
                                     } else {
@@ -175,6 +176,7 @@ struct ContentView: View {
                                                 isTranslate = true
                                             }
                                             startTranslate()
+                                            
                                             gptManager.sendMessage(from: originalText) { result in
                                                 switch result {
                                                 case .success:
@@ -300,7 +302,7 @@ extension ContentView {
         fsManager.fetchUserUsage(userID: userID) { result in
             switch result {
             case .success(let data):
-                usedCounts = data["usedCounts"] as? Int ?? 10
+                usedCounts = data["usedCounts"] as? Int ?? 20
                 lastUsedTime = data["lastUsedTime"] as? String ?? Date().toString()
                 if lastUsedTime != Date().toString() {
                     resetUserUsage()
@@ -319,7 +321,7 @@ extension ContentView {
         let updatedCounts = usedCounts + 1
         let updatedTime = Date().toString()
         fsManager.updateUserUsage(userID: userID,
-                                      usedCounts: updatedCounts, lastUsedTime: updatedTime) { error in
+                                  usedCounts: updatedCounts, lastUsedTime: updatedTime) { error in
             if let error = error {
                 print("Error updating user info: \(error.localizedDescription)")
                 isLoggedIn = false
