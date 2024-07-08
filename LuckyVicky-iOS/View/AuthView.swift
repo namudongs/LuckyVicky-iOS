@@ -13,7 +13,7 @@ import CryptoKit
 
 struct AuthView: View {
     @StateObject var fsManager: FirestoreManager
-    @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
+    @Binding var isLoggedIn: Bool
     @State private var showLoadingAlert: Bool = false
     @State private var rotation: Double = 0.0
     @State private var currentText: String = "\n"
@@ -65,14 +65,17 @@ struct AuthView: View {
                         request.nonce = sha256(nonce)
                     },
                     onCompletion: { result in
+                        showLoadingAlert = true
                         switch result {
                         case .success(let authResults):
                             guard let appleIDCredential = authResults.credential as? ASAuthorizationAppleIDCredential else { return }
                             authenticate(credential: appleIDCredential) { title, message in
                                 // Handle failure
+                                showLoadingAlert = false
                             }
                         case .failure(let error):
                             print("Authorization failed: \(error.localizedDescription)")
+                            showLoadingAlert = false
                         }
                     }
                 )
@@ -251,5 +254,5 @@ func sha256(_ input: String) -> String {
 }
 
 #Preview {
-    AuthView(fsManager: FirestoreManager(), isLoggedIn: false)
+    AuthView(fsManager: FirestoreManager(), isLoggedIn: .constant(false))
 }

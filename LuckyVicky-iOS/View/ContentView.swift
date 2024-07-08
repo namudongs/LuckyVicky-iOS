@@ -12,6 +12,7 @@ import FirebaseAuth
 // TODO: - FirebaseAuth 연결하고 로그인 기능 구현하기 - 완료
 // TODO: - User가 API 호출한 횟수 저장하고 10번 제한 걸기 - 완료
 // TODO: - User Data 하루 뒤에 삭제해서 재가입시에 사용횟수 초기화되지 않게 하기 - 완료
+// TODO: - ChatGPT 모델 튜닝하고 앱에 적용하기
 // TODO: - 나의 이메일 가리기 옵션 선택 시 필수적으로 이메일 수집할 수 있도록 하기
 // TODO: - Gemini API 연결하기
 // TODO: - User가 10번 제한에 걸리면 광고 보고 해제할 수 있게 하기
@@ -20,7 +21,7 @@ import FirebaseAuth
 
 struct ContentView: View {
     // MARK: - 프로퍼티
-    @AppStorage("isLoggedIn") var isLoggedIn: Bool = false
+    @Binding var isLoggedIn: Bool
     @StateObject var fsManager: FirestoreManager
     @StateObject var gptManager = GPTManager()
     @FocusState private var isFocused: Bool
@@ -198,6 +199,10 @@ struct ContentView: View {
             }
             .onAppear {
                 fetchUserUsageInfo()
+                if Auth.auth().currentUser == nil {
+                    print("Not User Founded")
+                    isLoggedIn = false
+                }
             }
             // MARK: - 토스트
             .toast(isPresenting: $showAlert, offsetY: 10) {
@@ -364,6 +369,14 @@ extension ContentView {
                 isLoggedIn = false
                 do {
                     try Auth.auth().signOut()
+                    // Refresh Token 삭제
+                    if let token = UserDefaults.standard.string(forKey: "refreshToken") {
+                        let url = URL(string: "https://us-central1-luckyvicky-ios.cloudfunctions.net/revokeToken?refresh_token=\(token)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "https://apple.com")!
+                        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+                            guard data != nil else { return }
+                        }
+                        task.resume()
+                    }
                     print("User signed out and account deleted successfully")
                     
                 } catch let signOutError as NSError {
@@ -371,18 +384,9 @@ extension ContentView {
                 }
             }
         }
-        
-        // Refresh Token 삭제
-        if let token = UserDefaults.standard.string(forKey: "refreshToken") {
-            let url = URL(string: "https://us-central1-luckyvicky-ios.cloudfunctions.net/revokeToken?refresh_token=\(token)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "https://apple.com")!
-            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
-                guard data != nil else { return }
-            }
-            task.resume()
-        }
     }
 }
 
 #Preview {
-    ContentView(fsManager: FirestoreManager())
+    ContentView(isLoggedIn: .constant(true), fsManager: FirestoreManager())
 }
