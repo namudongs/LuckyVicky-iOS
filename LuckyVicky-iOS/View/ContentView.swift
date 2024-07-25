@@ -9,14 +9,11 @@ import AlertToast
 import FirebaseAuth
 import SwiftUI
 
-// TODO: - FirebaseAuth 연결하고 로그인 기능 구현하기 - 완료
-// TODO: - User가 API 호출한 횟수 저장하고 20번 제한 걸기 - 완료
-// TODO: - User Data 하루 뒤에 삭제해서 재가입시에 사용횟수 초기화되지 않게 하기 - 완료
-// TODO: - ChatGPT 모델 튜닝하고 앱에 적용하기
-// TODO: - 나의 이메일 가리기 옵션 선택 시 필수적으로 이메일 수집할 수 있도록 하기
-// TODO: - Gemini API 연결하기
+// TODO: - 커뮤니티 & 히스토리 구현하기
 // TODO: - User가 20번 제한에 걸리면 광고 보고 해제할 수 있게 하기 & 후원 기능 구현하기
 // TODO: - 원영적 사고 설명 및 개발자 소개, 사용한 API 등의 저작권 표기 뷰 만들기
+// TODO: - Gemini API 연결하기
+// TODO: - 긍정일기 구현하기
 
 struct ContentView: View {
     // MARK: - 프로퍼티
