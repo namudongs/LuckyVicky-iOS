@@ -15,7 +15,7 @@ class GPTManager: ObservableObject {
             do {
                 let api = ChatGPTAPI(apiKey: Bundle.main.object(forInfoDictionaryKey: "API_KEY_GPT") as! String)
                 let stream = try await api.sendMessageStream(text: text,
-                                                             model: .gpt_hyphen_3_period_5_hyphen_turbo,
+                                                             model: .gpt_hyphen_4o_hyphen_mini,
                                                              systemText: """
                                                             Turn negative thoughts into super positive thinking using emojis. Keep the tone of the examples and say "완전 럭키비키잔앙🍀" after making it positive. Speak informally and friendly.
 
