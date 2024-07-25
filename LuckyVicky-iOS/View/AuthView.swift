@@ -81,13 +81,6 @@ struct AuthView: View {
                 )
                 .signInWithAppleButtonStyle(.black)
                 .frame(width: 280, height: 45)
-
-                Button {
-                    
-                } label: {
-                    Text("안녕하세요 나무디에요")
-                }
-                
             }
             .padding()
         }
