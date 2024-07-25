@@ -5,11 +5,11 @@
 //  Created by namdghyun on 7/7/24.
 //
 
-import SwiftUI
 import AlertToast
 import AuthenticationServices
-import FirebaseAuth
 import CryptoKit
+import FirebaseAuth
+import SwiftUI
 
 struct AuthView: View {
     @StateObject var fsManager: FirestoreManager
@@ -69,7 +69,7 @@ struct AuthView: View {
                         switch result {
                         case .success(let authResults):
                             guard let appleIDCredential = authResults.credential as? ASAuthorizationAppleIDCredential else { return }
-                            authenticate(credential: appleIDCredential) { title, message in
+                            authenticate(credential: appleIDCredential) { _, _ in
                                 // Handle failure
                                 showLoadingAlert = false
                             }
@@ -81,6 +81,13 @@ struct AuthView: View {
                 )
                 .signInWithAppleButtonStyle(.black)
                 .frame(width: 280, height: 45)
+
+                Button {
+                    
+                } label: {
+                    Text("안녕하세요 나무디에요")
+                }
+                
             }
             .padding()
         }
@@ -110,10 +117,10 @@ struct AuthView: View {
                 }
             }
         }
-        
+
         displayNextWord()
     }
-    
+
     private func startTranslate() {
         withAnimation(.linear(duration: 10).repeatForever(autoreverses: false)) {
             rotation = 360
@@ -149,7 +156,7 @@ extension AuthView {
                 return
             }
             
-            let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+            let task = URLSession.shared.dataTask(with: url) { (data, _, error) in
                 if let error = error {
                     print("Network request failed: \(error.localizedDescription)")
                     failHandler("네트워크 오류", "다시 시도해주세요")
@@ -217,7 +224,7 @@ extension AuthView {
 // MARK: - Nonce
 func randomNonceString(length: Int = 32) -> String {
     precondition(length > 0)
-    let charset: Array<Character> =
+    let charset: [Character] =
     Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")
     var result = ""
     var remainingLength = length

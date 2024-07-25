@@ -5,9 +5,9 @@
 //  Created by namdghyun on 7/7/24.
 //
 
-import SwiftUI
-import FirebaseFirestore
 import FirebaseAuth
+import FirebaseFirestore
+import SwiftUI
 
 class FirestoreManager: ObservableObject {
     let db = Firestore.firestore()
@@ -93,7 +93,7 @@ class FirestoreManager: ObservableObject {
     
     func checkUserExists(userID: String, completion: @escaping (Bool) -> Void) {
         let userRef = db.collection("users").document(userID)
-        userRef.getDocument { document, error in
+        userRef.getDocument { document, _ in
             if let document = document, document.exists {
                 completion(true)
             } else {
@@ -102,7 +102,6 @@ class FirestoreManager: ObservableObject {
         }
     }
     
-    
     // MARK: - 탈퇴 및 재가입 로직
     func registerUser(email: String, password: String) {
         checkAndRestoreUserData(email: email, newUid: Auth.auth().currentUser?.uid ?? "") { exists in
@@ -110,7 +109,7 @@ class FirestoreManager: ObservableObject {
                 print("Existing user data restored")
             } else {
                 // 새로운 사용자 등록 로직
-                Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
+                Auth.auth().createUser(withEmail: email, password: password) { _, error in
                     if let error = error {
                         print("Error creating user: \(error)")
                     } else {

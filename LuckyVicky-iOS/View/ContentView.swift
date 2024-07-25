@@ -5,9 +5,9 @@
 //  Created by namdghyun on 7/6/24.
 //
 
-import SwiftUI
 import AlertToast
 import FirebaseAuth
+import SwiftUI
 
 // TODO: - FirebaseAuth 연결하고 로그인 기능 구현하기 - 완료
 // TODO: - User가 API 호출한 횟수 저장하고 20번 제한 걸기 - 완료
@@ -126,7 +126,7 @@ struct ContentView: View {
                                                     Image(systemName: "square.and.arrow.up")
                                                         .foregroundColor(.white)
                                                 }
-                                                .simultaneousGesture(TapGesture().onEnded() {
+                                                .simultaneousGesture(TapGesture().onEnded {
                                                     UIImpactFeedbackGenerator(style: .medium).impactOccurred()
                                                     showSharedAlert = true
                                                 })
@@ -374,7 +374,7 @@ extension ContentView {
                     // Refresh Token 삭제
                     if let token = UserDefaults.standard.string(forKey: "refreshToken") {
                         let url = URL(string: "https://us-central1-luckyvicky-ios.cloudfunctions.net/revokeToken?refresh_token=\(token)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "https://apple.com")!
-                        let task = URLSession.shared.dataTask(with: url) { (data, response, error) in
+                        let task = URLSession.shared.dataTask(with: url) { (data, _, _) in
                             guard data != nil else { return }
                         }
                         task.resume()

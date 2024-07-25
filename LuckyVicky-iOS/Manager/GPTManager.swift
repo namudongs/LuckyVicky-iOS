@@ -5,12 +5,11 @@
 //  Created by namdghyun on 7/6/24.
 //
 
-import SwiftUI
 import ChatGPTSwift
+import SwiftUI
 
 class GPTManager: ObservableObject {
     @Published var response: String = ""
-    
     func sendMessage(from text: String, completion: @escaping (Result<Void, Error>) -> Void) {
         Task {
             do {

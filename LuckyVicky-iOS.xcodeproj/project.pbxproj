@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		17140F602C51025600A6767B /* .swiftlint.yml in Resources */ = {isa = PBXBuildFile; fileRef = 17140F5F2C51025600A6767B /* .swiftlint.yml */; };
 		177182052C39273800D0D22D /* LuckyVicky_iOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182042C39273800D0D22D /* LuckyVicky_iOSApp.swift */; };
 		1771820C2C39273900D0D22D /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1771820B2C39273900D0D22D /* Preview Assets.xcassets */; };
 		177182132C39278800D0D22D /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182122C39278700D0D22D /* ContentView.swift */; };
@@ -23,9 +24,11 @@
 		177182412C39C1A900D0D22D /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182402C39C1A900D0D22D /* AuthView.swift */; };
 		177182452C39C52C00D0D22D /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182442C39C52C00D0D22D /* FirestoreManager.swift */; };
 		177182472C39C76800D0D22D /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182462C39C76800D0D22D /* Date+.swift */; };
+		17CCD1712C5242C4000F4798 /* OpenAI in Frameworks */ = {isa = PBXBuildFile; productRef = 17CCD1702C5242C4000F4798 /* OpenAI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		17140F5F2C51025600A6767B /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
 		177182012C39273800D0D22D /* LuckyVicky-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "LuckyVicky-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		177182042C39273800D0D22D /* LuckyVicky_iOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LuckyVicky_iOSApp.swift; sourceTree = "<group>"; };
 		1771820B2C39273900D0D22D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -52,6 +55,7 @@
 				177182332C39A6C700D0D22D /* AlertToast in Frameworks */,
 				1771823A2C39BE5500D0D22D /* FirebaseAnalytics in Frameworks */,
 				1771823E2C39BE5500D0D22D /* FirebaseFirestore in Frameworks */,
+				17CCD1712C5242C4000F4798 /* OpenAI in Frameworks */,
 				1771823C2C39BE5500D0D22D /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -108,6 +112,7 @@
 		177182242C3964C700D0D22D /* App */ = {
 			isa = PBXGroup;
 			children = (
+				17140F5F2C51025600A6767B /* .swiftlint.yml */,
 				177182042C39273800D0D22D /* LuckyVicky_iOSApp.swift */,
 				177182362C39BE1600D0D22D /* GoogleService-Info.plist */,
 				1771822A2C396D9E00D0D22D /* Secret.xcconfig */,
@@ -146,6 +151,7 @@
 				177181FD2C39273800D0D22D /* Sources */,
 				177181FE2C39273800D0D22D /* Frameworks */,
 				177181FF2C39273800D0D22D /* Resources */,
+				17140F612C51027300A6767B /* Swiftlint Script */,
 			);
 			buildRules = (
 			);
@@ -158,6 +164,7 @@
 				177182392C39BE5500D0D22D /* FirebaseAnalytics */,
 				1771823B2C39BE5500D0D22D /* FirebaseAuth */,
 				1771823D2C39BE5500D0D22D /* FirebaseFirestore */,
+				17CCD1702C5242C4000F4798 /* OpenAI */,
 			);
 			productName = "LuckyVicky-iOS";
 			productReference = 177182012C39273800D0D22D /* LuckyVicky-iOS.app */;
@@ -191,6 +198,7 @@
 				177182272C396D6500D0D22D /* XCRemoteSwiftPackageReference "ChatGPTSwift" */,
 				177182312C39A6C700D0D22D /* XCRemoteSwiftPackageReference "AlertToast" */,
 				177182382C39BE5500D0D22D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				17CCD16F2C5242C4000F4798 /* XCRemoteSwiftPackageReference "OpenAI" */,
 			);
 			productRefGroup = 177182022C39273800D0D22D /* Products */;
 			projectDirPath = "";
@@ -206,6 +214,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17140F602C51025600A6767B /* .swiftlint.yml in Resources */,
 				177182152C39279800D0D22D /* Assets.xcassets in Resources */,
 				1771820C2C39273900D0D22D /* Preview Assets.xcassets in Resources */,
 				177182372C39BE1600D0D22D /* GoogleService-Info.plist in Resources */,
@@ -213,6 +222,28 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		17140F612C51027300A6767B /* Swiftlint Script */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Swiftlint Script";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\nexport PATH=\"$PATH:/opt/homebrew/bin\"\nif which swiftlint >/dev/null; then\n  swiftlint lint --config \"$SRCROOT/LuckyVicky-iOS/App/.swiftlint.yml\"\nelse\n  echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		177181FD2C39273800D0D22D /* Sources */ = {
@@ -271,7 +302,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -335,7 +366,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -482,6 +513,14 @@
 				minimumVersion = 10.28.1;
 			};
 		};
+		17CCD16F2C5242C4000F4798 /* XCRemoteSwiftPackageReference "OpenAI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/MacPaw/OpenAI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.3.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -509,6 +548,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 177182382C39BE5500D0D22D /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
+		};
+		17CCD1702C5242C4000F4798 /* OpenAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 17CCD16F2C5242C4000F4798 /* XCRemoteSwiftPackageReference "OpenAI" */;
+			productName = OpenAI;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
