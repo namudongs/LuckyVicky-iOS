@@ -12,6 +12,21 @@ import SwiftUI
 class FirestoreManager: ObservableObject {
     let db = Firestore.firestore()
     
+    func fetchAppSettings(completion: @escaping (Result<[String: Any], Error>) -> Void) {
+        let settingRef = db.collection("settings").document("app")
+        settingRef.getDocument { document, error in
+            if let document = document, document.exists {
+                if let data = document.data(), let deleteable = data["deleteable"], let usage = data["usage"] {
+                    completion(.success(["deleteable": deleteable, "usage": usage]))
+                } else {
+                    completion(.failure(NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "No data found"])))
+                }
+            } else {
+                completion(.failure(error ?? NSError(domain: "", code: -1, userInfo: [NSLocalizedDescriptionKey: "Document does not exist"])))
+            }
+        }
+    }
+    
     func saveUserInfo(userID: String, name: String, email: String) {
         let userRef = db.collection("users").document(userID)
         userRef.setData([
@@ -26,22 +41,6 @@ class FirestoreManager: ObservableObject {
                 print("User info successfully saved")
             }
         }
-    }
-    
-    func deleteUserInfo(userID: String, completion: @escaping (Error?) -> Void) {
-        /*
-        let userRef = db.collection("users").document(userID)
-        
-        userRef.delete { error in
-            if let error = error {
-                print("Error deleting user data: \(error.localizedDescription)")
-                completion(error)
-            } else {
-                print("User data successfully deleted")
-                completion(nil)
-            }
-        }
-         */
     }
     
     func fetchUserUsage(userID: String, completion: @escaping (Result<[String: Any], Error>) -> Void) {
@@ -91,35 +90,7 @@ class FirestoreManager: ObservableObject {
         }
     }
     
-    func checkUserExists(userID: String, completion: @escaping (Bool) -> Void) {
-        let userRef = db.collection("users").document(userID)
-        userRef.getDocument { document, _ in
-            if let document = document, document.exists {
-                completion(true)
-            } else {
-                completion(false)
-            }
-        }
-    }
-    
     // MARK: - 탈퇴 및 재가입 로직
-    func registerUser(email: String, password: String) {
-        checkAndRestoreUserData(email: email, newUid: Auth.auth().currentUser?.uid ?? "") { exists in
-            if exists {
-                print("Existing user data restored")
-            } else {
-                // 새로운 사용자 등록 로직
-                Auth.auth().createUser(withEmail: email, password: password) { _, error in
-                    if let error = error {
-                        print("Error creating user: \(error)")
-                    } else {
-                        print("User successfully created")
-                    }
-                }
-            }
-        }
-    }
-    
     func requestAccountDeletion(userID: String, completion: @escaping (Error?) -> Void) {
         let db = Firestore.firestore()
         let userRef = db.collection("users").document(userID)

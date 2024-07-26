@@ -47,7 +47,7 @@ struct AuthView: View {
                 Text(currentText)
                     .foregroundColor(.white)
                     .frame(width: 300, height: 300, alignment: .top)
-                    .font(.system(size: 24, weight: .black))
+                    .nanumsquareneo(weight: .bold, size: 26)
                     .onAppear {
                         startTranslate()
                         changeText()
@@ -191,25 +191,6 @@ extension AuthView {
                     isLoggedIn = true
                 }
             }
-            
-            /* Deprecated Code
-            fsManager.checkUserExists(userID: result!.user.uid) { exists in
-                if exists {
-                    fsManager.fetchUserUsage(userID: result!.user.uid) { result in
-                        switch result {
-                        case .success(let data):
-                            print("User data: \(data)")
-                            isLoggedIn = true
-                        case .failure(let error):
-                            print("Error fetching user info: \(error.localizedDescription)")
-                        }
-                    }
-                } else {
-                    fsManager.saveUserInfo(userID: result?.user.uid ?? "", name: result?.user.displayName ?? "", email: result?.user.email ?? "")
-                    isLoggedIn = true
-                }
-            }
-            */
         }
     }
 }

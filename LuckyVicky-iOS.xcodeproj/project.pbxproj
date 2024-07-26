@@ -24,6 +24,10 @@
 		177182452C39C52C00D0D22D /* FirestoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182442C39C52C00D0D22D /* FirestoreManager.swift */; };
 		177182472C39C76800D0D22D /* Date+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182462C39C76800D0D22D /* Date+.swift */; };
 		17CCD1762C52A30A000F4798 /* ChatGPTSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 17CCD1752C52A30A000F4798 /* ChatGPTSwift */; };
+		17CCD1952C53D08A000F4798 /* NanumSquareNeoTTF-bRg.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 17CCD1922C53D08A000F4798 /* NanumSquareNeoTTF-bRg.ttf */; };
+		17CCD1962C53D08A000F4798 /* NanumSquareNeoTTF-dEb.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 17CCD1932C53D08A000F4798 /* NanumSquareNeoTTF-dEb.ttf */; };
+		17CCD1972C53D08A000F4798 /* NanumSquareNeoTTF-cBd.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 17CCD1942C53D08A000F4798 /* NanumSquareNeoTTF-cBd.ttf */; };
+		17CCD1992C53D17D000F4798 /* FontModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CCD1982C53D17D000F4798 /* FontModifier.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,12 +41,16 @@
 		1771821F2C39480800D0D22D /* TextField+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TextField+.swift"; sourceTree = "<group>"; };
 		1771822A2C396D9E00D0D22D /* Secret.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Secret.xcconfig; sourceTree = "<group>"; };
 		1771822C2C396DC000D0D22D /* GPTManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTManager.swift; sourceTree = "<group>"; };
-		177182302C3971BF00D0D22D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		177182302C3971BF00D0D22D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		177182362C39BE1600D0D22D /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1771823F2C39C06C00D0D22D /* LuckyVicky-iOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "LuckyVicky-iOS.entitlements"; sourceTree = "<group>"; };
 		177182402C39C1A900D0D22D /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		177182442C39C52C00D0D22D /* FirestoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirestoreManager.swift; sourceTree = "<group>"; };
 		177182462C39C76800D0D22D /* Date+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+.swift"; sourceTree = "<group>"; };
+		17CCD1922C53D08A000F4798 /* NanumSquareNeoTTF-bRg.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NanumSquareNeoTTF-bRg.ttf"; sourceTree = "<group>"; };
+		17CCD1932C53D08A000F4798 /* NanumSquareNeoTTF-dEb.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NanumSquareNeoTTF-dEb.ttf"; sourceTree = "<group>"; };
+		17CCD1942C53D08A000F4798 /* NanumSquareNeoTTF-cBd.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NanumSquareNeoTTF-cBd.ttf"; sourceTree = "<group>"; };
+		17CCD1982C53D17D000F4798 /* FontModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontModifier.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,12 +88,11 @@
 		177182032C39273800D0D22D /* LuckyVicky-iOS */ = {
 			isa = PBXGroup;
 			children = (
-				1771823F2C39C06C00D0D22D /* LuckyVicky-iOS.entitlements */,
-				177182302C3971BF00D0D22D /* Info.plist */,
 				1771822B2C396DB200D0D22D /* Manager */,
 				177182242C3964C700D0D22D /* App */,
 				177182232C39641200D0D22D /* View */,
 				177182252C3964D100D0D22D /* Helper */,
+				17CCD18D2C53CBD0000F4798 /* Resources */,
 			);
 			path = "LuckyVicky-iOS";
 			sourceTree = "<group>";
@@ -110,11 +117,8 @@
 		177182242C3964C700D0D22D /* App */ = {
 			isa = PBXGroup;
 			children = (
-				17140F5F2C51025600A6767B /* .swiftlint.yml */,
 				177182042C39273800D0D22D /* LuckyVicky_iOSApp.swift */,
-				177182362C39BE1600D0D22D /* GoogleService-Info.plist */,
-				1771822A2C396D9E00D0D22D /* Secret.xcconfig */,
-				177182142C39279800D0D22D /* Assets.xcassets */,
+				17140F5F2C51025600A6767B /* .swiftlint.yml */,
 				1771820A2C39273900D0D22D /* Preview Content */,
 			);
 			path = App;
@@ -126,6 +130,7 @@
 				177182162C3927E300D0D22D /* Color+.swift */,
 				1771821F2C39480800D0D22D /* TextField+.swift */,
 				177182462C39C76800D0D22D /* Date+.swift */,
+				17CCD1982C53D17D000F4798 /* FontModifier.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -137,6 +142,29 @@
 				177182442C39C52C00D0D22D /* FirestoreManager.swift */,
 			);
 			path = Manager;
+			sourceTree = "<group>";
+		};
+		17CCD18D2C53CBD0000F4798 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				17CCD18E2C53CEA3000F4798 /* Fonts */,
+				1771823F2C39C06C00D0D22D /* LuckyVicky-iOS.entitlements */,
+				177182302C3971BF00D0D22D /* Info.plist */,
+				177182362C39BE1600D0D22D /* GoogleService-Info.plist */,
+				1771822A2C396D9E00D0D22D /* Secret.xcconfig */,
+				177182142C39279800D0D22D /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		17CCD18E2C53CEA3000F4798 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				17CCD1942C53D08A000F4798 /* NanumSquareNeoTTF-cBd.ttf */,
+				17CCD1932C53D08A000F4798 /* NanumSquareNeoTTF-dEb.ttf */,
+				17CCD1922C53D08A000F4798 /* NanumSquareNeoTTF-bRg.ttf */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -211,10 +239,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17CCD1962C53D08A000F4798 /* NanumSquareNeoTTF-dEb.ttf in Resources */,
 				17140F602C51025600A6767B /* .swiftlint.yml in Resources */,
 				177182152C39279800D0D22D /* Assets.xcassets in Resources */,
+				17CCD1972C53D08A000F4798 /* NanumSquareNeoTTF-cBd.ttf in Resources */,
 				1771820C2C39273900D0D22D /* Preview Assets.xcassets in Resources */,
 				177182372C39BE1600D0D22D /* GoogleService-Info.plist in Resources */,
+				17CCD1952C53D08A000F4798 /* NanumSquareNeoTTF-bRg.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,6 +280,7 @@
 			files = (
 				177182472C39C76800D0D22D /* Date+.swift in Sources */,
 				177182132C39278800D0D22D /* ContentView.swift in Sources */,
+				17CCD1992C53D17D000F4798 /* FontModifier.swift in Sources */,
 				177182202C39480800D0D22D /* TextField+.swift in Sources */,
 				177182412C39C1A900D0D22D /* AuthView.swift in Sources */,
 				177182172C3927E300D0D22D /* Color+.swift in Sources */,
@@ -388,14 +420,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "LuckyVicky-iOS/LuckyVicky-iOS.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "LuckyVicky-iOS/Resources/LuckyVicky-iOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LuckyVicky-iOS/App/Preview Content\"";
 				DEVELOPMENT_TEAM = 47PZ53ZAF2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "LuckyVicky-iOS/Info.plist";
+				INFOPLIST_FILE = "LuckyVicky-iOS/Resources/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "럭키비키";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -428,14 +460,14 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = "LuckyVicky-iOS/LuckyVicky-iOS.entitlements";
+				CODE_SIGN_ENTITLEMENTS = "LuckyVicky-iOS/Resources/LuckyVicky-iOS.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LuckyVicky-iOS/App/Preview Content\"";
 				DEVELOPMENT_TEAM = 47PZ53ZAF2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "LuckyVicky-iOS/Info.plist";
+				INFOPLIST_FILE = "LuckyVicky-iOS/Resources/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "럭키비키";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.lifestyle";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

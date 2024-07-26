@@ -37,9 +37,12 @@ struct ContentView: View {
     @State private var showEmptyAlert: Bool = false
     @State private var showCopiedAlert: Bool = false
     @State private var showSharedAlert: Bool = false
+    @State private var showLoadingAlert: Bool = false
     
-    @State private var usedCounts: Int = 10
+    @State private var usedCounts: Int = 20
+    @State private var totalCounts: Int = 20
     @State private var lastUsedTime: String = Date().toString()
+    @State private var deleteable: Bool = false
     
     // MARK: - 뷰
     var body: some View {
@@ -56,7 +59,8 @@ struct ContentView: View {
                             .frame(height: 200)
                             .foregroundColor(.black.opacity(0.7))
                             .focused($isFocused)
-                            .font(.system(size: 22, weight: .regular))
+                            .nanumsquareneo(weight: .regular, size: 24)
+                            .lineSpacing(5)
                             .multilineTextAlignment(.center)
                             .submitLabel(.return)
                             .padding(70)
@@ -66,34 +70,34 @@ struct ContentView: View {
                 if !isTranslate {
                     HStack {
                         Spacer()
-                        Text("오늘 사용 가능한 횟수 \(usedCounts)/20")
-                            .font(.system(size: 10, weight: .semibold))
+                        Text("오늘 사용 가능한 횟수 \(usedCounts)/\(totalCounts)")
+                            .nanumsquareneo(weight: .regular, size: 12)
                             .foregroundColor(.black.opacity(0.3))
                         Spacer()
                     }
-                    /*
                     .overlay {
-                        HStack {
-                            Spacer()
-                            Image(systemName: "person.slash")
-                                .foregroundColor(.black.opacity(0.5))
-                                .padding(.trailing, 10)
-                        }
-                        .onTapGesture {
-                            UIImpactFeedbackGenerator(style: .soft).impactOccurred()
-                            showRemoveAccountCheckAlert = true
-                        }
-                        .alert("계정 삭제", isPresented: $showRemoveAccountCheckAlert) {
-                            Button("삭제", role: .destructive) {
-                                removeAccount()
-                                showRemoveAccountSuccessAlert = true
+                        if deleteable {
+                            HStack {
+                                Spacer()
+                                Image(systemName: "person.slash")
+                                    .foregroundColor(.black.opacity(0.5))
+                                    .padding(.trailing, 10)
                             }
-                            Button("취소", role: .cancel) {}
-                        } message: {
-                            Text("정말로 계정을 삭제하시겠습니까?\n계정을 삭제해도 사용 횟수는 초기화되지 않습니다.")
+                            .onTapGesture {
+                                UIImpactFeedbackGenerator(style: .soft).impactOccurred()
+                                showRemoveAccountCheckAlert = true
+                            }
+                            .alert("계정 삭제", isPresented: $showRemoveAccountCheckAlert) {
+                                Button("삭제", role: .destructive) {
+                                    removeAccount()
+                                    showRemoveAccountSuccessAlert = true
+                                }
+                                Button("취소", role: .cancel) {}
+                            } message: {
+                                Text("정말로 계정을 삭제하시겠습니까?\n계정을 삭제해도 사용 횟수는 초기화되지 않습니다.")
+                            }
                         }
                     }
-                     */
                     .padding(.bottom)
                 }
                 Rectangle()
@@ -107,7 +111,8 @@ struct ContentView: View {
                                     VStack {
                                         Text(gptManager.response)
                                             .foregroundColor(.white)
-                                            .font(.system(size: 24, weight: .bold))
+                                            .nanumsquareneo(weight: .bold, size: 26)
+                                            .lineSpacing(5)
                                             .padding(.horizontal, 50)
                                         if !isGenerating {
                                             HStack(spacing: 15) {
@@ -146,7 +151,7 @@ struct ContentView: View {
                                 
                                 Text(isTranslate ? "돌아가기" : "원영적 사고로 변환하기")
                                     .foregroundColor(.white)
-                                    .font(.system(size: 16, weight: .semibold))
+                                    .nanumsquareneo(weight: .bold, size: 16)
                             }
                             // MARK: - 원영적 사고로 변환하기 버튼 로직
                             .onTapGesture {
@@ -160,7 +165,7 @@ struct ContentView: View {
                                         rotation = 0
                                     }
                                 } else {
-                                    if self.lastUsedTime == Date().toString() && self.usedCounts >= 20 {
+                                    if self.lastUsedTime == Date().toString() && self.usedCounts >= self.totalCounts {
                                         UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                                         showUsageExceededAlert = true
                                     } else {
@@ -197,11 +202,8 @@ struct ContentView: View {
                 isFocused = false
             }
             .onAppear {
+                showLoadingAlert = true
                 fetchUserUsageInfo()
-                if Auth.auth().currentUser == nil {
-                    print("Not User Founded")
-                    isLoggedIn = false
-                }
             }
             // MARK: - 토스트
             .toast(isPresenting: $showAlert, offsetY: 10) {
@@ -267,6 +269,9 @@ struct ContentView: View {
                     title: "계정이 성공적으로 삭제되었습니다."
                 )
             }
+            .toast(isPresenting: $showLoadingAlert) {
+                AlertToast(type: .loading)
+            }
         }
     }
 }
@@ -292,9 +297,25 @@ extension ContentView {
     }
 }
 
+// MARK: - 앱 정보
+extension ContentView {
+    func fetchAppInfo() {
+        fsManager.fetchAppSettings { result in
+            switch result {
+            case .success(let data):
+                deleteable = data["deleteable"] as? Bool ?? false
+                totalCounts = data["usage"] as? Int ?? 20
+            case .failure(let error):
+                print("Error fetching user info: \(error.localizedDescription)")
+            }
+        }
+    }
+}
+
 // MARK: - 유저 정보
 extension ContentView {
     func fetchUserUsageInfo() {
+        fetchAppInfo()
         guard let userID = Auth.auth().currentUser?.uid else { return }
         fsManager.fetchUserUsage(userID: userID) { result in
             switch result {
@@ -306,6 +327,7 @@ extension ContentView {
                 } else {
                     showSuccessFetchUserInfo = true
                 }
+                showLoadingAlert = false
             case .failure(let error):
                 print("Error fetching user info: \(error.localizedDescription)")
                 isLoggedIn = false
