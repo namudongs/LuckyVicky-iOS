@@ -9,12 +9,6 @@ import AlertToast
 import FirebaseAuth
 import SwiftUI
 
-// TODO: - 커뮤니티 & 히스토리 구현하기
-// TODO: - User가 20번 제한에 걸리면 광고 보고 해제할 수 있게 하기 & 후원 기능 구현하기
-// TODO: - 원영적 사고 설명 및 개발자 소개, 사용한 API 등의 저작권 표기 뷰 만들기
-// TODO: - Gemini API 연결하기
-// TODO: - 긍정일기 구현하기
-
 struct ContentView: View {
     // MARK: - 프로퍼티
     @Binding var isLoggedIn: Bool
