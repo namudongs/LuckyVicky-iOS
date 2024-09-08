@@ -28,6 +28,7 @@
 		17CCD1962C53D08A000F4798 /* NanumSquareNeoTTF-dEb.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 17CCD1932C53D08A000F4798 /* NanumSquareNeoTTF-dEb.ttf */; };
 		17CCD1972C53D08A000F4798 /* NanumSquareNeoTTF-cBd.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 17CCD1942C53D08A000F4798 /* NanumSquareNeoTTF-cBd.ttf */; };
 		17CCD1992C53D17D000F4798 /* FontModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CCD1982C53D17D000F4798 /* FontModifier.swift */; };
+		17F60CD62C8C5E1400A66319 /* ContentViewStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17F60CD52C8C5E1400A66319 /* ContentViewStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		17CCD1932C53D08A000F4798 /* NanumSquareNeoTTF-dEb.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NanumSquareNeoTTF-dEb.ttf"; sourceTree = "<group>"; };
 		17CCD1942C53D08A000F4798 /* NanumSquareNeoTTF-cBd.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NanumSquareNeoTTF-cBd.ttf"; sourceTree = "<group>"; };
 		17CCD1982C53D17D000F4798 /* FontModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontModifier.swift; sourceTree = "<group>"; };
+		17F60CD52C8C5E1400A66319 /* ContentViewStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -91,6 +93,7 @@
 				1771822B2C396DB200D0D22D /* Manager */,
 				177182242C3964C700D0D22D /* App */,
 				177182232C39641200D0D22D /* View */,
+				17F60CD42C8C5E0B00A66319 /* Store */,
 				177182252C3964D100D0D22D /* Helper */,
 				17CCD18D2C53CBD0000F4798 /* Resources */,
 			);
@@ -165,6 +168,14 @@
 				17CCD1922C53D08A000F4798 /* NanumSquareNeoTTF-bRg.ttf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		17F60CD42C8C5E0B00A66319 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				17F60CD52C8C5E1400A66319 /* ContentViewStore.swift */,
+			);
+			path = Store;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -278,6 +289,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17F60CD62C8C5E1400A66319 /* ContentViewStore.swift in Sources */,
 				177182472C39C76800D0D22D /* Date+.swift in Sources */,
 				177182132C39278800D0D22D /* ContentView.swift in Sources */,
 				17CCD1992C53D17D000F4798 /* FontModifier.swift in Sources */,
