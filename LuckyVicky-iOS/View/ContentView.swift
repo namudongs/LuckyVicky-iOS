@@ -10,16 +10,13 @@ import FirebaseAuth
 import SwiftUI
 
 struct ContentView: View {
+    @StateObject var viewStore = ContentViewStore()
+    
     // MARK: - 프로퍼티
     @Binding var isLoggedIn: Bool
     @StateObject var fsManager: FirestoreManager
     @StateObject var gptManager = GPTManager()
     @FocusState private var isFocused: Bool
-    @State private var isGenerating: Bool = false
-    @State private var isTranslate: Bool = false
-    @State private var originalText: String = ""
-    @State private var rotation: Double = 0.0
-    @State private var nowTextLength: Int = 0
     
     @State private var showRemoveAccountSuccessAlert: Bool = false
     @State private var showRemoveAccountCheckAlert: Bool = false
@@ -33,22 +30,17 @@ struct ContentView: View {
     @State private var showSharedAlert: Bool = false
     @State private var showLoadingAlert: Bool = false
     
-    @State private var usedCounts: Int = 20
-    @State private var totalCounts: Int = 20
-    @State private var lastUsedTime: String = Date().toString()
-    @State private var deleteable: Bool = false
-    
     // MARK: - 뷰
     var body: some View {
         GeometryReader { geo in
             VStack(spacing: 0) {
                 Rectangle()
                     .fill(Color.clear)
-                    .frame(maxHeight: isTranslate ? geo.size.height / 4 : .infinity)
+                    .frame(maxHeight: viewStore.viewState.isTranslating ? geo.size.height / 4 : .infinity)
                     .overlay {
                         VStack {
                             TextField("럭키비키하게 바꿔봐🍀",
-                                      text: $originalText.max(45, showAlert: $showAlert),
+                                      text: $viewStore.viewState.beforeText.max(45, showAlert: $showAlert),
                                       axis: .vertical)
                             .frame(height: 200)
                             .foregroundColor(.black.opacity(0.7))
@@ -58,19 +50,19 @@ struct ContentView: View {
                             .multilineTextAlignment(.center)
                             .submitLabel(.return)
                             .padding(70)
-                            .disabled(isTranslate)
+                            .disabled(viewStore.viewState.isTranslating)
                         }
                     }
-                if !isTranslate {
+                if !viewStore.viewState.isTranslating {
                     HStack {
                         Spacer()
-                        Text("오늘 사용 가능한 횟수 \(usedCounts)/\(totalCounts)")
+                        Text("오늘 사용 가능한 횟수 \(viewStore.viewState.usedUsageCounts)/\(viewStore.viewState.totalUsageCounts)")
                             .nanumsquareneo(weight: .regular, size: 12)
                             .foregroundColor(.black.opacity(0.3))
                         Spacer()
                     }
                     .overlay {
-                        if deleteable {
+                        if viewStore.viewState.deleteAccountButtonVisible {
                             HStack {
                                 Spacer()
                                 Image(systemName: "person.slash")
@@ -83,7 +75,7 @@ struct ContentView: View {
                             }
                             .alert("계정 삭제", isPresented: $showRemoveAccountCheckAlert) {
                                 Button("삭제", role: .destructive) {
-                                    removeAccount()
+                                    viewStore.dispatch(.removeAccount)
                                     showRemoveAccountSuccessAlert = true
                                 }
                                 Button("취소", role: .cancel) {}
@@ -96,11 +88,11 @@ struct ContentView: View {
                 }
                 Rectangle()
                     .fill(Color.accentColor)
-                    .frame(maxHeight: isTranslate ? .infinity : geo.size.height / 4)
+                    .frame(maxHeight: viewStore.viewState.isTranslating ? .infinity : geo.size.height / 4)
                     .overlay {
                         VStack(spacing: 0) {
                             Spacer()
-                            if isTranslate {
+                            if viewStore.viewState.isTranslating {
                                 ScrollView {
                                     VStack {
                                         Text(gptManager.response)
@@ -108,7 +100,7 @@ struct ContentView: View {
                                             .nanumsquareneo(weight: .bold, size: 26)
                                             .lineSpacing(5)
                                             .padding(.horizontal, 50)
-                                        if !isGenerating {
+                                        if !viewStore.viewState.isGenerating {
                                             HStack(spacing: 15) {
                                                 Spacer()
                                                 Image(systemName: "clipboard")
@@ -141,42 +133,42 @@ struct ContentView: View {
                                     .scaledToFit()
                                     .blendMode(.screen)
                                     .frame(width: 50)
-                                    .rotationEffect(.degrees(rotation))
+                                    .rotationEffect(.degrees(viewStore.viewState.buttonRotation))
                                 
-                                Text(isTranslate ? "돌아가기" : "원영적 사고로 변환하기")
+                                Text(viewStore.viewState.isTranslating ? "돌아가기" : "원영적 사고로 변환하기")
                                     .foregroundColor(.white)
                                     .nanumsquareneo(weight: .bold, size: 16)
                             }
                             // MARK: - 원영적 사고로 변환하기 버튼 로직
                             .onTapGesture {
-                                if isTranslate {
+                                if viewStore.viewState.isTranslating {
                                     UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                                     withAnimation {
-                                        originalText = ""
+                                        viewStore.viewState.beforeText = ""
                                         gptManager.response = ""
-                                        isGenerating = false
-                                        isTranslate = false
-                                        rotation = 0
+                                        viewStore.viewState.isGenerating = false
+                                        viewStore.viewState.isTranslating = false
+                                        viewStore.viewState.buttonRotation = 0
                                     }
                                 } else {
-                                    if self.lastUsedTime == Date().toString() && self.usedCounts >= self.totalCounts {
+                                    if viewStore.viewState.lastUsedTime == Date().toString() && viewStore.viewState.usedUsageCounts >= viewStore.viewState.totalUsageCounts {
                                         UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                                         showUsageExceededAlert = true
                                     } else {
-                                        if originalText.isEmpty {
+                                        if viewStore.viewState.beforeText.isEmpty {
                                             UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
                                             showEmptyAlert = true
                                         } else {
                                             UIImpactFeedbackGenerator(style: .soft).impactOccurred()
                                             withAnimation {
-                                                isTranslate = true
+                                                viewStore.viewState.isTranslating = true
                                             }
-                                            startTranslate()
+                                            viewStore.dispatch(.startTranslate)
                                             
-                                            gptManager.sendMessage(from: originalText) { result in
+                                            gptManager.sendMessage(from: viewStore.viewState.beforeText) { result in
                                                 switch result {
                                                 case .success:
-                                                    completeTranslate()
+                                                    viewStore.dispatch(.completeTranslate)
                                                 case .failure(let error):
                                                     print("오류 발생: \(error.localizedDescription)")
                                                 }
@@ -185,7 +177,7 @@ struct ContentView: View {
                                     }
                                 }
                             }
-                            .disabled(isGenerating)
+                            .disabled(viewStore.viewState.isGenerating)
                             Spacer()
                         }
                     }
@@ -196,8 +188,10 @@ struct ContentView: View {
                 isFocused = false
             }
             .onAppear {
-                showLoadingAlert = true
-                fetchUserUsageInfo()
+//                showLoadingAlert = true
+                viewStore.dispatch(.fetchAppInfo)
+                viewStore.dispatch(.fetchUserInfo)
+                print(viewStore.viewState.usedUsageCounts)
             }
             // MARK: - 토스트
             .toast(isPresenting: $showAlert, offsetY: 10) {
@@ -246,7 +240,7 @@ struct ContentView: View {
                 AlertToast(
                     displayMode: .hud,
                     type: .systemImage("arrow.counterclockwise.circle.fill", .accentColor),
-                    title: "오늘 남은 사용 횟수는 \(10 - self.usedCounts)번입니다."
+                    title: "오늘 남은 사용 횟수는 \(20 - viewStore.viewState.usedUsageCounts)번입니다."
                 )
             }
             .toast(isPresenting: $showUpdateUsage, offsetY: 10) {
@@ -270,137 +264,137 @@ struct ContentView: View {
     }
 }
 
-// MARK: - 변환
-extension ContentView {
-    private func startTranslate() {
-        print("start Translate")
-        isGenerating = true
-        withAnimation(.linear(duration: 1).repeatForever(autoreverses: false)) {
-            rotation = 360
-        }
-    }
-    
-    private func completeTranslate() {
-        print("complete Translate")
-        UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-        isGenerating = false
-        updateUserUsageInfo()
-        withAnimation {
-            rotation = 45
-        }
-    }
-}
-
-// MARK: - 앱 정보
-extension ContentView {
-    func fetchAppInfo() {
-        fsManager.fetchAppSettings { result in
-            switch result {
-            case .success(let data):
-                deleteable = data["deleteable"] as? Bool ?? false
-                totalCounts = data["usage"] as? Int ?? 20
-            case .failure(let error):
-                print("Error fetching user info: \(error.localizedDescription)")
-            }
-        }
-    }
-}
-
-// MARK: - 유저 정보
-extension ContentView {
-    func fetchUserUsageInfo() {
-        fetchAppInfo()
-        guard let userID = Auth.auth().currentUser?.uid else { return }
-        fsManager.fetchUserUsage(userID: userID) { result in
-            switch result {
-            case .success(let data):
-                usedCounts = data["usedCounts"] as? Int ?? 20
-                lastUsedTime = data["lastUsedTime"] as? String ?? Date().toString()
-                if lastUsedTime != Date().toString() {
-                    resetUserUsage()
-                } else {
-                    showSuccessFetchUserInfo = true
-                }
-                showLoadingAlert = false
-            case .failure(let error):
-                print("Error fetching user info: \(error.localizedDescription)")
-                isLoggedIn = false
-            }
-        }
-    }
-    
-    func updateUserUsageInfo() {
-        guard let userID = Auth.auth().currentUser?.uid else { return }
-        let updatedCounts = usedCounts + 1
-        let updatedTime = Date().toString()
-        fsManager.updateUserUsage(userID: userID,
-                                  usedCounts: updatedCounts, lastUsedTime: updatedTime) { error in
-            if let error = error {
-                print("Error updating user info: \(error.localizedDescription)")
-                isLoggedIn = false
-            } else {
-                usedCounts = updatedCounts
-                lastUsedTime = updatedTime
-            }
-        }
-    }
-    
-    func resetUserUsage() {
-        guard let userID = Auth.auth().currentUser?.uid else { return }
-        fsManager.resetUserUsage(userID: userID) { error in
-            if let error = error {
-                print("Error resetting user info: \(error.localizedDescription)")
-                isLoggedIn = false
-            } else {
-                showUpdateUsage = true
-                usedCounts = 0
-                lastUsedTime = Date().toString()
-            }
-        }
-    }
-}
-
-// MARK: - 회원 탈퇴
-extension ContentView {
-    func removeAccount() {
-        guard let user = Auth.auth().currentUser else {
-            print("No user is currently signed in")
-            isLoggedIn = false
-            return
-        }
-        
-        let userID = user.uid
-        fsManager.requestAccountDeletion(userID: userID) { error in
-            if let error = error {
-                print("Error request deleting Firestore user data: \(error.localizedDescription)")
-                return
-            }
-            
-            user.delete { error in
-                if let error = error {
-                    print("Error deleting user account: \(error.localizedDescription)")
-                    return
-                }
-                isLoggedIn = false
-                do {
-                    try Auth.auth().signOut()
-                    // Refresh Token 삭제
-                    if let token = UserDefaults.standard.string(forKey: "refreshToken") {
-                        let url = URL(string: "https://us-central1-luckyvicky-ios.cloudfunctions.net/revokeToken?refresh_token=\(token)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "https://apple.com")!
-                        let task = URLSession.shared.dataTask(with: url) { (data, _, _) in
-                            guard data != nil else { return }
-                        }
-                        task.resume()
-                    }
-                    print("User signed out and account deleted successfully")
-                    
-                } catch let signOutError as NSError {
-                    print("Error signing out: %@", signOutError)
-                }
-            }
-        }
-    }
-}
+//// MARK: - 변환
+//extension ContentView {
+//    private func startTranslate() {
+//        print("start Translate")
+//        isGenerating = true
+//        withAnimation(.linear(duration: 1).repeatForever(autoreverses: false)) {
+//            rotation = 360
+//        }
+//    }
+//    
+//    private func completeTranslate() {
+//        print("complete Translate")
+//        UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+//        isGenerating = false
+//        updateUserUsageInfo()
+//        withAnimation {
+//            rotation = 45
+//        }
+//    }
+//}
+//
+//// MARK: - 앱 정보
+//extension ContentView {
+//    func fetchAppInfo() {
+//        fsManager.fetchAppSettings { result in
+//            switch result {
+//            case .success(let data):
+//                deleteable = data["deleteable"] as? Bool ?? false
+//                totalCounts = data["usage"] as? Int ?? 20
+//            case .failure(let error):
+//                print("Error fetching user info: \(error.localizedDescription)")
+//            }
+//        }
+//    }
+//}
+//
+//// MARK: - 유저 정보
+//extension ContentView {
+//    func fetchUserUsageInfo() {
+//        fetchAppInfo()
+//        guard let userID = Auth.auth().currentUser?.uid else { return }
+//        fsManager.fetchUserUsage(userID: userID) { result in
+//            switch result {
+//            case .success(let data):
+//                usedCounts = data["usedCounts"] as? Int ?? 20
+//                lastUsedTime = data["lastUsedTime"] as? String ?? Date().toString()
+//                if lastUsedTime != Date().toString() {
+//                    resetUserUsage()
+//                } else {
+//                    showSuccessFetchUserInfo = true
+//                }
+//                showLoadingAlert = false
+//            case .failure(let error):
+//                print("Error fetching user info: \(error.localizedDescription)")
+//                isLoggedIn = false
+//            }
+//        }
+//    }
+//    
+//    func updateUserUsageInfo() {
+//        guard let userID = Auth.auth().currentUser?.uid else { return }
+//        let updatedCounts = usedCounts + 1
+//        let updatedTime = Date().toString()
+//        fsManager.updateUserUsage(userID: userID,
+//                                  usedCounts: updatedCounts, lastUsedTime: updatedTime) { error in
+//            if let error = error {
+//                print("Error updating user info: \(error.localizedDescription)")
+//                isLoggedIn = false
+//            } else {
+//                usedCounts = updatedCounts
+//                lastUsedTime = updatedTime
+//            }
+//        }
+//    }
+//    
+//    func resetUserUsage() {
+//        guard let userID = Auth.auth().currentUser?.uid else { return }
+//        fsManager.resetUserUsage(userID: userID) { error in
+//            if let error = error {
+//                print("Error resetting user info: \(error.localizedDescription)")
+//                isLoggedIn = false
+//            } else {
+//                showUpdateUsage = true
+//                usedCounts = 0
+//                lastUsedTime = Date().toString()
+//            }
+//        }
+//    }
+//}
+//
+//// MARK: - 회원 탈퇴
+//extension ContentView {
+//    func removeAccount() {
+//        guard let user = Auth.auth().currentUser else {
+//            print("No user is currently signed in")
+//            isLoggedIn = false
+//            return
+//        }
+//        
+//        let userID = user.uid
+//        fsManager.requestAccountDeletion(userID: userID) { error in
+//            if let error = error {
+//                print("Error request deleting Firestore user data: \(error.localizedDescription)")
+//                return
+//            }
+//            
+//            user.delete { error in
+//                if let error = error {
+//                    print("Error deleting user account: \(error.localizedDescription)")
+//                    return
+//                }
+//                isLoggedIn = false
+//                do {
+//                    try Auth.auth().signOut()
+//                    // Refresh Token 삭제
+//                    if let token = UserDefaults.standard.string(forKey: "refreshToken") {
+//                        let url = URL(string: "https://us-central1-luckyvicky-ios.cloudfunctions.net/revokeToken?refresh_token=\(token)".addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? "https://apple.com")!
+//                        let task = URLSession.shared.dataTask(with: url) { (data, _, _) in
+//                            guard data != nil else { return }
+//                        }
+//                        task.resume()
+//                    }
+//                    print("User signed out and account deleted successfully")
+//                    
+//                } catch let signOutError as NSError {
+//                    print("Error signing out: %@", signOutError)
+//                }
+//            }
+//        }
+//    }
+//}
 
 #Preview {
     ContentView(isLoggedIn: .constant(true), fsManager: FirestoreManager())

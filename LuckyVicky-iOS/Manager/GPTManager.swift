@@ -9,7 +9,9 @@ import ChatGPTSwift
 import SwiftUI
 
 class GPTManager: ObservableObject {
+    static let shared = GPTManager()
     @Published var response: String = ""
+    
     func sendMessage(from text: String, completion: @escaping (Result<Void, Error>) -> Void) {
         Task {
             do {

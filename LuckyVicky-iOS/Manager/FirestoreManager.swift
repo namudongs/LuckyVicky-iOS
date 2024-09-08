@@ -10,6 +10,7 @@ import FirebaseFirestore
 import SwiftUI
 
 class FirestoreManager: ObservableObject {
+    static let shared = FirestoreManager()
     let db = Firestore.firestore()
     
     func fetchAppSettings(completion: @escaping (Result<[String: Any], Error>) -> Void) {
