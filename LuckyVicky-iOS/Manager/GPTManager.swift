@@ -10,9 +10,8 @@ import SwiftUI
 
 class GPTManager: ObservableObject {
     static let shared = GPTManager()
-    @Published var response: String = ""
     
-    func sendMessage(from text: String, completion: @escaping (Result<Void, Error>) -> Void) {
+    func sendMessage(from text: String, updateText: @escaping (String) -> Void, completion: @escaping (Result<Void, Error>) -> Void) {
         Task {
             do {
                 let api = ChatGPTAPI(apiKey: Bundle.main.object(forInfoDictionaryKey: "API_KEY_GPT") as! String)
@@ -39,7 +38,7 @@ class GPTManager: ObservableObject {
                     DispatchQueue.main.async {
                         withAnimation(.smooth(duration: 0.5)) {
                             UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
-                            self.response += line
+                            updateText(line)
                         }
                     }
                 }
