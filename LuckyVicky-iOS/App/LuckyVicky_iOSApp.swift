@@ -26,7 +26,7 @@ struct LuckyVicky_iOSApp: App {
     var body: some Scene {
         WindowGroup {
             if isLoggedIn {
-                ContentView(isLoggedIn: $isLoggedIn, fsManager: fsManager)
+                ContentView(isLoggedIn: $isLoggedIn)
             } else {
                 AuthView(fsManager: fsManager, isLoggedIn: $isLoggedIn)
             }
