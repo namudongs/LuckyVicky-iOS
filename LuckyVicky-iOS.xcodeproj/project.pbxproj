@@ -207,8 +207,8 @@
 		17D580FD2CE277FA001EFBEB /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				17D5811E2CE27DB3001EFBEB /* AuthViewModel.swift */,
 				177182402C39C1A900D0D22D /* AuthView.swift */,
+				17D5811E2CE27DB3001EFBEB /* AuthViewModel.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
