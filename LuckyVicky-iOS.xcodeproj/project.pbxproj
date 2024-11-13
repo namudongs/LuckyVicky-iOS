@@ -35,13 +35,16 @@
 		17D581122CE279C5001EFBEB /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D581112CE279C4001EFBEB /* AppSettings.swift */; };
 		17D581142CE279CD001EFBEB /* StorageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D581132CE279CD001EFBEB /* StorageError.swift */; };
 		17D581192CE27B26001EFBEB /* AIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D581182CE27B26001EFBEB /* AIService.swift */; };
-		17D5811B2CE27B82001EFBEB /* GPTService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D5811A2CE27B82001EFBEB /* GPTService.swift */; };
+		17D5811B2CE27B82001EFBEB /* ChatGPTService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D5811A2CE27B82001EFBEB /* ChatGPTService.swift */; };
 		17D5811D2CE27D32001EFBEB /* DependencyContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D5811C2CE27D32001EFBEB /* DependencyContainer.swift */; };
 		17D5811F2CE27DB3001EFBEB /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D5811E2CE27DB3001EFBEB /* AuthViewModel.swift */; };
 		17D581212CE27F48001EFBEB /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D581202CE27F48001EFBEB /* ContentViewModel.swift */; };
 		17D581252CE28851001EFBEB /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D581242CE28851001EFBEB /* StorageService.swift */; };
 		17D5812C2CE28AA3001EFBEB /* MockStorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D5812B2CE28AA3001EFBEB /* MockStorageService.swift */; };
 		17D581342CE28AE9001EFBEB /* MockAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D581332CE28AE9001EFBEB /* MockAuthService.swift */; };
+		17D5813B2CE4F5D7001EFBEB /* AIServiceError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D5813A2CE4F5D7001EFBEB /* AIServiceError.swift */; };
+		17D5813D2CE4F5E8001EFBEB /* AIServiceConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D5813C2CE4F5E8001EFBEB /* AIServiceConfiguration.swift */; };
+		17D5813F2CE4F603001EFBEB /* MockAIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D5813E2CE4F603001EFBEB /* MockAIService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -71,13 +74,16 @@
 		17D581112CE279C4001EFBEB /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		17D581132CE279CD001EFBEB /* StorageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageError.swift; sourceTree = "<group>"; };
 		17D581182CE27B26001EFBEB /* AIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIService.swift; sourceTree = "<group>"; };
-		17D5811A2CE27B82001EFBEB /* GPTService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GPTService.swift; sourceTree = "<group>"; };
+		17D5811A2CE27B82001EFBEB /* ChatGPTService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatGPTService.swift; sourceTree = "<group>"; };
 		17D5811C2CE27D32001EFBEB /* DependencyContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DependencyContainer.swift; sourceTree = "<group>"; };
 		17D5811E2CE27DB3001EFBEB /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		17D581202CE27F48001EFBEB /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		17D581242CE28851001EFBEB /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		17D5812B2CE28AA3001EFBEB /* MockStorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockStorageService.swift; sourceTree = "<group>"; };
 		17D581332CE28AE9001EFBEB /* MockAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAuthService.swift; sourceTree = "<group>"; };
+		17D5813A2CE4F5D7001EFBEB /* AIServiceError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIServiceError.swift; sourceTree = "<group>"; };
+		17D5813C2CE4F5E8001EFBEB /* AIServiceConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIServiceConfiguration.swift; sourceTree = "<group>"; };
+		17D5813E2CE4F603001EFBEB /* MockAIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAIService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,8 +152,8 @@
 		177182252C3964D100D0D22D /* Helper */ = {
 			isa = PBXGroup;
 			children = (
-				17D581362CE28B98001EFBEB /* Extensions */,
-				17D581352CE28B8C001EFBEB /* Modifiers */,
+				17D581362CE28B98001EFBEB /* Extension */,
+				17D581352CE28B8C001EFBEB /* Modifier */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -231,8 +237,11 @@
 		17D581172CE27B1C001EFBEB /* AI */ = {
 			isa = PBXGroup;
 			children = (
-				17D5811A2CE27B82001EFBEB /* GPTService.swift */,
+				17D581382CE4F5C5001EFBEB /* Model */,
+				17D581392CE4F5C9001EFBEB /* Error */,
 				17D581182CE27B26001EFBEB /* AIService.swift */,
+				17D5813E2CE4F603001EFBEB /* MockAIService.swift */,
+				17D5811A2CE27B82001EFBEB /* ChatGPTService.swift */,
 			);
 			path = AI;
 			sourceTree = "<group>";
@@ -271,22 +280,22 @@
 			path = Error;
 			sourceTree = "<group>";
 		};
-		17D581352CE28B8C001EFBEB /* Modifiers */ = {
+		17D581352CE28B8C001EFBEB /* Modifier */ = {
 			isa = PBXGroup;
 			children = (
 				17CCD1982C53D17D000F4798 /* Font+Modifier.swift */,
 			);
-			path = Modifiers;
+			path = Modifier;
 			sourceTree = "<group>";
 		};
-		17D581362CE28B98001EFBEB /* Extensions */ = {
+		17D581362CE28B98001EFBEB /* Extension */ = {
 			isa = PBXGroup;
 			children = (
 				177182162C3927E300D0D22D /* Color+Extension.swift */,
 				1771821F2C39480800D0D22D /* TextField+Extension.swift */,
 				177182462C39C76800D0D22D /* Date+Extension.swift */,
 			);
-			path = Extensions;
+			path = Extension;
 			sourceTree = "<group>";
 		};
 		17D581372CE28C3C001EFBEB /* Preview Content */ = {
@@ -294,6 +303,22 @@
 			children = (
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		17D581382CE4F5C5001EFBEB /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				17D5813C2CE4F5E8001EFBEB /* AIServiceConfiguration.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		17D581392CE4F5C9001EFBEB /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				17D5813A2CE4F5D7001EFBEB /* AIServiceError.swift */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -332,7 +357,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1540;
-				LastUpgradeCheck = 1540;
+				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					177182002C39273800D0D22D = {
 						CreatedOnToolsVersion = 15.4;
@@ -384,7 +409,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				17D581102CE279BC001EFBEB /* UsageInfo.swift in Sources */,
-				17D5811B2CE27B82001EFBEB /* GPTService.swift in Sources */,
+				17D5811B2CE27B82001EFBEB /* ChatGPTService.swift in Sources */,
 				177182472C39C76800D0D22D /* Date+Extension.swift in Sources */,
 				17D581142CE279CD001EFBEB /* StorageError.swift in Sources */,
 				17D580FC2CE27788001EFBEB /* CryptoUtil.swift in Sources */,
@@ -392,6 +417,7 @@
 				177182132C39278800D0D22D /* ContentView.swift in Sources */,
 				17CCD1992C53D17D000F4798 /* Font+Modifier.swift in Sources */,
 				17D5810E2CE2797C001EFBEB /* FirestoreService.swift in Sources */,
+				17D5813B2CE4F5D7001EFBEB /* AIServiceError.swift in Sources */,
 				177182202C39480800D0D22D /* TextField+Extension.swift in Sources */,
 				17D581252CE28851001EFBEB /* StorageService.swift in Sources */,
 				17D581192CE27B26001EFBEB /* AIService.swift in Sources */,
@@ -399,11 +425,13 @@
 				17D580F62CE2774A001EFBEB /* FirebaseAuthService.swift in Sources */,
 				17D5812C2CE28AA3001EFBEB /* MockStorageService.swift in Sources */,
 				177182412C39C1A900D0D22D /* AuthView.swift in Sources */,
+				17D5813F2CE4F603001EFBEB /* MockAIService.swift in Sources */,
 				177182172C3927E300D0D22D /* Color+Extension.swift in Sources */,
 				17D580F42CE2771D001EFBEB /* AuthError.swift in Sources */,
 				17D5811D2CE27D32001EFBEB /* DependencyContainer.swift in Sources */,
 				17D5811F2CE27DB3001EFBEB /* AuthViewModel.swift in Sources */,
 				17D581212CE27F48001EFBEB /* ContentViewModel.swift in Sources */,
+				17D5813D2CE4F5E8001EFBEB /* AIServiceConfiguration.swift in Sources */,
 				17D580F22CE27710001EFBEB /* User.swift in Sources */,
 				17D581122CE279C5001EFBEB /* AppSettings.swift in Sources */,
 				177182052C39273800D0D22D /* AppEntry.swift in Sources */,
@@ -419,6 +447,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -483,6 +512,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";

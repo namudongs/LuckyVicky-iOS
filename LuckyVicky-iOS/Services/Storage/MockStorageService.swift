@@ -7,8 +7,8 @@
 
 import Foundation
 
+/// 테스팅을 위한 Mock 구현체입니다.
 #if DEBUG
-// MARK: - Preview/Test Helper
 final class MockStorageService: StorageService {
   var userUsage = UsageInfo(usedCount: 5, totalCount: 20, lastUsedTime: Date().toString())
   var appSettings = AppSettings(maxUsageCount: 20, canDeleteAccount: true)

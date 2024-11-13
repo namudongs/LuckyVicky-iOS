@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Storage Service를 위한 프로토콜입니다.
 protocol StorageService {
   /// 사용자의 사용량 정보를 조회합니다.
   func fetchUserUsage(userID: String) async throws -> UsageInfo

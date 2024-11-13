@@ -8,6 +8,7 @@
 import FirebaseFirestore
 import Foundation
 
+/// Firebase Firestore를 사용한 실제 구현체입니다.
 final class FirestoreService: StorageService {
   private let db: Firestore
   

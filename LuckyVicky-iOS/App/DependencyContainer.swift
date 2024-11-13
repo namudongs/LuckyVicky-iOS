@@ -7,10 +7,11 @@
 
 import Foundation
 
-/// 앱의 의존성을 관리하는 컨테이너
+/// 앱의 의존성을 관리하는 컨테이너입니다.
 final class DependencyContainer {
-  // MARK: - Shared Instance
   static let shared = DependencyContainer()
+  
+  private init() {}
   
   // MARK: - Services
   private(set) lazy var authService: AuthService = {
@@ -22,7 +23,7 @@ final class DependencyContainer {
   }()
   
   private(set) lazy var aiService: AIServiceProtocol = {
-    GPTService.createDefault()
+    ChatGPTService.createDefault()
   }()
   
   // MARK: - ViewModels
@@ -75,7 +76,4 @@ final class DependencyContainer {
     return container
   }
 #endif
-  
-  // MARK: - Initialization
-  private init() {}
 }

@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseAuth
 
+/// User 정보를 관리하는 구조체입니다.
 struct User: Identifiable, Equatable {
   let id: String
   let email: String
@@ -21,7 +22,8 @@ struct User: Identifiable, Equatable {
        name: String,
        usageCount: Int = 0,
        lastUsedTime: Date = Date(),
-       isDeleted: Bool = false) {
+       isDeleted: Bool = false
+  ) {
     self.id = id
     self.email = email
     self.name = name
@@ -31,6 +33,7 @@ struct User: Identifiable, Equatable {
   }
 }
 
+/// FirebaseAuth를 위한 초기화 Extension
 extension User {
   init(from firebaseUser: FirebaseAuth.User) {
     self.id = firebaseUser.uid
