@@ -273,10 +273,8 @@ final class ContentViewModel: ObservableObject {
 // MARK: - AIServiceDelegate
 extension ContentViewModel: @preconcurrency AIServiceDelegate {
   func aiService(_ service: AIServiceProtocol, didGenerateText text: String) {
-    withAnimation(.smooth(duration: 0.5)) {
-      UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
-      state.responseText += text
-    }
+    UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
+    state.responseText += text
   }
   
   func aiService(_ service: AIServiceProtocol, didCompleteWithResult result: Result<Void, Error>) {
