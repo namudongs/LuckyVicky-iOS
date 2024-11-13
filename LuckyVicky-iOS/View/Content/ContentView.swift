@@ -9,22 +9,15 @@ import AlertToast
 import SwiftUI
 
 struct ContentView: View {
-  // MARK: - Properties
   @StateObject var viewModel: ContentViewModel
   @FocusState private var isFocused
   
-  // MARK: - Body
   var body: some View {
     GeometryReader { geometry in
-      VStack(spacing: 0) {
-        inputSection(geometry)
-        if !viewModel.state.isTranslating {
-          usageStatusBar
-        }
-        responseSection(geometry)
+      ZStack {
+        mainContent(geometry)
+          .ignoresSafeArea(edges: .bottom)
       }
-      .ignoresSafeArea(edges: .bottom)
-      .background(Color.background)
       .onTapGesture { isFocused = false }
       .onAppear {
         viewModel.send(.fetchAppInfo)
@@ -35,52 +28,68 @@ struct ContentView: View {
     }
   }
   
-  // MARK: - Input Section
-  private func inputSection(_ geometry: GeometryProxy) -> some View {
-    Rectangle()
-      .fill(Color.clear)
-      .frame(
-        maxHeight: viewModel.state.isTranslating
-        ? geometry.size.height / 4
-        : .infinity
-      )
-      .overlay {
-        TextEditorView(
-          text: Binding(
-            get: { viewModel.state.beforeText },
-            set: { viewModel.updateBeforeText($0) }
-          ),
-          isFocused: _isFocused,
-          isDisabled: viewModel.state.isTranslating,
-          onTextLengthExceeded: {
-            UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-            viewModel.updateToast(\.textLengthExceeded, value: true)
-          }
-        )
+  // MARK: - Main Content
+  private func mainContent(_ geometry: GeometryProxy) -> some View {
+    VStack(spacing: 0) {
+      Spacer(minLength: 0)
+      
+      inputArea(geometry)
+      
+      Spacer(minLength: 0)
+      
+      if !viewModel.state.isTranslating {
+        usageStatusBar
       }
+      
+      Spacer(minLength: 0)
+      
+      responseArea(geometry)
+    }
+  }
+  
+  // MARK: - Input Area
+  private func inputArea(_ geometry: GeometryProxy) -> some View {
+    let inputHeight = viewModel.state.isTranslating
+    ? geometry.size.height * 0.25
+    : geometry.size.height * 0.75
+    
+    return VStack {
+      TextEditorView(
+        text: Binding(
+          get: { viewModel.state.beforeText },
+          set: { viewModel.updateBeforeText($0) }
+        ),
+        isFocused: _isFocused,
+        isDisabled: viewModel.state.isTranslating,
+        onTextLengthExceeded: {
+          UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+          viewModel.updateToast(\.textLengthExceeded, value: true)
+        }
+      )
+    }
+    .frame(height: inputHeight)
+    .animation(.spring(), value: viewModel.state.isTranslating)
   }
   
   // MARK: - Usage Status Bar
   private var usageStatusBar: some View {
     HStack {
+      Text("오늘 사용 가능한 횟수 \(viewModel.state.usedUsageCounts)/\(viewModel.state.totalUsageCounts)")
+        .nanumsquareneo(weight: .regular, size: 12)
+        .foregroundColor(.black.opacity(0.3))
+      
       Spacer()
-      Text(
-        "오늘 사용 가능한 횟수 \(viewModel.state.usedUsageCounts)/\(viewModel.state.totalUsageCounts)"
-      )
-      .nanumsquareneo(weight: .regular, size: 12)
-      .foregroundColor(.black.opacity(0.3))
-      Spacer()
-    }
-    .overlay {
+      
       if viewModel.state.deleteAccountButtonVisible {
         deleteAccountButton
       }
     }
-    .padding(.bottom)
+    .padding(.horizontal, 16)
   }
   
+  // MARK: - Delete Account Button
   private var deleteAccountButton: some View {
-    HStack {
+    HStack(spacing: 0) {
       Spacer()
       Image(systemName: "person.slash")
         .foregroundColor(.black.opacity(0.5))
@@ -104,52 +113,50 @@ struct ContentView: View {
     }
   }
   
-  // MARK: - Response Section
-  private func responseSection(_ geometry: GeometryProxy) -> some View {
-    Rectangle()
-      .fill(Color.accentColor)
-      .frame(
-        maxWidth: .infinity,
-        maxHeight: viewModel.state.isTranslating
-        ? .infinity
-        : geometry.size.height / 4
-      )
-      .animation(
-        .linear,
-        value: viewModel.state.isTranslating
-      )
-      .overlay {
-        VStack(spacing: 0) {
-          Spacer()
-          
-          if viewModel.state.isTranslating {
-            responseContentView(geometry)
+  // MARK: - Response Area
+  private func responseArea(_ geometry: GeometryProxy) -> some View {
+    let responseHeight = viewModel.state.isTranslating
+    ? geometry.size.height * 0.75
+    : geometry.size.height * 0.25
+    
+    return VStack(spacing: 0) {
+      Rectangle()
+        .fill(Color.accentColor)
+        .frame(height: responseHeight)
+        .animation(.spring(), value: viewModel.state.isTranslating)
+        .overlay {
+          VStack {
+            if viewModel.state.isTranslating {
+              ScrollView {
+                VStack(alignment: .leading, spacing: 16) {
+                  responseTextView()
+                  
+                  if !viewModel.state.isGenerating {
+                    responseActions
+                  }
+                }
+                .padding(.horizontal, 54)
+                .padding(.vertical, 48)
+              }
+            }
+            
             Spacer()
+            
+            translateButton
+              .padding(.bottom, geometry.safeAreaInsets.bottom + 16)
           }
-          
-          translateButton
-          
-          Spacer()
         }
-      }
+    }
   }
   
-  private func responseContentView(_ geometry: GeometryProxy) -> some View {
-    ScrollView {
-      VStack(alignment: .leading, spacing: 0) {
-        responseTextView()
-          .frame(maxWidth: .infinity, alignment: .leading)
-        
-        if !viewModel.state.isGenerating {
-          responseActions
-            .padding(.top, 10)
-        }
-      }
-    }
-    .frame(
-      width: geometry.size.width - 100,
-      height: geometry.size.height / 2
-    )
+  // MARK: - Response Components
+  private func responseTextView() -> some View {
+    Text(viewModel.state.responseText)
+      .foregroundColor(.white)
+      .nanumsquareneo(weight: .bold, size: 26)
+      .lineSpacing(5)
+      .frame(maxWidth: .infinity, alignment: .leading)
+      .drawingGroup()
   }
   
   private func responseTextView() -> some View {
@@ -160,22 +167,47 @@ struct ContentView: View {
   }
   
   private var responseActions: some View {
-    HStack(spacing: 15) {
+    HStack {
       Spacer()
+      
       copyButton
+        .padding(.trailing, 15)
+      
       shareButton
     }
-    .padding(.top, 10)
+  }
+  
+  // MARK: - Action Buttons
+  private var translateButton: some View {
+    VStack(spacing: 8) {
+      Image(.luckyvicky)
+        .resizable()
+        .scaledToFit()
+        .frame(width: 50, height: 50)
+        .blendMode(.screen)
+        .rotationEffect(.degrees(viewModel.state.buttonRotation))
+      
+      Text(viewModel.state.isTranslating ? "돌아가기" : "변환하기")
+        .foregroundColor(.white)
+        .nanumsquareneo(weight: .bold, size: 16)
+    }
+    .disabled(viewModel.state.isGenerating)
+    .onTapGesture {
+      withAnimation(.spring()) {
+        viewModel.send(.translate)
+      }
+    }
   }
   
   private var copyButton: some View {
-    Image(systemName: "clipboard")
-      .foregroundColor(.white)
-      .onTapGesture {
-        UIPasteboard.general.string = viewModel.state.responseText
-        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-        viewModel.updateToast(\.textCopied, value: true)
-      }
+    Button {
+      UIPasteboard.general.string = viewModel.state.responseText
+      UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+      viewModel.updateToast(\.textCopied, value: true)
+    } label: {
+      Image(systemName: "clipboard")
+        .foregroundColor(.white)
+    }
   }
   
   private var shareButton: some View {
@@ -188,25 +220,36 @@ struct ContentView: View {
       viewModel.updateToast(\.textShared, value: true)
     })
   }
+}
+
+// MARK: - TextEditorView
+fileprivate struct TextEditorView: View {
+  @Binding var text: String
+  @FocusState var isFocused: Bool
+  let isDisabled: Bool
+  let onTextLengthExceeded: () -> Void
   
-  // MARK: - Translate Button
-  private var translateButton: some View {
+  var body: some View {
     VStack {
-      Image(.luckyvicky)
-        .resizable()
-        .scaledToFit()
-        .blendMode(.screen)
-        .frame(width: 50)
-        .rotationEffect(.degrees(viewModel.state.buttonRotation))
-      
-      Text(viewModel.state.isTranslating ? "돌아가기" : "변환하기")
-        .foregroundColor(.white)
-        .nanumsquareneo(weight: .bold, size: 16)
+      TextField("럭키비키하게 바꿔봐", text: $text, axis: .vertical)
+        .onChange(of: text) { newValue in
+          if newValue.count > 45 {
+            text = String(newValue.prefix(45))
+            onTextLengthExceeded()
+          }
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding(.horizontal, 24)
+        .padding(.vertical, 16)
+        .foregroundColor(.black.opacity(0.7))
+        .focused($isFocused)
+        .nanumsquareneo(weight: .regular, size: 24)
+        .lineSpacing(5)
+        .multilineTextAlignment(.center)
+        .submitLabel(.return)
+        .disabled(isDisabled)
     }
-    .onTapGesture {
-      viewModel.send(.translate)
-    }
-    .disabled(viewModel.state.isGenerating)
+    .background(Color.white)
   }
 }
 
@@ -244,7 +287,7 @@ struct TextEditorView: View {
 }
 
 // MARK: - Toasts Extension
-private extension View {
+fileprivate extension View {
   func toasts(viewModel: ContentViewModel) -> some View {
     self
       .toast(isPresenting: Binding(
@@ -357,14 +400,12 @@ private extension View {
   }
 }
 
-struct ContentView_Previews: PreviewProvider {
-  static var previews: some View {
-    ContentView(
-      viewModel:
-        DependencyContainer
-        .shared
-        .makeMockContainer()
-        .makeContentViewModel()
-    )
-  }
+#Preview {
+  ContentView(
+    viewModel:
+      DependencyContainer
+      .shared
+      .makeMockContainer()
+      .makeContentViewModel()
+  )
 }
