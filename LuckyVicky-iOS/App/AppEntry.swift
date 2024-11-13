@@ -8,16 +8,24 @@
 import FirebaseCore
 import SwiftUI
 
+/// AppDelegate
 class AppDelegate: NSObject, UIApplicationDelegate {
   func application(
     _ application: UIApplication,
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
   ) -> Bool {
+    // Firebase 로깅 설정
+    FirebaseConfiguration.shared.setLoggerLevel(.error)
+    setenv("GRPC_VERBOSITY", "ERROR", 1)
+    
+    
     FirebaseApp.configure()
+    
     return true
   }
 }
 
+/// 앱의 진입점 구조체입니다.
 @main
 struct AppEntry: App {
   @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
@@ -27,9 +35,9 @@ struct AppEntry: App {
   var body: some Scene {
     WindowGroup {
       if isLoggedIn {
-        ContentView(container: container)
+        ContentView(viewModel: container.makeContentViewModel())
       } else {
-        AuthView(container: container)
+        AuthView(viewModel: container.makeAuthViewModel())
       }
     }
   }

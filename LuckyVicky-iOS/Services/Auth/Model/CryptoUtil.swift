@@ -8,6 +8,7 @@
 import CryptoKit
 import Foundation
 
+/// 인증을 위한 암호화 유틸리티 함수들입니다.
 func randomNonceString(length: Int = 32) -> String {
   precondition(length > 0)
   let charset: [Character] = Array("0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._")

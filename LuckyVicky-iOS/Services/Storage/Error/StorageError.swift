@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Storage Service의 Error를 정의하는 열거형입니다.
 enum StorageError: LocalizedError {
   case noData
   case invalidData

@@ -11,19 +11,7 @@ import SwiftUI
 
 struct AuthView: View {
   // MARK: - Properties
-  private let container: DependencyContainer
-  @StateObject private var viewModel: AuthViewModel
-  
-  init(container: DependencyContainer) {
-    self.container = container
-    // StateObject를 위한 임시 초기화
-    self._viewModel = StateObject(
-      wrappedValue: AuthViewModel(
-        authService: container.authService,
-        storageService: container.storageService
-      )
-    )
-  }
+  @StateObject var viewModel: AuthViewModel
   
   // MARK: - Body
   var body: some View {
@@ -98,6 +86,6 @@ struct AuthView: View {
 // MARK: - Previews
 struct AuthView_Previews: PreviewProvider {
   static var previews: some View {
-    AuthView(container: DependencyContainer.shared.makeMockContainer())
+    AuthView(viewModel: DependencyContainer.shared.makeAuthViewModel())
   }
 }

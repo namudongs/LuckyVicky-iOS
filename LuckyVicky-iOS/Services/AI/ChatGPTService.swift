@@ -5,11 +5,14 @@
 //  Created by namdghyun on 11/12/24.
 //
 
+import Combine
 import ChatGPTSwift
 import Foundation
 
-final class GPTService: AIServiceProtocol {
-  weak var delegate: AIServiceDelegate?
+/// ChatGPT API를 사용한 실제 구현체입니다.
+final class ChatGPTService: AIServiceProtocol {
+  var textPublisher = PassthroughSubject<String, Never>()
+  var completionPublisher = PassthroughSubject<Result<Void, Error>, Never>()
   let configuration: AIServiceConfiguration
   
   init(configuration: AIServiceConfiguration) {
@@ -28,14 +31,10 @@ final class GPTService: AIServiceProtocol {
       )
       
       for try await line in stream {
-        await MainActor.run {
-          delegate?.aiService(self, didGenerateText: line)
-        }
+        textPublisher.send(line)
       }
       
-      await MainActor.run {
-        delegate?.aiService(self, didCompleteWithResult: .success(()))
-      }
+      completionPublisher.send(.success(()))
       
     } catch let error {
       let serviceError: AIServiceError
@@ -52,17 +51,14 @@ final class GPTService: AIServiceProtocol {
         serviceError = .unknown(error)
       }
       
-      await MainActor.run {
-        delegate?.aiService(self, didCompleteWithResult: .failure(serviceError))
-      }
-      throw serviceError
+      throw serviceError as Error
     }
   }
 }
 
 // MARK: - Factory
-extension GPTService {
-  static func createDefault() -> GPTService {
+extension ChatGPTService {
+  static func createDefault() -> ChatGPTService {
     let apiKey = Bundle.main.object(forInfoDictionaryKey: "API_KEY_GPT") as! String
     let configuration = AIServiceConfiguration(
       apiKey: apiKey,
@@ -87,6 +83,6 @@ extension GPTService {
             A: 우와앙! 산책하면서 햇살도 쬐면서 기분 전환할 수 있엉! 맛있는 아이스크림도 먹으면서 좋은 시간 보낼 수 있겠넹🍦 완전 럭키비키잔앙🍀
             """
     )
-    return GPTService(configuration: configuration)
+    return ChatGPTService(configuration: configuration)
   }
 }

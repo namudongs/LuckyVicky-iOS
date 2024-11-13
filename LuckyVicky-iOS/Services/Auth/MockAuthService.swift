@@ -7,7 +7,7 @@
 
 import AuthenticationServices
 
-// MARK: - Mock Services for Testing
+/// 테스팅을 위한 Mock 구현체입니다.
 #if DEBUG
 final class MockAuthService: AuthService {
   var currentUser: User?

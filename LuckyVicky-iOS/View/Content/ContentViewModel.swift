@@ -5,11 +5,12 @@
 //  Created by namdghyun on 11/12/24.
 //
 
-import Foundation
+import Combine
 import SwiftUI
 
 @MainActor
 final class ContentViewModel: ObservableObject {
+  
   // MARK: - Types
   struct State {
     var isTranslating = false
@@ -42,6 +43,7 @@ final class ContentViewModel: ObservableObject {
   }
   
   enum Action {
+    case binding
     case fetchAppInfo
     case translate
     case startTranslate
@@ -56,6 +58,7 @@ final class ContentViewModel: ObservableObject {
   private var aiService: AIServiceProtocol
   private let authService: AuthService
   private let storageService: StorageService
+  private var cancellables = Set<AnyCancellable>()
   @Published private(set) var state: State
   @AppStorage("isLoggedIn") private var isLoggedIn: Bool = true
   
@@ -70,35 +73,20 @@ final class ContentViewModel: ObservableObject {
     self.authService = authService
     self.storageService = storageService
     self.state = initialState
-    self.aiService.delegate = self
   }
   
-  // MARK: - Methods
+  // MARK: - Public Methods
   func send(_ action: Action) {
     switch action {
-    case .fetchAppInfo:
-      Task { await handleFetchAppInfo() }
-      
-    case .translate:
-      handleTranslate()
-      
-    case .startTranslate:
-      handleStartTranslate()
-      
-    case .completeTranslate(let result):
-      handleCompleteTranslate(result)
-      
-    case .fetchUserInfo:
-      Task { await handleFetchUserInfo() }
-      
-    case .updateUserUsage:
-      Task { await handleUpdateUserUsage() }
-      
-    case .resetUserUsage:
-      Task { await handleResetUserUsage() }
-      
-    case .removeAccount:
-      Task { await handleRemoveAccount() }
+    case .binding: bindPublishers()
+    case .fetchAppInfo: fetchAppInfo()
+    case .translate: handleTranslate()
+    case .startTranslate: handleStartTranslate()
+    case .completeTranslate(let result): handleCompleteTranslate(result)
+    case .fetchUserInfo: fetchUserInfo()
+    case .updateUserUsage: updateUserUsage()
+    case .resetUserUsage: resetUserUsage()
+    case .removeAccount: removeAccount()
     }
   }
   
@@ -111,113 +99,78 @@ final class ContentViewModel: ObservableObject {
   }
   
   // MARK: - Private Methods
-  private func handleFetchAppInfo() async {
-    do {
-      let settings = try await storageService.fetchAppSettings()
-      state.deleteAccountButtonVisible = settings.canDeleteAccount
-      state.totalUsageCounts = settings.maxUsageCount
-      state.toast.isLoading = false
-    } catch {
-      state.error = error
+  
+  // API 및 데이터 관리 관련 메서드
+  private func fetchAppInfo() {
+    Task {
+      do {
+        let settings = try await storageService.fetchAppSettings()
+        updateSettings(settings)
+      } catch { handleError(error) }
     }
   }
   
-  private func handleStartTranslate() {
-    UIImpactFeedbackGenerator(style: .light).impactOccurred()
-    state.isTranslating = true
-    state.isGenerating = true
-    
-    withAnimation(.linear(duration: 1).repeatForever(autoreverses: false)) {
-      state.buttonRotation = 360
-    }
-  }
-  
-  private func handleCompleteTranslate(_ result: Result<Void, Error>) {
-    switch result {
-    case .success:
-      withAnimation {
-        state.buttonRotation = 45
-        state.isGenerating = false
+  private func fetchUserInfo() {
+    Task {
+      guard let user = authService.currentUser else {
+        isLoggedIn = false
+        return
       }
-      send(.updateUserUsage)
-      
-    case .failure(let error):
-      state.error = error
+      do {
+        let usage = try await storageService.fetchUserUsage(userID: user.id)
+        updateUserInfo(usage)
+      } catch { handleError(error) }
     }
   }
   
-  private func handleFetchUserInfo() async {
-    guard let user = authService.currentUser else {
-      isLoggedIn = false
-      return
-    }
-    
-    do {
-      let usage = try await storageService.fetchUserUsage(userID: user.id)
-      state.usedUsageCounts = usage.usedCount
-      state.lastUsedTime = usage.lastUsedTime
-      state.toast.isLoading = false
-      state.toast.userInfoFetchSuccessed = true
-    } catch {
-      state.error = error
-    }
-  }
-  
-  private func handleUpdateUserUsage() async {
-    guard let user = authService.currentUser else {
-      isLoggedIn = false
-      return
-    }
-    
-    do {
-      let newUsedCount = state.usedUsageCounts + 1
-      try await storageService.updateUserUsage(
-        userID: user.id,
-        usedCount: newUsedCount
-      )
-      state.usedUsageCounts = newUsedCount
-      state.lastUsedTime = Date().toString()
-      state.toast.usageAdded = true
-    } catch {
-      state.error = error
+  private func updateUserUsage() {
+    Task {
+      guard let user = authService.currentUser else {
+        isLoggedIn = false
+        return
+      }
+      do {
+        let newUsedCount = state.usedUsageCounts + 1
+        try await storageService.updateUserUsage(userID: user.id, usedCount: newUsedCount)
+        state.usedUsageCounts = newUsedCount
+        state.lastUsedTime = Date().toString()
+        state.toast.usageAdded = true
+      } catch { handleError(error) }
     }
   }
   
-  private func handleResetUserUsage() async {
-    guard let user = authService.currentUser else {
-      isLoggedIn = false
-      return
-    }
-    
-    do {
-      try await storageService.resetUserUsage(userID: user.id)
-      state.usedUsageCounts = 0
-      state.lastUsedTime = Date().toString()
-      state.toast.usageReseted = true
-    } catch {
-      state.error = error
-    }
-  }
-  
-  private func handleRemoveAccount() async {
-    guard let user = authService.currentUser else {
-      isLoggedIn = false
-      return
-    }
-    
-    do {
-      try await storageService.requestAccountDeletion(userID: user.id)
-      try await authService.deleteAccount()
-      try authService.signOut()
-      
-      state.toast.removeAccountSuccess = true
-      isLoggedIn = false
-      
-    } catch {
-      state.error = error
+  private func resetUserUsage() {
+    Task {
+      guard let user = authService.currentUser else {
+        isLoggedIn = false
+        return
+      }
+      do {
+        try await storageService.resetUserUsage(userID: user.id)
+        state.usedUsageCounts = 0
+        state.lastUsedTime = Date().toString()
+        state.toast.usageReseted = true
+      } catch { handleError(error) }
     }
   }
   
+  private func removeAccount() {
+    Task {
+      guard let user = authService.currentUser else {
+        isLoggedIn = false
+        return
+      }
+      do {
+        try await storageService.requestAccountDeletion(userID: user.id)
+        try await authService.deleteAccount()
+        try authService.signOut()
+        state.toast.removeAccountSuccess = true
+        isLoggedIn = false
+      } catch { handleError(error) }
+    }
+  }
+  
+  // UI 업데이트 관련 메서드
   private func handleTranslate() {
     if state.isTranslating {
       resetTranslationState()
@@ -228,7 +181,6 @@ final class ContentViewModel: ObservableObject {
   
   private func resetTranslationState() {
     UIImpactFeedbackGenerator(style: .soft).impactOccurred()
-    
     withAnimation {
       state.beforeText = ""
       state.responseText = ""
@@ -238,46 +190,86 @@ final class ContentViewModel: ObservableObject {
     }
   }
   
+  private func textEditorValidation() -> Bool {
+    if state.usedUsageCounts >= state.totalUsageCounts {
+      UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+      updateToast(\.usageExceeded, value: true)
+      return false
+    } else if state.beforeText.isEmpty {
+      UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
+      updateToast(\.textEmpty, value: true)
+      return false
+    }
+    
+    return true
+  }
+  
   private func startNewTranslation() {
-    guard canStartNewTranslation() else { return }
+    guard textEditorValidation() else { return }
     
     send(.startTranslate)
     
     Task {
       do {
         try await aiService.processText(state.beforeText)
-      } catch {
-        send(.completeTranslate(.failure(error)))
+      } catch { send(.completeTranslate(.failure(error))) }
+    }
+  }
+  
+  private func handleStartTranslate() {
+    UIImpactFeedbackGenerator(style: .light).impactOccurred()
+    state.isTranslating = true
+    state.isGenerating = true
+    withAnimation(.linear(duration: 1).repeatForever(autoreverses: false)) {
+      state.buttonRotation = 360
+    }
+  }
+  
+  private func handleCompleteTranslate(_ result: Result<Void, Error>) {
+    switch result {
+    case .success:
+      withAnimation { state.buttonRotation = 45 }
+      state.isGenerating = false
+      send(.updateUserUsage)
+    case .failure(let error): handleError(error)
+    }
+  }
+  
+  // 에러 및 설정 업데이트 관련 메서드
+  private func handleError(_ error: Error) {
+    state.error = error
+  }
+  
+  private func updateSettings(_ settings: AppSettings) {
+    state.deleteAccountButtonVisible = settings.canDeleteAccount
+    state.totalUsageCounts = settings.maxUsageCount
+    state.toast.isLoading = false
+  }
+  
+  private func updateUserInfo(_ usage: UsageInfo) {
+    state.usedUsageCounts = usage.usedCount
+    state.lastUsedTime = usage.lastUsedTime
+    state.toast.isLoading = false
+    state.toast.userInfoFetchSuccessed = true
+  }
+  
+  // Publisher 바인딩 메서드
+  private func bindPublishers() {
+    aiService.textPublisher
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] text in
+        guard let self = self else { return }
+        UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
+        self.state.responseText += text
       }
-    }
-  }
-  
-  private func canStartNewTranslation() -> Bool {
-    let isSameDay = Calendar.current.isDate(state.lastUsedTime.toDate() ?? Date(), inSameDayAs: Date())
-    if isSameDay && state.usedUsageCounts >= state.totalUsageCounts {
-      UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-      state.toast.usageExceeded = true
-      return false
-    }
+      .store(in: &cancellables)
     
-    if state.beforeText.isEmpty {
-      UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
-      state.toast.textEmpty = true
-      return false
-    }
-    
-    return true
-  }
-}
-
-// MARK: - AIServiceDelegate
-extension ContentViewModel: @preconcurrency AIServiceDelegate {
-  func aiService(_ service: AIServiceProtocol, didGenerateText text: String) {
-    UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
-    state.responseText += text
-  }
-  
-  func aiService(_ service: AIServiceProtocol, didCompleteWithResult result: Result<Void, Error>) {
-    send(.completeTranslate(result))
+    aiService.completionPublisher
+      .receive(on: DispatchQueue.main)
+      .sink { [weak self] result in
+        guard let self = self else { return }
+        self.handleCompleteTranslate(result)
+      }
+      .store(in: &cancellables)
   }
 }

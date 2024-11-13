@@ -10,6 +10,7 @@ import FirebaseAuth
 import FirebaseFirestore
 import Foundation
 
+/// Firebase Authentication을 사용한 실제 구현체입니다. (Firestore에 강하게 결합)
 final class FirebaseAuthService: AuthService {
   private let auth = Auth.auth()
   private let db = Firestore.firestore()
