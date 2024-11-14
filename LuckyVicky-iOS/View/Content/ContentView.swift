@@ -64,6 +64,8 @@ struct ContentView: View {
         onTextLengthExceeded: {
           UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
           viewModel.updateToast(\.textLengthExceeded, value: true)
+        }, onToolbarButtonTapped: {
+          viewModel.send(.translate)
         }
       )
     }
@@ -89,12 +91,9 @@ struct ContentView: View {
   
   // MARK: - Delete Account Button
   private var deleteAccountButton: some View {
-    HStack(spacing: 0) {
-      Spacer()
-      Image(systemName: "person.slash")
-        .foregroundColor(.black.opacity(0.5))
-        .padding(.trailing, 10)
-    }
+    Image(systemName: "person.slash")
+      .foregroundColor(.black.opacity(0.5))
+      .padding(.trailing, 10)
     .onTapGesture {
       UIImpactFeedbackGenerator(style: .soft).impactOccurred()
       viewModel.updateToast(\.removeAccountCheck, value: true)
@@ -220,6 +219,7 @@ fileprivate struct TextEditorView: View {
   @FocusState var isFocused: Bool
   let isDisabled: Bool
   let onTextLengthExceeded: () -> Void
+  let onToolbarButtonTapped: () -> Void
   
   var body: some View {
     VStack {
@@ -240,6 +240,29 @@ fileprivate struct TextEditorView: View {
         .multilineTextAlignment(.center)
         .submitLabel(.return)
         .disabled(isDisabled)
+        .toolbar {
+          ToolbarItemGroup(placement: .keyboard) {
+            Spacer()
+            Button(action: {
+              isFocused = false
+              onToolbarButtonTapped()
+            }) {
+              HStack(alignment: .center) {
+                Image(.luckyvicky)
+                  .resizable()
+                  .frame(width: 14, height: 14)
+                  .blendMode(.screen)
+                
+                Text("변환하기")
+                  .nanumsquareneo(weight: .bold, size: 14)
+                  .foregroundColor(.white)
+              }
+              .padding(5)
+              .background(.accent)
+              .clipShape(RoundedRectangle(cornerRadius: 5))
+            }
+          }
+        }
     }
     .background(Color.white)
   }
