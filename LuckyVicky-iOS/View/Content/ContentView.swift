@@ -156,14 +156,6 @@ struct ContentView: View {
       .nanumsquareneo(weight: .bold, size: 26)
       .lineSpacing(5)
       .frame(maxWidth: .infinity, alignment: .leading)
-      .drawingGroup()
-  }
-  
-  private func responseTextView() -> some View {
-    Text(viewModel.state.responseText)
-      .foregroundColor(.white)
-      .nanumsquareneo(weight: .bold, size: 26)
-      .lineSpacing(5)
   }
   
   private var responseActions: some View {
@@ -250,39 +242,6 @@ fileprivate struct TextEditorView: View {
         .disabled(isDisabled)
     }
     .background(Color.white)
-  }
-}
-
-// MARK: - TextEditorView
-struct TextEditorView: View {
-  @Binding var text: String
-  @FocusState var isFocused: Bool
-  let isDisabled: Bool
-  let onTextLengthExceeded: () -> Void
-  
-  var body: some View {
-    VStack {
-      TextField(
-        "럭키비키하게 바꿔봐🍀",
-        text: $text,
-        axis: .vertical
-      )
-      .onChange(of: text) { newValue in
-        if newValue.count > 45 {
-          text = String(newValue.prefix(45))
-          onTextLengthExceeded()
-        }
-      }
-      .frame(height: 200)
-      .foregroundColor(.black.opacity(0.7))
-      .focused($isFocused)
-      .nanumsquareneo(weight: .regular, size: 24)
-      .lineSpacing(5)
-      .multilineTextAlignment(.center)
-      .submitLabel(.send)
-      .padding(70)
-      .disabled(isDisabled)
-    }
   }
 }
 

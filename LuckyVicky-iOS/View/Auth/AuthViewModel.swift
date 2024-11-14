@@ -123,8 +123,12 @@ final class AuthViewModel: ObservableObject {
         return
       }
       
-      state.currentText += (state.currentText.isEmpty ? "" : " ") + words[state.wordIndex]
-      state.wordIndex += 1
+      withAnimation(.easeInOut(duration: 0.2)) {
+        state.currentText
+        += (state.currentText.isEmpty ? "" : " ") + words[state.wordIndex]
+        
+        state.wordIndex += 1
+      }
       
       Task {
         try await Task.sleep(nanoseconds: 200_000_000) // 0.2초 대기
