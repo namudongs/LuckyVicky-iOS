@@ -14,7 +14,14 @@ final class MockAIService: AIServiceProtocol {
   var textPublisher = PassthroughSubject<String, Never>()
   var completionPublisher = PassthroughSubject<Result<Void, Error>, Never>()
   let configuration: AIServiceConfiguration
-  var simulatedResponses: [String] = ["긍정적인 ", "응답을 ", "시뮬레이션 ", "합니다!"]
+  var simulatedResponses: [String] = [
+    "우와앙! ",
+    "그걸 이렇게 생각해보는 건 어떨까옹? ",
+    "사실 이게 숨겨진 선물일지도..? 🎁 ",
+    "우리 함께 긍정적으로 생각해보장! ",
+    "이런 기회가 또 없을 수도 있잖앙! ✨ ",
+    "이거 완전 럭키비키잔앙! 🍀"
+  ]
   var processingDelay: TimeInterval = 0.5
   
   init(
