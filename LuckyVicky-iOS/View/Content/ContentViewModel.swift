@@ -256,11 +256,20 @@ final class ContentViewModel: ObservableObject {
   // Publisher 바인딩 메서드
   private func bindPublishers() {
     aiService.textPublisher
-      .receive(on: DispatchQueue.main)
+      .collect(.byTime(RunLoop.main, .milliseconds(250)))
+      .compactMap { $0.joined().isEmpty ? nil : $0.joined() }
+      .throttle(for: .milliseconds(250), scheduler: RunLoop.main, latest: true)
       .sink { [weak self] text in
         guard let self = self else { return }
-        UIImpactFeedbackGenerator(style: .rigid).impactOccurred()
-        self.state.responseText += text
+        
+        if text.count > 4 {
+          UIImpactFeedbackGenerator(style: .rigid)
+            .impactOccurred(intensity: 0.8)
+        }
+        
+        withAnimation(.easeInOut(duration: 0.2)) {
+          self.state.responseText += text
+        }
       }
       .store(in: &cancellables)
     
