@@ -83,6 +83,7 @@ struct AuthView: View {
   }
 }
 
+#if DEBUG
 #Preview {
   AuthView(
     viewModel:
@@ -92,3 +93,4 @@ struct AuthView: View {
       .makeAuthViewModel()
   )
 }
+#endif

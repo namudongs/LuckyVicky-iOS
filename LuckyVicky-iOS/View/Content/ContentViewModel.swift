@@ -118,7 +118,11 @@ final class ContentViewModel: ObservableObject {
       }
       do {
         let usage = try await storageService.fetchUserUsage(userID: user.id)
-        updateUserInfo(usage)
+        if usage.lastUsedTime != Date().toString() {
+          resetUserUsage()
+        } else {
+          updateUserInfo(usage)
+        }
       } catch { handleError(error) }
     }
   }
@@ -149,6 +153,7 @@ final class ContentViewModel: ObservableObject {
         try await storageService.resetUserUsage(userID: user.id)
         state.usedUsageCounts = 0
         state.lastUsedTime = Date().toString()
+        state.toast.isLoading = false
         state.toast.usageReseted = true
       } catch { handleError(error) }
     }
@@ -161,11 +166,17 @@ final class ContentViewModel: ObservableObject {
         return
       }
       do {
+        state.toast.isLoading = true
+        
         try await storageService.requestAccountDeletion(userID: user.id)
         try await authService.deleteAccount()
         try authService.signOut()
-        state.toast.removeAccountSuccess = true
+        
         isLoggedIn = false
+        
+        state.toast.isLoading = false
+        state.toast.removeAccountSuccess = true
+        
       } catch { handleError(error) }
     }
   }
