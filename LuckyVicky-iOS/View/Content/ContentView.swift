@@ -87,6 +87,7 @@ struct ContentView: View {
       }
     }
     .padding(.horizontal, 16)
+    .padding(.vertical, 8)
   }
   
   // MARK: - Delete Account Button
@@ -106,9 +107,8 @@ struct ContentView: View {
         viewModel.send(.removeAccount)
         viewModel.updateToast(\.removeAccountSuccess, value: true)
       }
-      Button("취소", role: .cancel) {}
     } message: {
-      Text("정말로 계정을 삭제하시겠습니까?\n계정을 삭제해도 사용 횟수는 초기화되지 않습니다.")
+      Text("정말로 계정을 삭제하시겠습니까?")
     }
   }
   
@@ -382,6 +382,7 @@ fileprivate extension View {
   }
 }
 
+#if DEBUG
 #Preview {
   ContentView(
     viewModel:
@@ -391,3 +392,4 @@ fileprivate extension View {
       .makeContentViewModel()
   )
 }
+#endif
