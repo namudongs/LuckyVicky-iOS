@@ -14,11 +14,12 @@ enum AuthError: LocalizedError {
   case signInFailed(String)
   case signOutFailed(String)
   case deleteAccountFailed(String)
+  case requiresRecentLogin
   case userNotFound
   case networkError
   case refreshTokenError(String)
   case unknown(Error)
-  
+
   var errorDescription: String? {
     switch self {
     case .invalidCredential:
@@ -33,6 +34,8 @@ enum AuthError: LocalizedError {
       return "로그아웃 실패: \(message)"
     case .deleteAccountFailed(let message):
       return "계정 삭제 실패: \(message)"
+    case .requiresRecentLogin:
+      return "계정 삭제를 위해 다시 로그인해 주세요"
     case .userNotFound:
       return "사용자를 찾을 수 없습니다"
     case .networkError:

@@ -10,7 +10,7 @@ import SwiftUI
 
 @MainActor
 final class ContentViewModel: ObservableObject {
-  
+
   // MARK: - Types
   struct State {
     var isTranslating = false
@@ -24,10 +24,10 @@ final class ContentViewModel: ObservableObject {
     var deleteAccountButtonVisible = false
     var toast = Toast()
     var error: Error?
-    
+
     static let initial = State()
   }
-  
+
   struct Toast: Equatable {
     var removeAccountSuccess = false
     var removeAccountCheck = false
@@ -41,7 +41,7 @@ final class ContentViewModel: ObservableObject {
     var userInfoFetchSuccessed = false
     var isLoading = true
   }
-  
+
   enum Action {
     case binding
     case fetchAppInfo
@@ -53,7 +53,7 @@ final class ContentViewModel: ObservableObject {
     case resetUserUsage
     case removeAccount
   }
-  
+
   // MARK: - Properties
   private var aiService: AIServiceProtocol
   private let authService: AuthService
@@ -61,7 +61,8 @@ final class ContentViewModel: ObservableObject {
   private var cancellables = Set<AnyCancellable>()
   @Published private(set) var state: State
   @AppStorage("isLoggedIn") private var isLoggedIn: Bool = true
-  
+  @AppStorage("pendingDeleteAccount") private var pendingDeleteAccount: Bool = false
+
   // MARK: - Initialization
   init(
     aiService: AIServiceProtocol,
@@ -74,7 +75,7 @@ final class ContentViewModel: ObservableObject {
     self.storageService = storageService
     self.state = initialState
   }
-  
+
   // MARK: - Public Methods
   func send(_ action: Action) {
     switch action {
@@ -89,17 +90,17 @@ final class ContentViewModel: ObservableObject {
     case .removeAccount: removeAccount()
     }
   }
-  
+
   func updateBeforeText(_ newText: String) {
     state.beforeText = newText
   }
-  
+
   func updateToast<T>(_ keyPath: WritableKeyPath<Toast, T>, value: T) {
     state.toast[keyPath: keyPath] = value
   }
-  
+
   // MARK: - Private Methods
-  
+
   // API 및 데이터 관리 관련 메서드
   private func fetchAppInfo() {
     Task {
@@ -109,7 +110,7 @@ final class ContentViewModel: ObservableObject {
       } catch { handleError(error) }
     }
   }
-  
+
   private func fetchUserInfo() {
     Task {
       guard let user = authService.currentUser else {
@@ -118,7 +119,11 @@ final class ContentViewModel: ObservableObject {
       }
       do {
         let usage = try await storageService.fetchUserUsage(userID: user.id)
-        if usage.lastUsedTime != Date().toString() {
+        if pendingDeleteAccount {
+          pendingDeleteAccount = false
+          send(.removeAccount)
+          return
+        } else if usage.lastUsedTime != Date().toString() {
           resetUserUsage()
         } else {
           updateUserInfo(usage)
@@ -126,7 +131,7 @@ final class ContentViewModel: ObservableObject {
       } catch { handleError(error) }
     }
   }
-  
+
   private func updateUserUsage() {
     Task {
       guard let user = authService.currentUser else {
@@ -142,7 +147,7 @@ final class ContentViewModel: ObservableObject {
       } catch { handleError(error) }
     }
   }
-  
+
   private func resetUserUsage() {
     Task {
       guard let user = authService.currentUser else {
@@ -158,7 +163,7 @@ final class ContentViewModel: ObservableObject {
       } catch { handleError(error) }
     }
   }
-  
+
   private func removeAccount() {
     Task {
       guard let user = authService.currentUser else {
@@ -167,20 +172,27 @@ final class ContentViewModel: ObservableObject {
       }
       do {
         state.toast.isLoading = true
-        
+
         try await storageService.requestAccountDeletion(userID: user.id)
         try await authService.deleteAccount()
         try authService.signOut()
-        
+
         isLoggedIn = false
-        
+        pendingDeleteAccount = false
+
         state.toast.isLoading = false
         state.toast.removeAccountSuccess = true
-        
-      } catch { handleError(error) }
+
+      } catch {
+        if case AuthError.requiresRecentLogin = error {
+          isLoggedIn = false
+          pendingDeleteAccount = true
+        }
+        handleError(error)
+      }
     }
   }
-  
+
   // UI 업데이트 관련 메서드
   private func handleTranslate() {
     if state.isTranslating {
@@ -189,7 +201,7 @@ final class ContentViewModel: ObservableObject {
       startNewTranslation()
     }
   }
-  
+
   private func resetTranslationState() {
     UIImpactFeedbackGenerator(style: .soft).impactOccurred()
     withAnimation {
@@ -200,7 +212,7 @@ final class ContentViewModel: ObservableObject {
       state.buttonRotation = 0
     }
   }
-  
+
   private func textEditorValidation() -> Bool {
     if state.usedUsageCounts >= state.totalUsageCounts {
       UIImpactFeedbackGenerator(style: .heavy).impactOccurred()
@@ -211,22 +223,22 @@ final class ContentViewModel: ObservableObject {
       updateToast(\.textEmpty, value: true)
       return false
     }
-    
+
     return true
   }
-  
+
   private func startNewTranslation() {
     guard textEditorValidation() else { return }
-    
+
     send(.startTranslate)
-    
+
     Task {
       do {
         try await aiService.processText(state.beforeText)
       } catch { send(.completeTranslate(.failure(error))) }
     }
   }
-  
+
   private func handleStartTranslate() {
     UIImpactFeedbackGenerator(style: .light).impactOccurred()
     state.isTranslating = true
@@ -235,7 +247,7 @@ final class ContentViewModel: ObservableObject {
       state.buttonRotation = 360
     }
   }
-  
+
   private func handleCompleteTranslate(_ result: Result<Void, Error>) {
     switch result {
     case .success:
@@ -245,25 +257,25 @@ final class ContentViewModel: ObservableObject {
     case .failure(let error): handleError(error)
     }
   }
-  
+
   // 에러 및 설정 업데이트 관련 메서드
   private func handleError(_ error: Error) {
     state.error = error
   }
-  
+
   private func updateSettings(_ settings: AppSettings) {
     state.deleteAccountButtonVisible = settings.canDeleteAccount
     state.totalUsageCounts = settings.maxUsageCount
     state.toast.isLoading = false
   }
-  
+
   private func updateUserInfo(_ usage: UsageInfo) {
     state.usedUsageCounts = usage.usedCount
     state.lastUsedTime = usage.lastUsedTime
     state.toast.isLoading = false
     state.toast.userInfoFetchSuccessed = true
   }
-  
+
   // Publisher 바인딩 메서드
   private func bindPublishers() {
     aiService.textPublisher
@@ -272,18 +284,18 @@ final class ContentViewModel: ObservableObject {
       .throttle(for: .milliseconds(250), scheduler: RunLoop.main, latest: true)
       .sink { [weak self] text in
         guard let self = self else { return }
-        
+
         if text.count > 4 {
           UIImpactFeedbackGenerator(style: .rigid)
             .impactOccurred(intensity: 0.8)
         }
-        
+
         withAnimation(.easeInOut(duration: 0.2)) {
           self.state.responseText += text
         }
       }
       .store(in: &cancellables)
-    
+
     aiService.completionPublisher
       .receive(on: DispatchQueue.main)
       .sink { [weak self] result in

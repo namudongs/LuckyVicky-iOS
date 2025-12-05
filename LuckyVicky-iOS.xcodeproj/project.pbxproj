@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		171343612EE34C420058473F /* NanumSquareNeoTTF-bRg.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1787EBC02EE34A020063A2B9 /* NanumSquareNeoTTF-bRg.ttf */; };
+		171343622EE34C420058473F /* NanumSquareNeoTTF-cBd.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1787EBC12EE34A020063A2B9 /* NanumSquareNeoTTF-cBd.ttf */; };
+		171343632EE34C420058473F /* NanumSquareNeoTTF-dEb.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1787EBC22EE34A020063A2B9 /* NanumSquareNeoTTF-dEb.ttf */; };
 		173BCA0C2CE1EE57007CF5C7 /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 173BCA0B2CE1EE57007CF5C7 /* FirebaseAnalytics */; };
 		173BCA0E2CE1EE57007CF5C7 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 173BCA0D2CE1EE57007CF5C7 /* FirebaseAuth */; };
 		173BCA102CE1EE57007CF5C7 /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 173BCA0F2CE1EE57007CF5C7 /* FirebaseCore */; };
@@ -21,9 +24,6 @@
 		177182372C39BE1600D0D22D /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 177182362C39BE1600D0D22D /* GoogleService-Info.plist */; };
 		177182412C39C1A900D0D22D /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182402C39C1A900D0D22D /* AuthView.swift */; };
 		177182472C39C76800D0D22D /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 177182462C39C76800D0D22D /* Date+Extension.swift */; };
-		17CCD1952C53D08A000F4798 /* NanumSquareNeoTTF-bRg.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 17CCD1922C53D08A000F4798 /* NanumSquareNeoTTF-bRg.ttf */; };
-		17CCD1962C53D08A000F4798 /* NanumSquareNeoTTF-dEb.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 17CCD1932C53D08A000F4798 /* NanumSquareNeoTTF-dEb.ttf */; };
-		17CCD1972C53D08A000F4798 /* NanumSquareNeoTTF-cBd.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 17CCD1942C53D08A000F4798 /* NanumSquareNeoTTF-cBd.ttf */; };
 		17CCD1992C53D17D000F4798 /* Font+Modifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17CCD1982C53D17D000F4798 /* Font+Modifier.swift */; };
 		17D580EF2CE27691001EFBEB /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D580EE2CE27691001EFBEB /* AuthService.swift */; };
 		17D580F22CE27710001EFBEB /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 17D580F12CE27710001EFBEB /* User.swift */; };
@@ -60,9 +60,9 @@
 		1771823F2C39C06C00D0D22D /* App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = App.entitlements; sourceTree = "<group>"; };
 		177182402C39C1A900D0D22D /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		177182462C39C76800D0D22D /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
-		17CCD1922C53D08A000F4798 /* NanumSquareNeoTTF-bRg.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NanumSquareNeoTTF-bRg.ttf"; sourceTree = "<group>"; };
-		17CCD1932C53D08A000F4798 /* NanumSquareNeoTTF-dEb.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NanumSquareNeoTTF-dEb.ttf"; sourceTree = "<group>"; };
-		17CCD1942C53D08A000F4798 /* NanumSquareNeoTTF-cBd.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NanumSquareNeoTTF-cBd.ttf"; sourceTree = "<group>"; };
+		1787EBC02EE34A020063A2B9 /* NanumSquareNeoTTF-bRg.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NanumSquareNeoTTF-bRg.ttf"; sourceTree = "<group>"; };
+		1787EBC12EE34A020063A2B9 /* NanumSquareNeoTTF-cBd.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NanumSquareNeoTTF-cBd.ttf"; sourceTree = "<group>"; };
+		1787EBC22EE34A020063A2B9 /* NanumSquareNeoTTF-dEb.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NanumSquareNeoTTF-dEb.ttf"; sourceTree = "<group>"; };
 		17CCD1982C53D17D000F4798 /* Font+Modifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Font+Modifier.swift"; sourceTree = "<group>"; };
 		17D580EE2CE27691001EFBEB /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		17D580F12CE27710001EFBEB /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
@@ -175,9 +175,9 @@
 		17CCD18E2C53CEA3000F4798 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				17CCD1942C53D08A000F4798 /* NanumSquareNeoTTF-cBd.ttf */,
-				17CCD1932C53D08A000F4798 /* NanumSquareNeoTTF-dEb.ttf */,
-				17CCD1922C53D08A000F4798 /* NanumSquareNeoTTF-bRg.ttf */,
+				1787EBC02EE34A020063A2B9 /* NanumSquareNeoTTF-bRg.ttf */,
+				1787EBC12EE34A020063A2B9 /* NanumSquareNeoTTF-cBd.ttf */,
+				1787EBC22EE34A020063A2B9 /* NanumSquareNeoTTF-dEb.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -357,7 +357,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1540;
-				LastUpgradeCheck = 1600;
+				LastUpgradeCheck = 2610;
 				TargetAttributes = {
 					177182002C39273800D0D22D = {
 						CreatedOnToolsVersion = 15.4;
@@ -393,11 +393,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				17CCD1962C53D08A000F4798 /* NanumSquareNeoTTF-dEb.ttf in Resources */,
+				171343612EE34C420058473F /* NanumSquareNeoTTF-bRg.ttf in Resources */,
+				171343622EE34C420058473F /* NanumSquareNeoTTF-cBd.ttf in Resources */,
+				171343632EE34C420058473F /* NanumSquareNeoTTF-dEb.ttf in Resources */,
 				177182152C39279800D0D22D /* Assets.xcassets in Resources */,
-				17CCD1972C53D08A000F4798 /* NanumSquareNeoTTF-cBd.ttf in Resources */,
 				177182372C39BE1600D0D22D /* GoogleService-Info.plist in Resources */,
-				17CCD1952C53D08A000F4798 /* NanumSquareNeoTTF-bRg.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -478,6 +478,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 47PZ53ZAF2;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -501,6 +502,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -543,6 +545,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 47PZ53ZAF2;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
@@ -559,6 +562,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};
@@ -575,7 +579,6 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_ASSET_PATHS = "\"LuckyVicky-iOS/Resources/Preview Content\"";
-				DEVELOPMENT_TEAM = 47PZ53ZAF2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "LuckyVicky-iOS/Resources/Info.plist";
@@ -593,7 +596,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.namudi.LuckyVicky-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = NO;
@@ -617,7 +620,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"LuckyVicky-iOS/Resources/Preview Content\"";
-				DEVELOPMENT_TEAM = 47PZ53ZAF2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "LuckyVicky-iOS/Resources/Info.plist";
@@ -635,7 +637,7 @@
 					"@executable_path/Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = 1.3;
+				MARKETING_VERSION = 1.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.namudi.LuckyVicky-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				REGISTER_APP_GROUPS = NO;

@@ -10,7 +10,7 @@ import Foundation
 /// 테스팅을 위한 Mock 구현체입니다.
 #if DEBUG
 final class MockStorageService: StorageService {
-  var userUsage = UsageInfo(usedCount: 5, totalCount: 20, lastUsedTime: Date().toString())
+  var userUsage = UsageInfo(usedCount: 5, lastUsedTime: Date().toString())
   var appSettings = AppSettings(maxUsageCount: 20, canDeleteAccount: true)
   var error: StorageError?
   
@@ -34,7 +34,7 @@ final class MockStorageService: StorageService {
   
   func resetUserUsage(userID: String) async throws {
     if let error = error { throw error }
-    userUsage = UsageInfo(usedCount: 0, totalCount: 20, lastUsedTime: Date().toString())
+    userUsage = UsageInfo(usedCount: 0, lastUsedTime: Date().toString())
   }
   
   func requestAccountDeletion(userID: String) async throws {
